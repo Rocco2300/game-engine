@@ -10,39 +10,24 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& ind
 }
 
 void Mesh::setupMesh() {
-    glGenBuffers(1, &m_vbo);
-    glGenBuffers(1, &m_ebo);
-    glGenVertexArrays(1, &m_vao);
+    glCreateBuffers(1, &m_vbo);
+    glNamedBufferStorage(m_vbo, sizeof(Vertex) * m_vertices.size(), &m_vertices[0], GL_DYNAMIC_STORAGE_BIT);
 
-    glBindVertexArray(m_vao);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(
-            GL_ARRAY_BUFFER,
-            m_vertices.size() * sizeof(Vertex),
-            &m_vertices[0],
-            GL_STATIC_DRAW
-    );
+    glCreateBuffers(1, &m_ebo);
+    glNamedBufferStorage(m_ebo, sizeof(uint32_t) * m_indices.size(), &m_indices[0], GL_DYNAMIC_STORAGE_BIT);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-    glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            m_indices.size() * sizeof(uint32_t),
-            &m_indices[0],
-            GL_STATIC_DRAW
-    );
+    glCreateVertexArrays(1, &m_vao);
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
+    glVertexArrayVertexBuffer(m_vao, 0, m_vbo, 0, sizeof(Vertex));
+    glVertexArrayElementBuffer(m_vao, m_ebo);
 
-    // clang-format off
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
-    // clang-format on
+    glEnableVertexArrayAttrib(m_vao, 0);
+    glEnableVertexArrayAttrib(m_vao, 1);
+    glEnableVertexArrayAttrib(m_vao, 2);
 
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glVertexArrayAttribFormat(m_vao, 0, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
+    glVertexArrayAttribFormat(m_vao, 1, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, normal));
+    glVertexArrayAttribFormat(m_vao, 2, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, texCoords));
 }
 
 void Mesh::draw() {
