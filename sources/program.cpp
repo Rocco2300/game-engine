@@ -1,8 +1,10 @@
 #include "program.hpp"
 
+#include <GL/gl3w.h>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 
-#include <GL/gl3w.h>
 
 Program::Program() {
     m_id = glCreateProgram();
@@ -30,4 +32,9 @@ void Program::link() {
 
 void Program::use() {
     glUseProgram(m_id);
+}
+
+void Program::setUniformMat4(const std::string& name, const glm::mat4& value) {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, glm::value_ptr(value));
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/mat4x4.hpp>
+
 #include "shader.hpp"
 
 class Program {
@@ -14,5 +16,5 @@ public:
     void link();
     void use();
 
-
+    void setUniformMat4(const std::string& name, const glm::mat4& value);
 };

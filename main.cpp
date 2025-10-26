@@ -6,14 +6,16 @@
 
 #include "mesh.hpp"
 #include "model.hpp"
+#include "camera.hpp"
 #include "program.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
+void processInput(GLFWwindow* window);
 
-const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_WIDTH  = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+// clang-format off
 std::vector<Vertex> vertices = {
         {{0.5f,  0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 1.f}},   // top right
         {{0.5f,  -0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 0.f}},   // bottom right
@@ -25,17 +27,16 @@ std::vector<uint32_t> indices = {  // note that we start from 0!
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
 };
+// clang-format on
 
-int main()
-{
+int main() {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
-    {
+    if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
@@ -59,12 +60,15 @@ int main()
 
     Mesh mesh(vertices, indices);
 
-    while (!glfwWindowShouldClose(window))
-    {
+    Camera camera({0, 0, 3}, 36, 4.f / 3.f);
+
+    while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        program.setUniformMat4("mvp", camera.transform());
 
         program.use();
         model.draw();
@@ -78,13 +82,11 @@ int main()
     return 0;
 }
 
-void processInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+void processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
