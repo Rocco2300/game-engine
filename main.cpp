@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "mesh.hpp"
+#include "model.hpp"
 #include "program.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -54,6 +55,8 @@ int main()
     program.attachShader(fragmentShader);
     program.link();
 
+    Model model("C:\\Users\\grigo\\Repos\\game-engine\\monkey.obj");
+
     Mesh mesh(vertices, indices);
 
     while (!glfwWindowShouldClose(window))
@@ -64,7 +67,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         program.use();
-        mesh.draw();
+        model.draw();
+        //mesh.draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

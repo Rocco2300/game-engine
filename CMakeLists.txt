@@ -31,8 +31,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fast_obj)
 
-add_executable(game_engine main.cpp sources/shader.cpp sources/program.cpp sources/mesh.cpp)
+FetchContent_Declare(
+        assimp
+        GIT_REPOSITORY https://github.com/assimp/assimp.git
+        GIT_TAG v6.0.2
+)
+set(BUILD_SHARED_LIBS ON)
+FetchContent_MakeAvailable(assimp)
+
+add_executable(
+        game_engine
+        main.cpp
+        sources/shader.cpp
+        sources/program.cpp
+        sources/mesh.cpp
+        sources/model.cpp
+)
 
 target_include_directories(game_engine PUBLIC include)
 
-target_link_libraries(game_engine glfw gl3w glm fast_obj)
+target_link_libraries(game_engine glfw gl3w glm assimp)
