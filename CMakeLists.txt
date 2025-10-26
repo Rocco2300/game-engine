@@ -24,7 +24,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-add_executable(game_engine main.cpp sources/shader.cpp)
+add_executable(game_engine main.cpp sources/shader.cpp sources/program.cpp)
 
 target_include_directories(game_engine PUBLIC include)
 
