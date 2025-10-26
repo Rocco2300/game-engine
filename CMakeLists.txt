@@ -24,8 +24,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
-add_executable(game_engine main.cpp sources/shader.cpp sources/program.cpp)
+FetchContent_Declare(
+        fast_obj
+        GIT_REPOSITORY https://github.com/thisistherk/fast_obj.git
+        GIT_TAG v1.3
+)
+FetchContent_MakeAvailable(fast_obj)
+
+add_executable(game_engine main.cpp sources/shader.cpp sources/program.cpp sources/mesh.cpp)
 
 target_include_directories(game_engine PUBLIC include)
 
-target_link_libraries(game_engine glfw gl3w glm)
+target_link_libraries(game_engine glfw gl3w glm fast_obj)

@@ -2,7 +2,9 @@
 #include <glfw/glfw3.h>
 
 #include <iostream>
+#include <vector>
 
+#include "mesh.hpp"
 #include "program.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -11,14 +13,14 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-float vertices[] = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left
+std::vector<Vertex> vertices = {
+        {{0.5f,  0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 1.f}},   // top right
+        {{0.5f,  -0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 0.f}},   // bottom right
+        {{-0.5f,  -0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {0.f, 0.f}},   // bottom left
+        {{-0.5f,  0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {0.f, 1.f}},   // top left
 };
 
-unsigned int indices[] = {  // note that we start from 0!
+std::vector<uint32_t> indices = {  // note that we start from 0!
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
 };
@@ -52,28 +54,7 @@ int main()
     program.attachShader(fragmentShader);
     program.link();
 
-    uint32_t vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    uint32_t vbo;
-    glGenBuffers(1, &vbo);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    uint32_t ebo;
-    glGenBuffers(1, &ebo);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    Mesh mesh(vertices, indices);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -83,9 +64,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         program.use();
-        glBindVertexArray(vao);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+        mesh.draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

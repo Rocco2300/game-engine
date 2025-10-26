@@ -4,7 +4,7 @@
 
 class Program {
 private:
-    uint32_t m_id;
+    uint32_t m_id{};
 
 public:
     Program();
