@@ -15,27 +15,35 @@ void FPSCamera::update(float dt) {
     }
 
     if (Input::keyHeld(GLFW_KEY_W)) {
-        m_camera.move(glm::vec3(0, 0, 1) * -m_speed * dt);
+        auto velocity = m_camera.m_direction * m_speed * dt;
+        m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_S)) {
-        m_camera.move(glm::vec3(0, 0, 1) * m_speed * dt);
+        auto velocity = m_camera.m_direction * -m_speed * dt;
+        m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_A)) {
-        m_camera.move(glm::vec3(1, 0, 0) * -m_speed * dt);
+        auto direction = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
+        auto velocity = direction * -m_speed * dt;
+        m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_D)) {
-        m_camera.move(glm::vec3(1, 0, 0) * m_speed * dt);
+        auto direction = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
+        auto velocity = direction * m_speed * dt;
+        m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_Q)) {
-        m_camera.move(glm::vec3(0, 1, 0) * m_speed * dt);
+        auto velocity = glm::vec3(0, 1, 0) * m_speed * dt;
+        m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_E)) {
-        m_camera.move(glm::vec3(0, 1, 0) * -m_speed * dt);
+        auto velocity = glm::vec3(0, 1, 0) * -m_speed * dt;
+        m_camera.move(velocity);
     }
 }
 

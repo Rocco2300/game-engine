@@ -22,4 +22,7 @@ public:
     void rotateOX(float angle);
     void rotateOY(float angle);
     void rotateOZ(float angle);
+
+private:
+    friend class FPSCamera;
 };
