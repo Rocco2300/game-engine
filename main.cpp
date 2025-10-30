@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 
+#include "fps_camera.hpp"
+#include "input.hpp"
 #include "mesh.hpp"
 #include "model.hpp"
-#include "camera.hpp"
 #include "program.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -49,6 +50,8 @@ int main() {
         return -1;
     }
 
+    Input::init(window);
+
     Shader vertexShader(Shader::Type::Vertex, "test.vert");
     Shader fragmentShader(Shader::Type::Fragment, "test.frag");
     Program program;
@@ -60,10 +63,22 @@ int main() {
 
     Mesh mesh(vertices, indices);
 
-    Camera camera({0, 0, 3}, 60, 4.f / 3.f);
+    FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
+    float deltaTime{};
+    float previousFrame{};
     while (!glfwWindowShouldClose(window)) {
-        processInput(window);
+        float currentFrame = glfwGetTime();
+        deltaTime          = currentFrame - previousFrame;
+        previousFrame      = currentFrame;
+
+        glfwPollEvents();
+        Input::update();
+        if (Input::keyPressed(GLFW_KEY_ESCAPE)) {
+            glfwSetWindowShouldClose(window, true);
+        }
+
+        camera.update(deltaTime);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -75,16 +90,10 @@ int main() {
         //mesh.draw();
 
         glfwSwapBuffers(window);
-        glfwPollEvents();
     }
 
     glfwTerminate();
     return 0;
-}
-
-void processInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

@@ -2,6 +2,9 @@
 
 #include <glfw/glfw3.h>
 
+std::unordered_map<int, bool> Input::m_currentKeys;
+std::unordered_map<int, bool> Input::m_previousKeys;
+
 void Input::init(GLFWwindow* window) {
     glfwSetKeyCallback(window, keyCallback);
 }
