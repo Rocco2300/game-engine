@@ -47,6 +47,7 @@ add_executable(
         sources/mesh.cpp
         sources/model.cpp
         sources/camera.cpp
+        sources/input.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)

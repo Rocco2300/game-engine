@@ -35,7 +35,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -60,7 +60,7 @@ int main() {
 
     Mesh mesh(vertices, indices);
 
-    Camera camera({0, 0, 3}, 36, 4.f / 3.f);
+    Camera camera({0, 0, 3}, 60, 4.f / 3.f);
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);

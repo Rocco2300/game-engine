@@ -18,5 +18,5 @@ public:
 
     glm::mat4 transform();
 
-    
+
 };
