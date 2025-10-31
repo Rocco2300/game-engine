@@ -1,13 +1,24 @@
 #pragma once
 
+#include <glm/vec2.hpp>
+
 #include <unordered_map>
 
 class GLFWwindow;
 
 class Input {
 private:
+    static GLFWwindow* m_window;
+
+    static bool m_bindCursor;
+    static glm::vec2 m_cursorDelta;
+    static glm::vec2 m_cursorPosition;
+
     static std::unordered_map<int, bool> m_currentKeys;
     static std::unordered_map<int, bool> m_previousKeys;
+
+    static std::unordered_map<int, bool> m_currentButtons;
+    static std::unordered_map<int, bool> m_previousButtons;
 
 public:
     Input() = delete;
@@ -18,6 +29,17 @@ public:
     static bool keyPressed(int key);
     static bool keyReleased(int key);
 
+    static bool mouseButtonHeld(int button);
+    static bool mouseButtonPressed(int button);
+    static bool mouseButtonReleased(int button);
+
+    static glm::vec2 cursorDelta();
+    static glm::vec2 cursorPosition();
+    static void hideCursor(bool value);
+    static void bindCursor(bool value);
+
 private:
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+    static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
 };

@@ -19,9 +19,7 @@ public:
     glm::mat4 transform();
 
     void move(glm::vec3 delta);
-    void rotateOX(float angle);
-    void rotateOY(float angle);
-    void rotateOZ(float angle);
+    void rotate(glm::vec3 axis, float angle);
 
 private:
     friend class FPSCamera;

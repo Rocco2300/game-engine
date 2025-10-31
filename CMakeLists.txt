@@ -53,4 +53,4 @@ add_executable(
 
 target_include_directories(game_engine PUBLIC include)
 
-target_link_libraries(game_engine glfw gl3w glm assimp)
+target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp)

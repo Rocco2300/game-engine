@@ -68,15 +68,15 @@ int main() {
     float deltaTime{};
     float previousFrame{};
     while (!glfwWindowShouldClose(window)) {
-        float currentFrame = glfwGetTime();
-        deltaTime          = currentFrame - previousFrame;
-        previousFrame      = currentFrame;
-
-        glfwPollEvents();
         Input::update();
+        glfwPollEvents();
         if (Input::keyPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(window, true);
         }
+
+        float currentFrame = glfwGetTime();
+        deltaTime          = currentFrame - previousFrame;
+        previousFrame      = currentFrame;
 
         camera.update(deltaTime);
 

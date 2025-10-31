@@ -4,8 +4,13 @@
 
 #include <glfw/glfw3.h>
 
+#include <iostream>
+
 FPSCamera::FPSCamera(glm::vec3 position, float fov, float aspect)
-    : m_camera(position, fov, aspect), m_speed(3.f), m_slowSpeed(3.f), m_fastSpeed(12.f) {}
+    : m_camera(position, fov, aspect)
+    , m_speed(3.f)
+    , m_slowSpeed(3.f)
+    , m_fastSpeed(12.f) {}
 
 void FPSCamera::update(float dt) {
     if (Input::keyHeld(GLFW_KEY_LEFT_SHIFT)) {
@@ -25,14 +30,14 @@ void FPSCamera::update(float dt) {
     }
 
     if (Input::keyHeld(GLFW_KEY_A)) {
-        auto direction = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
-        auto velocity = direction * -m_speed * dt;
+        auto right    = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
+        auto velocity = right * -m_speed * dt;
         m_camera.move(velocity);
     }
 
     if (Input::keyHeld(GLFW_KEY_D)) {
-        auto direction = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
-        auto velocity = direction * m_speed * dt;
+        auto right    = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
+        auto velocity = right * m_speed * dt;
         m_camera.move(velocity);
     }
 
@@ -45,8 +50,22 @@ void FPSCamera::update(float dt) {
         auto velocity = glm::vec3(0, 1, 0) * -m_speed * dt;
         m_camera.move(velocity);
     }
+
+    if (Input::mouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) {
+        Input::hideCursor(true);
+        Input::bindCursor(true);
+    } else if (Input::mouseButtonReleased(GLFW_MOUSE_BUTTON_RIGHT)) {
+        Input::hideCursor(false);
+        Input::bindCursor(false);
+    }
+
+    if (Input::mouseButtonHeld(GLFW_MOUSE_BUTTON_RIGHT)) {
+        auto right       = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
+        auto cursorDelta = Input::cursorDelta();
+
+        m_camera.rotate(right, -20.f * cursorDelta.y * dt);
+        m_camera.rotate(glm::vec3(0, 1, 0), -20.f * cursorDelta.x * dt);
+    }
 }
 
-glm::mat4 FPSCamera::transform() {
-    return m_camera.transform();
-}
+glm::mat4 FPSCamera::transform() { return m_camera.transform(); }
