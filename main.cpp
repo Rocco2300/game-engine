@@ -46,8 +46,6 @@ int main() {
 
     Model model("C:\\Users\\grigo\\Repos\\game-engine\\monkey.obj");
 
-    Mesh mesh(vertices, indices);
-
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
     float deltaTime{};
@@ -72,7 +70,6 @@ int main() {
 
         program.use();
         model.draw();
-        //mesh.draw();
 
         glfwSwapBuffers(window);
     }
