@@ -2,13 +2,12 @@
 #include <glfw/glfw3.h>
 
 #include <iostream>
-#include <vector>
 
 #include "fps_camera.hpp"
 #include "input.hpp"
-#include "mesh.hpp"
 #include "model.hpp"
 #include "program.hpp"
+#include "texture.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -35,6 +34,10 @@ int main() {
         return -1;
     }
 
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glCullFace(GL_BACK);
+
     Input::init(window);
 
     Shader vertexShader(Shader::Type::Vertex, "test.vert");
@@ -45,6 +48,7 @@ int main() {
     program.link();
 
     Model model("C:\\Users\\grigo\\Repos\\game-engine\\monkey.obj");
+    Texture texture("C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
@@ -64,11 +68,12 @@ int main() {
         camera.update(deltaTime);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.setUniformMat4("mvp", camera.transform());
 
         program.use();
+        texture.bind();
         model.draw();
 
         glfwSwapBuffers(window);

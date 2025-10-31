@@ -38,4 +38,6 @@
 .idea
 
 # Assets
+*.obj
 *.mtl
+*.jpg

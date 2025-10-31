@@ -28,6 +28,10 @@ void Mesh::setupMesh() {
     glVertexArrayAttribFormat(m_vao, 0, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, position));
     glVertexArrayAttribFormat(m_vao, 1, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, normal));
     glVertexArrayAttribFormat(m_vao, 2, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, texCoords));
+
+    glVertexArrayAttribBinding(m_vao, 0, 0);
+    glVertexArrayAttribBinding(m_vao, 1, 0);
+    glVertexArrayAttribBinding(m_vao, 2, 0);
 }
 
 void Mesh::draw() {
