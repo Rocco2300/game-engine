@@ -10,25 +10,10 @@
 #include "model.hpp"
 #include "program.hpp"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
-const unsigned int SCR_WIDTH  = 800;
-const unsigned int SCR_HEIGHT = 600;
-
-// clang-format off
-std::vector<Vertex> vertices = {
-        {{0.5f,  0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 1.f}},   // top right
-        {{0.5f,  -0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {1.f, 0.f}},   // bottom right
-        {{-0.5f,  -0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {0.f, 0.f}},   // bottom left
-        {{-0.5f,  0.5f, 0.0f}, {0.f, 0.f, 1.0f}, {0.f, 1.f}},   // top left
-};
-
-std::vector<uint32_t> indices = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-};
-// clang-format on
+const unsigned int ScreenWidth = 800;
+const unsigned int ScreenHeight = 600;
 
 int main() {
     glfwInit();
@@ -36,14 +21,14 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(ScreenWidth, ScreenHeight, "Game Engine", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     if (gl3wInit()) {
         fprintf(stderr, "failed to initialize OpenGL\n");
@@ -96,6 +81,6 @@ int main() {
     return 0;
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+void framebufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
