@@ -24,6 +24,9 @@ void Model::loadModel(const std::string& path) {
         return;
     }
 
+    auto index = path.rfind("/");
+    m_path = path.substr(0, index + 1);
+
     processNode(scene->mRootNode, scene);
 }
 
@@ -36,6 +39,16 @@ void Model::processNode(const aiNode* node, const aiScene* scene) {
     for (int i = 0; i < node->mNumChildren; i++) {
         processNode(node->mChildren[i], scene);
     }
+}
+
+static glm::vec3 getColor(aiColor3D color) {
+    glm::vec3 ret;
+
+    ret.r = color.r;
+    ret.g = color.g;
+    ret.b = color.b;
+
+    return ret;
 }
 
 std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
@@ -73,18 +86,42 @@ std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scen
         }
     }
 
-    /*
     if (mesh->mMaterialIndex >= 0) {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        std::cout << "Material " << material->GetName().C_Str() << '\n';
-        std::cout << "Base color texture: " << material->GetTextureCount(aiTextureType_BASE_COLOR) << '\n';
-        std::cout << "Diffuse textures " << material->GetTextureCount(aiTextureType_DIFFUSE) << '\n';
-        std::cout << "Specular texture " << material->GetTextureCount(aiTextureType_SPECULAR) << '\n';
-        std::cout << "Normals texture " << material->GetTextureCount(aiTextureType_NORMALS) << '\n';
-        std::cout << "Shininess texture " << material->GetTextureCount(aiTextureType_SHININESS) << '\n';
+        aiMaterial* materialData = scene->mMaterials[mesh->mMaterialIndex];
 
+        auto material = std::make_unique<Material>();
+        if (materialData->GetTextureCount(aiTextureType_NORMALS)) {
+            aiString path;
+            materialData->GetTexture(aiTextureType_NORMALS, 0, &path);
+            material->loadNormalTexture(m_path + path.C_Str());
+        }
+
+        if (materialData->GetTextureCount(aiTextureType_DIFFUSE)) {
+            aiString path;
+            materialData->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+            material->loadDiffuseTexture(m_path + path.C_Str());
+        }
+
+        if (materialData->GetTextureCount(aiTextureType_SPECULAR)) {
+            aiString path;
+            materialData->GetTexture(aiTextureType_SPECULAR, 0, &path);
+            material->loadSpecularTexture(m_path + path.C_Str());
+        }
+
+        float str;
+        aiColor3D color;
+        materialData->Get(AI_MATKEY_COLOR_AMBIENT, color);
+        material->setAmbient(getColor(color));
+
+        materialData->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        material->setDiffuse(getColor(color));
+
+        materialData->Get(AI_MATKEY_SPECULAR_FACTOR, str);
+        materialData->Get(AI_MATKEY_COLOR_SPECULAR, color);
+        material->setSpecular(getColor(color), str);
+
+        m_materials.push_back(std::move(material));
     }
-     */
 
     return std::make_unique<Mesh>(vertices, indices);
 }

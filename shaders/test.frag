@@ -7,8 +7,11 @@ out vec4 FragColor;
 
 const vec3 sunDirection = vec3(-0.25, -1.0, -0.125);
 
+uniform vec3 ambient;
 uniform vec3 diffuse;
-uniform float specular;
+uniform vec3 specular;
+
+uniform float specularStrength;
 
 uniform bool hasNormalTexture;
 uniform bool hasDiffuseTexture;

@@ -47,14 +47,15 @@ int main() {
     program.attachShader(fragmentShader);
     program.link();
 
-    Model model("C:\\Users\\grigo\\Repos\\game-engine\\monkey.obj");
+    Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
     //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
     Material material;
     material.setDiffuse({1, 0, 0});
     material.loadNormalTexture("");
     material.loadSpecularTexture("");
-    material.loadDiffuseTexture("C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
-    Model model1("C:\\Users\\grigo\\Downloads\\jeff_o_lantern\\scene.gltf");
+    material.loadDiffuseTexture("C:/Users/grigo/Repos/game-engine/pumpkin.jpg");
+    //Model model1("C:/Users/grigo/Downloads/jeff_o_lantern/scene.gltf");
+    Model model2("C:/Users/grigo/Repos/game-engine/second_monkey.obj");
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 

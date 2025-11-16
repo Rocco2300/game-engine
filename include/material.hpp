@@ -16,16 +16,19 @@ private:
     bool m_hasDiffuseTexture{};
     bool m_hasSpecularTexture{};
 
+    glm::vec3 m_ambient{};
     glm::vec3 m_diffuse{};
-    float m_specular{};
+    glm::vec3 m_specular{};
+    float m_specularStrength{};
 
 public:
     Material() = default;
 
     void bind();
 
+    void setAmbient(const glm::vec3& color);
     void setDiffuse(const glm::vec3& color);
-    void setSpecular(float strength);
+    void setSpecular(const glm::vec3& color, float strength);
 
     void loadDiffuseTexture(const std::string& path = "");
     void loadSpecularTexture(const std::string& path = "");

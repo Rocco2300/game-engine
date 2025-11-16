@@ -8,12 +8,17 @@ void Material::bind() {
     m_specularTexture->bind();
 }
 
+void Material::setAmbient(const glm::vec3& color) {
+    m_ambient = color;
+}
+
 void Material::setDiffuse(const glm::vec3& color) {
     m_diffuse = color;
 }
 
-void Material::setSpecular(float strength) {
-    m_specular = strength;
+void Material::setSpecular(const glm::vec3& color, float strength) {
+    m_specular = color;
+    m_specularStrength = strength;
 }
 
 void Material::loadNormalTexture(const std::string& path) {

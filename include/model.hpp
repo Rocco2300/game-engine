@@ -10,6 +10,7 @@
 
 class Model {
 private:
+    std::string m_path;
     // TODO: bypass lack of default constructor
     std::vector<std::unique_ptr<Mesh>> m_meshes;
     std::vector<std::unique_ptr<Material>> m_materials;
