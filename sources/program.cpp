@@ -1,5 +1,8 @@
 #include "program.hpp"
 
+#include "texture.hpp"
+#include "material.hpp"
+
 #include <GL/gl3w.h>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -34,7 +37,40 @@ void Program::use() {
     glUseProgram(m_id);
 }
 
+void Program::setUniformBool(const std::string& name, bool value) {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform1i(m_id, location, value);
+}
+
+void Program::setUniformFloat(const std::string& name, float value) {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform1f(m_id, location, value);
+}
+
+void Program::setUniformVec3(const std::string& name, const glm::vec3& value) {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform4fv(m_id, location, 1, glm::value_ptr(value));
+}
+
 void Program::setUniformMat4(const std::string& name, const glm::mat4& value) {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Program::setUniformTexture(const std::string& name, const Texture& texture) {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform1i(m_id, location, texture.getBindUnit());
+}
+
+void Program::setUniformMaterial(const Material& material) {
+    setUniformBool("hasNormalTexture", material.m_hasNormalTexture);
+    setUniformBool("hasDiffuseTexture", material.m_hasDiffuseTexture);
+    setUniformBool("hasSpecularTexture", material.m_hasSpecularTexture);
+
+    setUniformTexture("normalTexture", *material.m_normalTexture);
+    setUniformTexture("diffuseTexture", *material.m_diffuseTexture);
+    setUniformTexture("specularTexture", *material.m_specularTexture);
+
+    setUniformVec3("diffuse", material.m_diffuse);
+    setUniformFloat("specular", material.m_specular);
 }

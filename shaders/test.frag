@@ -7,11 +7,21 @@ out vec4 FragColor;
 
 const vec3 sunDirection = vec3(-0.25, -1.0, -0.125);
 
-uniform sampler2D tex;
+uniform vec3 diffuse;
+uniform float specular;
+
+uniform bool hasNormalTexture;
+uniform bool hasDiffuseTexture;
+uniform bool hasSpecularTexture;
+
+uniform sampler2D normalTexture;
+uniform sampler2D diffuseTexture;
+uniform sampler2D specularTexture;
 
 void main()
 {
-    vec4 color = texture(tex, uv);
+    vec4 color = texture(diffuseTexture, uv);
+    //vec4 color = vec4(diffuse, 1);
     float diffuse = max(dot(normalize(sunDirection), normalize(fragNormal)), 0.0);
     FragColor = color * diffuse;
 }

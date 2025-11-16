@@ -6,11 +6,13 @@
 #include <memory>
 
 #include "mesh.hpp"
+#include "material.hpp"
 
 class Model {
 private:
     // TODO: bypass lack of default constructor
     std::vector<std::unique_ptr<Mesh>> m_meshes;
+    std::vector<std::unique_ptr<Material>> m_materials;
 
 public:
     Model(const std::string& path);

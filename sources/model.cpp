@@ -73,5 +73,18 @@ std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scen
         }
     }
 
+    /*
+    if (mesh->mMaterialIndex >= 0) {
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        std::cout << "Material " << material->GetName().C_Str() << '\n';
+        std::cout << "Base color texture: " << material->GetTextureCount(aiTextureType_BASE_COLOR) << '\n';
+        std::cout << "Diffuse textures " << material->GetTextureCount(aiTextureType_DIFFUSE) << '\n';
+        std::cout << "Specular texture " << material->GetTextureCount(aiTextureType_SPECULAR) << '\n';
+        std::cout << "Normals texture " << material->GetTextureCount(aiTextureType_NORMALS) << '\n';
+        std::cout << "Shininess texture " << material->GetTextureCount(aiTextureType_SHININESS) << '\n';
+
+    }
+     */
+
     return std::make_unique<Mesh>(vertices, indices);
 }

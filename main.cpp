@@ -48,7 +48,13 @@ int main() {
     program.link();
 
     Model model("C:\\Users\\grigo\\Repos\\game-engine\\monkey.obj");
-    Texture texture("C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
+    //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
+    Material material;
+    material.setDiffuse({1, 0, 0});
+    material.loadNormalTexture("");
+    material.loadSpecularTexture("");
+    material.loadDiffuseTexture("C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
+    Model model1("C:\\Users\\grigo\\Downloads\\jeff_o_lantern\\scene.gltf");
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
@@ -71,9 +77,10 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         program.setUniformMat4("mvp", camera.transform());
+        material.bind();
+        program.setUniformMaterial(material);
 
         program.use();
-        texture.bind();
         model.draw();
 
         glfwSwapBuffers(window);

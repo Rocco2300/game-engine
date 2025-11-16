@@ -1,20 +1,31 @@
 #pragma once
 
-#include <memory>
+#include <string>
 #include <cstdint>
 
 class Texture {
+public:
+    enum class Type {
+        Diffuse,
+        Normal,
+        Specular,
+    };
+
 private:
+    Type m_type;
     uint32_t m_id;
 
-    int m_width;
-    int m_height;
-    int m_channelNumber;
-
-    uint8_t* m_data;
-
 public:
-    Texture(const std::string& path);
+    Texture(Type type, const std::string& path = "");
 
     void bind();
+
+private:
+    int getBindUnit() const;
+    int getFormat(int channelNumber);
+    int getInternalFormat(int channelNumber);
+
+
+private:
+    friend class Program;
 };

@@ -7,7 +7,58 @@
 
 #include <iostream>
 
-static int getFormat(int channelNumber) {
+Texture::Texture(Type type, const std::string& path) {
+    m_type = type;
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
+
+    glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    int width, height, channelNumber;
+    uint8_t* data;
+    if (!path.empty()) {
+        std::cout << "Loaded texture " << path << '\n';
+        data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
+    } else {
+        std::cerr << "Failed to load texture " << path << "\nLoading default texture\n";
+        constexpr auto defaultPath = "C:\\Users\\grigo\\Repos\\game-engine\\default.jpg";
+        data                       = stbi_load(defaultPath, &width, &height, &channelNumber, 0);
+    }
+
+    if (data) {
+        auto format         = getFormat(channelNumber);
+        auto internalFormat = getInternalFormat(channelNumber);
+        glTextureStorage2D(m_id, 1, internalFormat, width, height);
+        glTextureSubImage2D(m_id, 0, 0, 0, width, height, format, GL_UNSIGNED_BYTE, data);
+        glGenerateTextureMipmap(m_id);
+    } else {
+        std::cerr << "Failed to load texture " << path << '\n';
+    }
+
+    stbi_image_free(data);
+}
+
+void Texture::bind() {
+    glBindTextureUnit(getBindUnit(), m_id);
+}
+
+int Texture::getBindUnit() const {
+    switch (m_type) {
+    case Type::Diffuse:
+        return 0;
+    case Type::Normal:
+        return 1;
+    case Type::Specular:
+        return 2;
+    }
+
+    return 0;
+}
+
+int Texture::getFormat(int channelNumber) {
     switch (channelNumber) {
     case 1:
         return GL_RED;
@@ -21,7 +72,7 @@ static int getFormat(int channelNumber) {
     return GL_RGB;
 }
 
-static int getInternalFormat(int channelNumber) {
+int Texture::getInternalFormat(int channelNumber) {
     switch (channelNumber) {
     case1:
         return GL_R8;
@@ -33,30 +84,4 @@ static int getInternalFormat(int channelNumber) {
         return GL_RGBA8;
     }
     return GL_RGB8;
-}
-
-Texture::Texture(const std::string& path) {
-    glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
-
-    glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    m_data = stbi_load(path.c_str(), &m_width, &m_height, &m_channelNumber, 0);
-    if (m_data) {
-        auto format = getFormat(m_channelNumber);
-        auto internalFormat = getInternalFormat(m_channelNumber);
-        glTextureStorage2D(m_id, 1, internalFormat, m_width, m_height);
-        glTextureSubImage2D(m_id, 0, 0, 0, m_width, m_height, format, GL_UNSIGNED_BYTE, m_data);
-        glGenerateTextureMipmap(m_id);
-    } else {
-        std::cerr << "Failed to load texture " << path << '\n';
-    }
-
-    stbi_image_free(m_data);
-}
-
-void Texture::bind() {
-    glBindTextureUnit(0, m_id);
 }
