@@ -24,8 +24,14 @@ Texture::Texture(Type type, const std::string& path) {
         data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
     } else {
         std::cerr << "Failed to load texture " << path << "\nLoading default texture\n";
-        constexpr auto defaultPath = "C:\\Users\\grigo\\Repos\\game-engine\\default.jpg";
-        data                       = stbi_load(defaultPath, &width, &height, &channelNumber, 0);
+        data = new uint8_t[3];
+        data[0] = 255;
+        data[1] = 0;
+        data[2] = 255;
+
+        width = 1;
+        height = 1;
+        channelNumber = 3;
     }
 
     if (data) {
@@ -38,7 +44,11 @@ Texture::Texture(Type type, const std::string& path) {
         std::cerr << "Failed to load texture " << path << '\n';
     }
 
-    stbi_image_free(data);
+    if (!path.empty()) {
+        stbi_image_free(data);
+    } else {
+        delete[] data;
+    }
 }
 
 void Texture::bind() {
