@@ -24,14 +24,11 @@ Texture::Texture(Type type, const std::string& path) {
         data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
     } else {
         std::cerr << "Failed to load texture " << path << "\nLoading default texture\n";
-        data = new uint8_t[3];
-        data[0] = 255;
-        data[1] = 0;
-        data[2] = 255;
-
         width = 1;
         height = 1;
         channelNumber = 3;
+
+        data = new uint8_t[width * height * channelNumber] {255, 0, 255};
     }
 
     if (data) {
