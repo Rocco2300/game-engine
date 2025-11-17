@@ -2,6 +2,8 @@
 
 #include "texture.hpp"
 
+#include <assimp/material.h>
+
 #include <glm/vec3.hpp>
 
 #include <memory>
@@ -23,6 +25,7 @@ private:
 
 public:
     Material() = default;
+    Material(const aiMaterial* material);
 
     void bind();
 

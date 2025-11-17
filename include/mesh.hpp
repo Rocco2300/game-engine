@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include <assimp/mesh.h>
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
@@ -22,6 +24,7 @@ private:
 
 public:
     Mesh() = default;
+    Mesh(const aiMesh* mesh);
     Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 
     void draw();

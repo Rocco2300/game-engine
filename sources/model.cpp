@@ -47,82 +47,10 @@ static glm::vec3 getColor(aiColor3D color) {
 }
 
 std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
-    std::vector<Vertex> vertices;
-    std::vector<uint32_t> indices;
-
-    for (int i = 0; i < mesh->mNumVertices; i++) {
-        Vertex vertex;
-
-        glm::vec3 temp;
-        temp.x = mesh->mVertices[i].x;
-        temp.y = mesh->mVertices[i].y;
-        temp.z = mesh->mVertices[i].z;
-        vertex.position = temp;
-
-        temp.x = mesh->mNormals[i].x;
-        temp.y = mesh->mNormals[i].y;
-        temp.z = mesh->mNormals[i].z;
-        vertex.normal = temp;
-
-        if (mesh->mTextureCoords[0]) {
-            glm::vec2 uv;
-            uv.x = mesh->mTextureCoords[0][i].x;
-            uv.y = mesh->mTextureCoords[0][i].y;
-            vertex.texCoords = uv;
-        }
-
-        vertices.push_back(vertex);
-    }
-
-    for (int i = 0; i < mesh->mNumFaces; i++) {
-        aiFace face = mesh->mFaces[i];
-        for (int j = 0; j < face.mNumIndices; j++) {
-            indices.push_back(face.mIndices[j]);
-        }
-    }
-
     if (mesh->mMaterialIndex >= 0) {
         aiMaterial* materialData = scene->mMaterials[mesh->mMaterialIndex];
-
-        std::string path = "";
-        auto material = std::make_unique<Material>();
-        if (materialData->GetTextureCount(aiTextureType_NORMALS)) {
-            aiString relativePath;
-            materialData->GetTexture(aiTextureType_NORMALS, 0, &relativePath);
-            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
-        }
-        material->loadNormalTexture(path);
-
-        path.clear();
-        if (materialData->GetTextureCount(aiTextureType_DIFFUSE)) {
-            aiString relativePath;
-            materialData->GetTexture(aiTextureType_DIFFUSE, 0, &relativePath);
-            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
-        }
-        material->loadDiffuseTexture(path);
-
-        path.clear();
-        if (materialData->GetTextureCount(aiTextureType_SPECULAR)) {
-            aiString relativePath;
-            materialData->GetTexture(aiTextureType_SPECULAR, 0, &relativePath);
-            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
-        }
-        material->loadSpecularTexture(path);
-
-        float str;
-        aiColor3D color;
-        materialData->Get(AI_MATKEY_COLOR_AMBIENT, color);
-        material->setAmbient(getColor(color));
-
-        materialData->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-        material->setDiffuse(getColor(color));
-
-        materialData->Get(AI_MATKEY_SPECULAR_FACTOR, str);
-        materialData->Get(AI_MATKEY_COLOR_SPECULAR, color);
-        material->setSpecular(getColor(color), str);
-
-        m_materials.push_back(std::move(material));
+        m_materials.push_back(std::make_unique<Material>(materialData));
     }
 
-    return std::make_unique<Mesh>(vertices, indices);
+    return std::make_unique<Mesh>(mesh);
 }

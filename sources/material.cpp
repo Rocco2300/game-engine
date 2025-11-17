@@ -2,6 +2,56 @@
 
 #include <iostream>
 
+static glm::vec3 getColor(aiColor3D color) {
+    glm::vec3 ret;
+
+    ret.r = color.r;
+    ret.g = color.g;
+    ret.b = color.b;
+
+    return ret;
+}
+
+Material::Material(const aiMaterial* material) {
+    const std::string m_path = "C:/Users/grigo/Repos/game-engine/";
+    std::string path = "";
+
+    if (material->GetTextureCount(aiTextureType_NORMALS)) {
+        aiString relativePath;
+        material->GetTexture(aiTextureType_NORMALS, 0, &relativePath);
+        path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
+    }
+    loadNormalTexture(path);
+
+    path.clear();
+    if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
+        aiString relativePath;
+        material->GetTexture(aiTextureType_DIFFUSE, 0, &relativePath);
+        path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
+    }
+    loadDiffuseTexture(path);
+
+    path.clear();
+    if (material->GetTextureCount(aiTextureType_SPECULAR)) {
+        aiString relativePath;
+        material->GetTexture(aiTextureType_SPECULAR, 0, &relativePath);
+        path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
+    }
+    loadSpecularTexture(path);
+
+    float str;
+    aiColor3D color;
+    material->Get(AI_MATKEY_COLOR_AMBIENT, color);
+    setAmbient(getColor(color));
+
+    material->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+    setDiffuse(getColor(color));
+
+    material->Get(AI_MATKEY_SPECULAR_FACTOR, str);
+    material->Get(AI_MATKEY_COLOR_SPECULAR, color);
+    setSpecular(getColor(color), str);
+}
+
 void Material::bind() {
     m_normalTexture->bind();
     m_diffuseTexture->bind();

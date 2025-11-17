@@ -2,6 +2,41 @@
 
 #include <GL/gl3w.h>
 
+Mesh::Mesh(const aiMesh* mesh) {
+    for (int i = 0; i < mesh->mNumVertices; i++) {
+        Vertex vertex;
+
+        glm::vec3 temp;
+        temp.x = mesh->mVertices[i].x;
+        temp.y = mesh->mVertices[i].y;
+        temp.z = mesh->mVertices[i].z;
+        vertex.position = temp;
+
+        temp.x = mesh->mNormals[i].x;
+        temp.y = mesh->mNormals[i].y;
+        temp.z = mesh->mNormals[i].z;
+        vertex.normal = temp;
+
+        if (mesh->mTextureCoords[0]) {
+            glm::vec2 uv;
+            uv.x = mesh->mTextureCoords[0][i].x;
+            uv.y = mesh->mTextureCoords[0][i].y;
+            vertex.texCoords = uv;
+        }
+
+        m_vertices.push_back(vertex);
+    }
+
+    for (int i = 0; i < mesh->mNumFaces; i++) {
+        aiFace face = mesh->mFaces[i];
+        for (int j = 0; j < face.mNumIndices; j++) {
+            m_indices.push_back(face.mIndices[j]);
+        }
+    }
+
+    setupMesh();
+}
+
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices) {
     m_vertices = vertices;
     m_indices  = indices;
