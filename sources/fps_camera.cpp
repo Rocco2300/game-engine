@@ -68,4 +68,4 @@ void FPSCamera::update(float dt) {
     }
 }
 
-glm::mat4 FPSCamera::transform() { return m_camera.transform(); }
+glm::mat4 FPSCamera::transform() const { return m_camera.transform(); }

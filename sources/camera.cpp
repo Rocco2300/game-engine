@@ -13,7 +13,7 @@ Camera::Camera(glm::vec3 position, float fov, float aspect) {
     m_direction = glm::vec3(0, 0, -1);
 }
 
-glm::mat4 Camera::transform() {
+glm::mat4 Camera::transform() const {
     auto target     = m_position + m_direction;
     auto projection = glm::perspective(glm::radians(m_fov), m_aspect, 0.1f, 100.f);
     auto view       = glm::lookAt(m_position, target, m_up);

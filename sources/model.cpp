@@ -9,12 +9,6 @@ Model::Model(const std::string& path) {
     loadModel(path);
 }
 
-void Model::draw() {
-    for (const auto& mesh : m_meshes) {
-        mesh->draw();
-    }
-}
-
 void Model::loadModel(const std::string& path) {
     Assimp::Importer importer;
     const auto* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -32,6 +26,7 @@ void Model::loadModel(const std::string& path) {
 
 void Model::processNode(const aiNode* node, const aiScene* scene) {
     for (int i = 0; i < node->mNumMeshes; i++) {
+        std::cout << "Loading mesh " << scene->mMeshes[node->mMeshes[i]]->mName.C_Str() << '\n';
         auto* mesh = scene->mMeshes[node->mMeshes[i]];
         m_meshes.push_back(processMesh(mesh, scene));
     }
@@ -89,24 +84,30 @@ std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scen
     if (mesh->mMaterialIndex >= 0) {
         aiMaterial* materialData = scene->mMaterials[mesh->mMaterialIndex];
 
+        std::string path = "";
         auto material = std::make_unique<Material>();
         if (materialData->GetTextureCount(aiTextureType_NORMALS)) {
-            aiString path;
-            materialData->GetTexture(aiTextureType_NORMALS, 0, &path);
-            material->loadNormalTexture(m_path + path.C_Str());
+            aiString relativePath;
+            materialData->GetTexture(aiTextureType_NORMALS, 0, &relativePath);
+            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
         }
+        material->loadNormalTexture(path);
 
+        path.clear();
         if (materialData->GetTextureCount(aiTextureType_DIFFUSE)) {
-            aiString path;
-            materialData->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-            material->loadDiffuseTexture(m_path + path.C_Str());
+            aiString relativePath;
+            materialData->GetTexture(aiTextureType_DIFFUSE, 0, &relativePath);
+            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
         }
+        material->loadDiffuseTexture(path);
 
+        path.clear();
         if (materialData->GetTextureCount(aiTextureType_SPECULAR)) {
-            aiString path;
-            materialData->GetTexture(aiTextureType_SPECULAR, 0, &path);
-            material->loadSpecularTexture(m_path + path.C_Str());
+            aiString relativePath;
+            materialData->GetTexture(aiTextureType_SPECULAR, 0, &relativePath);
+            path = (!relativePath.Empty()) ? m_path + relativePath.C_Str() : "";
         }
+        material->loadSpecularTexture(path);
 
         float str;
         aiColor3D color;

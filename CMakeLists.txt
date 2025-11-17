@@ -51,6 +51,7 @@ add_executable(
         sources/fps_camera.cpp
         sources/texture.cpp
         sources/material.cpp
+        sources/renderer.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)

@@ -26,4 +26,7 @@ public:
     void draw();
 private:
     void setupMesh();
+
+private:
+    friend class Renderer;
 };

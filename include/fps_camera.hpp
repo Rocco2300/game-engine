@@ -15,5 +15,5 @@ public:
 
     void update(float dt);
 
-    glm::mat4 transform();
+    glm::mat4 transform() const;
 };

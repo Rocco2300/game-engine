@@ -18,11 +18,12 @@ private:
 public:
     Model(const std::string& path);
 
-    void draw();
-
 private:
     void loadModel(const std::string& path);
 
     void processNode(const aiNode* node, const aiScene* scene);
     std::unique_ptr<Mesh> processMesh(const aiMesh* mesh, const aiScene* scene);
+
+private:
+    friend class Renderer;
 };
