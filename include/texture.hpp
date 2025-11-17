@@ -16,6 +16,7 @@ private:
     uint32_t m_id;
 
 public:
+    Texture() = default;
     Texture(const std::string& path, Type type);
 
     void bind();

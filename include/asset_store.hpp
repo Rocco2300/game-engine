@@ -10,8 +10,8 @@ class AssetStore {
 private:
     std::string m_path;
 
+    std::unordered_map<int, T> m_assets;
     std::unordered_map<std::string, int> m_nameToId;
-    std::unordered_map<int, std::unique_ptr<T>> m_assets;
 
     std::queue<int> m_availableIds;
 
@@ -35,12 +35,12 @@ public:
     }
 
     T* get(int id) {
-        return m_assets[id].get();
+        return &m_assets[id];
     }
 
     T* get(const std::string& name) {
         auto id = m_nameToId[name];
-        return m_assets[id].get();
+        return &m_assets[id];
     }
 
     template <typename ...Args>
@@ -49,10 +49,9 @@ public:
         m_availableIds.pop();
 
         auto fullPath = m_path + "/" + name;
-        auto asset = std::make_unique<T>(fullPath, args...);
 
         m_nameToId[name] = id;
-        m_assets[id] = std::move(asset);
+        m_assets[id] = T(fullPath, args...);
 
         return id;
     }

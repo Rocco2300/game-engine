@@ -16,6 +16,7 @@ private:
     std::vector<std::unique_ptr<Material>> m_materials;
 
 public:
+    Model() = default;
     Model(const std::string& path);
 
 private:
