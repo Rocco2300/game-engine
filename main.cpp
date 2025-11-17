@@ -8,6 +8,8 @@
 #include "model.hpp"
 #include "program.hpp"
 #include "texture.hpp"
+#include "renderer.hpp"
+#include "asset_store.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -47,17 +49,23 @@ int main() {
     program.attachShader(fragmentShader);
     program.link();
 
-    Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
+    AssetStore<Texture> textureStore("C:/Users/grigo/Repos/game-engine");
+    auto id = textureStore.load("pumpkin.jpg", Texture::Type::Diffuse, "C:/Users/grigo/Repos/game-engine");
+    auto texture = textureStore.get(id);
+
+    //Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
     //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
-    Material material;
-    material.setDiffuse({1, 0, 0});
-    material.loadNormalTexture("");
-    material.loadSpecularTexture("");
-    material.loadDiffuseTexture("C:/Users/grigo/Repos/game-engine/pumpkin.jpg");
+    //Material material;
+    //material.setDiffuse({1, 0, 0});
+    //material.loadNormalTexture("");
+    //material.loadSpecularTexture("");
+    //material.loadDiffuseTexture("C:/Users/grigo/Repos/game-engine/pumpkin.jpg");
     //Model model1("C:/Users/grigo/Downloads/jeff_o_lantern/scene.gltf");
     Model model2("C:/Users/grigo/Repos/game-engine/second_monkey.obj");
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
+
+    Renderer renderer(program, camera);
 
     float deltaTime{};
     float previousFrame{};
@@ -77,12 +85,7 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        program.setUniformMat4("mvp", camera.transform());
-        material.bind();
-        program.setUniformMaterial(material);
-
-        program.use();
-        model.draw();
+        renderer.draw(model2);
 
         glfwSwapBuffers(window);
     }
