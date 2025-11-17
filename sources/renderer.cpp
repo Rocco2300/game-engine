@@ -20,8 +20,8 @@ void Renderer::draw(const Model& model) {
     m_program->setUniformMat4("mvp", m_camera->transform());
 
     for (int i = 0; i < model.m_meshes.size(); i++) {
-        model.m_materials[i]->bind();
-        m_program->setUniformMaterial(*model.m_materials[i]);
-        draw(*model.m_meshes[i]);
+        model.m_materials[i].bind();
+        m_program->setUniformMaterial(model.m_materials[i]);
+        draw(model.m_meshes[i]);
     }
 }

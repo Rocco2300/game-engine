@@ -6,13 +6,11 @@
 
 #include <glm/vec3.hpp>
 
-#include <memory>
-
 class Material {
 private:
-    std::unique_ptr<Texture> m_normalTexture;
-    std::unique_ptr<Texture> m_diffuseTexture;
-    std::unique_ptr<Texture> m_specularTexture;
+    Texture m_normalTexture;
+    Texture m_diffuseTexture;
+    Texture m_specularTexture;
 
     bool m_hasNormalTexture{};
     bool m_hasDiffuseTexture{};
@@ -27,7 +25,7 @@ public:
     Material() = default;
     Material(const aiMaterial* material);
 
-    void bind();
+    void bind() const;
 
     void setAmbient(const glm::vec3& color);
     void setDiffuse(const glm::vec3& color);

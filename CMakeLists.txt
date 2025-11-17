@@ -52,6 +52,7 @@ add_executable(
         sources/texture.cpp
         sources/material.cpp
         sources/renderer.cpp
+        sources/asset_manager.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)

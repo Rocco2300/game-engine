@@ -16,11 +16,7 @@ private:
     std::queue<int> m_availableIds;
 
 public:
-    AssetStore() {
-        for (int i = 0; i <= 256; i++) {
-            m_availableIds.push(i);
-        }
-    }
+    AssetStore() = default;
 
     AssetStore(const std::string& path) {
         for (int i = 0; i <= 256; i++) {

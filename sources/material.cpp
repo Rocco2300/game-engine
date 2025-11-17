@@ -52,10 +52,10 @@ Material::Material(const aiMaterial* material) {
     setSpecular(getColor(color), str);
 }
 
-void Material::bind() {
-    m_normalTexture->bind();
-    m_diffuseTexture->bind();
-    m_specularTexture->bind();
+void Material::bind() const {
+    m_normalTexture.bind();
+    m_diffuseTexture.bind();
+    m_specularTexture.bind();
 }
 
 void Material::setAmbient(const glm::vec3& color) {
@@ -73,15 +73,15 @@ void Material::setSpecular(const glm::vec3& color, float strength) {
 
 void Material::loadNormalTexture(const std::string& path) {
     m_hasNormalTexture = !path.empty();
-    m_normalTexture = std::make_unique<Texture>(path, Texture::Type::Normal);
+    m_normalTexture = Texture(path, Texture::Type::Normal);
 }
 
 void Material::loadDiffuseTexture(const std::string& path) {
     m_hasDiffuseTexture = !path.empty();
-    m_diffuseTexture = std::make_unique<Texture>(path, Texture::Type::Diffuse);
+    m_diffuseTexture = Texture(path, Texture::Type::Diffuse);
 }
 
 void Material::loadSpecularTexture(const std::string& path) {
     m_hasSpecularTexture = !path.empty();
-    m_specularTexture = std::make_unique<Texture>(path, Texture::Type::Specular);
+    m_specularTexture = Texture(path, Texture::Type::Specular);
 }

@@ -10,6 +10,7 @@
 #include "texture.hpp"
 #include "renderer.hpp"
 #include "asset_store.hpp"
+#include "asset_manager.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -49,13 +50,10 @@ int main() {
     program.attachShader(fragmentShader);
     program.link();
 
-    AssetStore<Texture> textureStore("C:/Users/grigo/Repos/game-engine");
-    auto id = textureStore.load("pumpkin.jpg", Texture::Type::Diffuse);
-    auto texture = textureStore.get(id);
+    AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
 
-    AssetStore<Model> modelStore("C:/Users/grigo/Repos/game-engine");
-    id = modelStore.load("second_monkey.obj");
-    auto model = modelStore.get(id);
+    auto id = AssetManager::loadModel("second_monkey.obj");
+    auto model = AssetManager::getModel(id);
 
     //Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
     //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");

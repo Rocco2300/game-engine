@@ -48,7 +48,7 @@ Texture::Texture(const std::string& path, Type type) {
     }
 }
 
-void Texture::bind() {
+void Texture::bind() const {
     glBindTextureUnit(getBindUnit(), m_id);
 }
 

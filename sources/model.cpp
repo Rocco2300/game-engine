@@ -46,11 +46,11 @@ static glm::vec3 getColor(aiColor3D color) {
     return ret;
 }
 
-std::unique_ptr<Mesh> Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
+Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
     if (mesh->mMaterialIndex >= 0) {
         aiMaterial* materialData = scene->mMaterials[mesh->mMaterialIndex];
-        m_materials.push_back(std::make_unique<Material>(materialData));
+        m_materials.emplace_back(materialData);
     }
 
-    return std::make_unique<Mesh>(mesh);
+    return Mesh{mesh};
 }

@@ -19,7 +19,7 @@ public:
     Texture() = default;
     Texture(const std::string& path, Type type);
 
-    void bind();
+    void bind() const;
 
 private:
     int getBindUnit() const;

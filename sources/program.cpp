@@ -67,9 +67,9 @@ void Program::setUniformMaterial(const Material& material) const {
     setUniformBool("hasDiffuseTexture", material.m_hasDiffuseTexture);
     setUniformBool("hasSpecularTexture", material.m_hasSpecularTexture);
 
-    setUniformTexture("normalTexture", *material.m_normalTexture);
-    setUniformTexture("diffuseTexture", *material.m_diffuseTexture);
-    setUniformTexture("specularTexture", *material.m_specularTexture);
+    setUniformTexture("normalTexture", material.m_normalTexture);
+    setUniformTexture("diffuseTexture", material.m_diffuseTexture);
+    setUniformTexture("specularTexture", material.m_specularTexture);
 
     setUniformVec3("ambient", material.m_ambient);
     setUniformVec3("diffuse", material.m_diffuse);
