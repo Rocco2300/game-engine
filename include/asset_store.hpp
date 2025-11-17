@@ -34,13 +34,13 @@ public:
         m_path = path;
     }
 
-    T& get(int id) {
-        return *m_assets[id];
+    T* get(int id) {
+        return m_assets[id].get();
     }
 
-    T& get(const std::string& name) {
+    T* get(const std::string& name) {
         auto id = m_nameToId[name];
-        return *m_assets[id];
+        return m_assets[id].get();
     }
 
     template <typename ...Args>

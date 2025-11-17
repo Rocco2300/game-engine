@@ -53,6 +53,10 @@ int main() {
     auto id = textureStore.load("pumpkin.jpg", Texture::Type::Diffuse);
     auto texture = textureStore.get(id);
 
+    AssetStore<Model> modelStore("C:/Users/grigo/Repos/game-engine");
+    id = modelStore.load("second_monkey.obj");
+    auto model = modelStore.get(id);
+
     //Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
     //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
     //Material material;
@@ -61,7 +65,7 @@ int main() {
     //material.loadSpecularTexture("");
     //material.loadDiffuseTexture("C:/Users/grigo/Repos/game-engine/pumpkin.jpg");
     //Model model1("C:/Users/grigo/Downloads/jeff_o_lantern/scene.gltf");
-    Model model2("C:/Users/grigo/Repos/game-engine/second_monkey.obj");
+    //Model model2("C:/Users/grigo/Repos/game-engine/second_monkey.obj");
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
@@ -85,7 +89,7 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        renderer.draw(model2);
+        renderer.draw(*model);
 
         glfwSwapBuffers(window);
     }
