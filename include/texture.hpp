@@ -16,7 +16,7 @@ private:
     uint32_t m_id;
 
 public:
-    Texture(Type type, const std::string& path = "");
+    Texture(const std::string& path, Type type);
 
     void bind();
 
@@ -24,7 +24,6 @@ private:
     int getBindUnit() const;
     int getFormat(int channelNumber);
     int getInternalFormat(int channelNumber);
-
 
 private:
     friend class Program;

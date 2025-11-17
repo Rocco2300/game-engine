@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-Texture::Texture(Type type, const std::string& path) {
+Texture::Texture(const std::string& path, Type type) {
     m_type = type;
 
     glCreateTextures(GL_TEXTURE_2D, 1, &m_id);

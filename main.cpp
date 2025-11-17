@@ -50,7 +50,7 @@ int main() {
     program.link();
 
     AssetStore<Texture> textureStore("C:/Users/grigo/Repos/game-engine");
-    auto id = textureStore.load("pumpkin.jpg", Texture::Type::Diffuse, "C:/Users/grigo/Repos/game-engine");
+    auto id = textureStore.load("pumpkin.jpg", Texture::Type::Diffuse);
     auto texture = textureStore.get(id);
 
     //Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");

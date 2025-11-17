@@ -23,15 +23,15 @@ void Material::setSpecular(const glm::vec3& color, float strength) {
 
 void Material::loadNormalTexture(const std::string& path) {
     m_hasNormalTexture = !path.empty();
-    m_normalTexture = std::make_unique<Texture>(Texture::Type::Normal, path);
+    m_normalTexture = std::make_unique<Texture>(path, Texture::Type::Normal);
 }
 
 void Material::loadDiffuseTexture(const std::string& path) {
     m_hasDiffuseTexture = !path.empty();
-    m_diffuseTexture = std::make_unique<Texture>(Texture::Type::Diffuse, path);
+    m_diffuseTexture = std::make_unique<Texture>(path, Texture::Type::Diffuse);
 }
 
 void Material::loadSpecularTexture(const std::string& path) {
     m_hasSpecularTexture = !path.empty();
-    m_specularTexture = std::make_unique<Texture>(Texture::Type::Specular, path);
+    m_specularTexture = std::make_unique<Texture>(path, Texture::Type::Specular);
 }

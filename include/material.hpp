@@ -30,9 +30,9 @@ public:
     void setDiffuse(const glm::vec3& color);
     void setSpecular(const glm::vec3& color, float strength);
 
+    void loadNormalTexture(const std::string& path = "");
     void loadDiffuseTexture(const std::string& path = "");
     void loadSpecularTexture(const std::string& path = "");
-    void loadNormalTexture(const std::string& path = "");
 
 private:
     void bindTexture(Texture::Type type, Texture* texture);

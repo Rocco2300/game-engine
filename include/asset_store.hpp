@@ -48,10 +48,21 @@ public:
         auto id = m_availableIds.front();
         m_availableIds.pop();
 
-        auto asset = std::make_unique<T>(args...);
+        auto fullPath = m_path + "/" + name;
+        auto asset = std::make_unique<T>(fullPath, args...);
 
         m_nameToId[name] = id;
         m_assets[id] = std::move(asset);
+
+        return id;
+    }
+
+    int insert(const std::string& name, std::unique_ptr<T>&& data) {
+        auto id = m_availableIds.front();
+        m_availableIds.pop();
+
+        m_nameToId[name] = id;
+        m_assets[id] = std::move(data);
 
         return id;
     }
