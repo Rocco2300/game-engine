@@ -22,11 +22,11 @@ public:
     static Mesh* getMesh(int id);
     static Model* getModel(int id);
     static Texture* getTexture(int id);
-    static Material* getMaterial(ind id);
+    static Material* getMaterial(int id);
 
     template <typename ...Args>
     static int loadMesh(const std::string& name, Args... args) {
-        return m_meshes.load(name, args...);
+        return m_meshes.emplace(name, args...);
     }
 
     template <typename ...Args>
@@ -41,6 +41,6 @@ public:
 
     template <typename ...Args>
     static int loadMaterial(const std::string& name, Args... args) {
-        return m_materials.load(name, args...);
+        return m_materials.emplace(name, args...);
     }
 };

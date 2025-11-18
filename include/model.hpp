@@ -13,8 +13,8 @@ class Model {
 private:
     std::string m_path;
     // TODO: bypass lack of default constructor
-    std::vector<Mesh> m_meshes;
-    std::vector<Material> m_materials;
+    std::vector<int> m_meshes;
+    std::vector<int> m_materials;
 
 private:
     Model() = default;
@@ -22,8 +22,8 @@ private:
 
     void loadModel(const std::string& path);
 
+    int processMesh(const aiMesh* mesh, const aiScene* scene);
     void processNode(const aiNode* node, const aiScene* scene);
-    Mesh processMesh(const aiMesh* mesh, const aiScene* scene);
 
     friend class Renderer;
     friend class AssetStore<Model>;

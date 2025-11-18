@@ -19,10 +19,9 @@ Texture::Texture(const std::string& path, Type type) {
 
     int width, height, channelNumber;
     uint8_t* data;
-    if (!path.empty()) {
-        std::cout << "Loaded texture " << path << '\n';
-        data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
-    } else {
+    data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
+
+    if (!data) {
         std::cerr << "Failed to load texture " << path << "\nLoading default texture\n";
         width = 1;
         height = 1;
@@ -31,15 +30,11 @@ Texture::Texture(const std::string& path, Type type) {
         data = new uint8_t[width * height * channelNumber] {255, 0, 255};
     }
 
-    if (data) {
-        auto format         = getFormat(channelNumber);
-        auto internalFormat = getInternalFormat(channelNumber);
-        glTextureStorage2D(m_id, 1, internalFormat, width, height);
-        glTextureSubImage2D(m_id, 0, 0, 0, width, height, format, GL_UNSIGNED_BYTE, data);
-        glGenerateTextureMipmap(m_id);
-    } else {
-        std::cerr << "Failed to load texture " << path << '\n';
-    }
+    auto format         = getFormat(channelNumber);
+    auto internalFormat = getInternalFormat(channelNumber);
+    glTextureStorage2D(m_id, 1, internalFormat, width, height);
+    glTextureSubImage2D(m_id, 0, 0, 0, width, height, format, GL_UNSIGNED_BYTE, data);
+    glGenerateTextureMipmap(m_id);
 
     if (!path.empty()) {
         stbi_image_free(data);

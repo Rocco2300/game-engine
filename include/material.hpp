@@ -1,6 +1,7 @@
 #pragma once
 
 #include "texture.hpp"
+#include "asset_store.hpp"
 
 #include <assimp/material.h>
 
@@ -8,9 +9,9 @@
 
 class Material {
 private:
-    Texture m_normalTexture;
-    Texture m_diffuseTexture;
-    Texture m_specularTexture;
+    int m_normalTexture;
+    int m_diffuseTexture;
+    int m_specularTexture;
 
     bool m_hasNormalTexture{};
     bool m_hasDiffuseTexture{};
@@ -21,10 +22,11 @@ private:
     glm::vec3 m_specular{};
     float m_specularStrength{};
 
-public:
+private:
     Material() = default;
     Material(const aiMaterial* material);
 
+public:
     void bind() const;
 
     void setAmbient(const glm::vec3& color);
@@ -36,8 +38,6 @@ public:
     void loadSpecularTexture(const std::string& path = "");
 
 private:
-    void bindTexture(Texture::Type type, Texture* texture);
-
-private:
     friend class Program;
+    friend class AssetStore<Material>;
 };

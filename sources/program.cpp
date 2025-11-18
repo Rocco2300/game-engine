@@ -2,12 +2,12 @@
 
 #include "texture.hpp"
 #include "material.hpp"
+#include "asset_manager.hpp"
 
 #include <GL/gl3w.h>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
-
 
 Program::Program() {
     m_id = glCreateProgram();
@@ -67,9 +67,13 @@ void Program::setUniformMaterial(const Material& material) const {
     setUniformBool("hasDiffuseTexture", material.m_hasDiffuseTexture);
     setUniformBool("hasSpecularTexture", material.m_hasSpecularTexture);
 
-    setUniformTexture("normalTexture", material.m_normalTexture);
-    setUniformTexture("diffuseTexture", material.m_diffuseTexture);
-    setUniformTexture("specularTexture", material.m_specularTexture);
+    auto normalTexture = AssetManager::getTexture(material.m_normalTexture);
+    auto diffuseTexture = AssetManager::getTexture(material.m_diffuseTexture);
+    auto specularTexture = AssetManager::getTexture(material.m_specularTexture);
+
+    setUniformTexture("normalTexture", *normalTexture);
+    setUniformTexture("diffuseTexture", *diffuseTexture);
+    setUniformTexture("specularTexture", *specularTexture);
 
     setUniformVec3("ambient", material.m_ambient);
     setUniformVec3("diffuse", material.m_diffuse);

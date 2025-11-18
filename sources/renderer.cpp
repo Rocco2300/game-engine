@@ -1,5 +1,7 @@
 #include "renderer.hpp"
 
+#include "asset_manager.hpp"
+
 #include <GL/gl3w.h>
 
 Renderer::Renderer(const Program& program, const FPSCamera& camera)
@@ -20,8 +22,15 @@ void Renderer::draw(const Model& model) {
     m_program->setUniformMat4("mvp", m_camera->transform());
 
     for (int i = 0; i < model.m_meshes.size(); i++) {
-        model.m_materials[i].bind();
-        m_program->setUniformMaterial(model.m_materials[i]);
-        draw(model.m_meshes[i]);
+        auto materialId   = model.m_materials[i];
+        auto materialData = AssetManager::getMaterial(materialId);
+
+        materialData->bind();
+        m_program->setUniformMaterial(*materialData);
+
+        auto meshId   = model.m_meshes[i];
+        auto meshData = AssetManager::getMesh(meshId);
+
+        draw(*meshData);
     }
 }

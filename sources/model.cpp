@@ -1,5 +1,7 @@
 #include "model.hpp"
 
+#include "asset_manager.hpp"
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
@@ -46,11 +48,13 @@ static glm::vec3 getColor(aiColor3D color) {
     return ret;
 }
 
-Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
+int Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
     if (mesh->mMaterialIndex >= 0) {
         aiMaterial* materialData = scene->mMaterials[mesh->mMaterialIndex];
-        m_materials.emplace_back(materialData);
+        auto id = AssetManager::loadMaterial(materialData->GetName().C_Str(), materialData);
+
+        m_materials.push_back(id);
     }
 
-    return Mesh{mesh};
+    return AssetManager::loadMesh(mesh->mName.C_Str(), mesh);
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "asset_store.hpp"
+
 #include <string>
 #include <cstdint>
 
@@ -15,10 +17,11 @@ private:
     Type m_type;
     uint32_t m_id;
 
-public:
+private:
     Texture() = default;
     Texture(const std::string& path, Type type);
 
+public:
     void bind() const;
 
 private:
@@ -28,4 +31,5 @@ private:
 
 private:
     friend class Program;
+    friend class AssetStore<Texture>;
 };

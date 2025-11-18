@@ -1,5 +1,7 @@
 #pragma once
 
+#include "asset_store.hpp"
+
 #include <cstdint>
 
 #include <assimp/mesh.h>
@@ -23,14 +25,15 @@ private:
     std::vector<uint32_t> m_indices{};
 
 public:
+    void draw();
+
+private:
     Mesh() = default;
     Mesh(const aiMesh* mesh);
     Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 
-    void draw();
-private:
     void setupMesh();
 
-private:
     friend class Renderer;
+    friend class AssetStore<Mesh>;
 };

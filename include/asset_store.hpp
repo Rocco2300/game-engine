@@ -53,12 +53,15 @@ public:
         return id;
     }
 
-    int insert(const std::string& name, std::unique_ptr<T>&& data) {
+    template <typename ...Args>
+    int emplace(const std::string& name, Args... args) {
         auto id = m_availableIds.front();
         m_availableIds.pop();
 
+        auto object = T(args...);
+
         m_nameToId[name] = id;
-        m_assets[id] = std::move(data);
+        m_assets.emplace(id, object);
 
         return id;
     }
