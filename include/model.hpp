@@ -7,6 +7,8 @@
 #include "mesh.hpp"
 #include "material.hpp"
 
+#include "asset_store.hpp"
+
 class Model {
 private:
     std::string m_path;
@@ -14,16 +16,15 @@ private:
     std::vector<Mesh> m_meshes;
     std::vector<Material> m_materials;
 
-public:
+private:
     Model() = default;
     Model(const std::string& path);
 
-private:
     void loadModel(const std::string& path);
 
     void processNode(const aiNode* node, const aiScene* scene);
     Mesh processMesh(const aiMesh* mesh, const aiScene* scene);
 
-private:
     friend class Renderer;
+    friend class AssetStore<Model>;
 };

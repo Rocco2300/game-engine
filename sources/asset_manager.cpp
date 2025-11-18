@@ -16,6 +16,11 @@ void AssetManager::setPath(const std::string& path) {
     m_materials = AssetStore<Material>(path);
 }
 
+Mesh* AssetManager::getMesh(int id) { return m_meshes.get(id); }
+
 Model* AssetManager::getModel(int id) { return m_models.get(id); }
 
-int AssetManager::loadModel(const std::string& name) { return m_models.load(name); }
+Texture* AssetManager::getTexture(int id) { return m_textures.get(id); }
+
+Material* AssetManager::getMaterial(int id) { return m_materials.get(id); }
+

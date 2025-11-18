@@ -19,7 +19,28 @@ private:
 public:
     static void setPath(const std::string& path);
 
+    static Mesh* getMesh(int id);
     static Model* getModel(int id);
+    static Texture* getTexture(int id);
+    static Material* getMaterial(ind id);
 
-    static int loadModel(const std::string& name);
+    template <typename ...Args>
+    static int loadMesh(const std::string& name, Args... args) {
+        return m_meshes.load(name, args...);
+    }
+
+    template <typename ...Args>
+    static int loadModel(const std::string& name, Args... args) {
+        return m_models.load(name, args...);
+    }
+
+    template <typename ...Args>
+    static int loadTexture(const std::string& name, Args... args) {
+        return m_textures.load(name, args...);
+    }
+
+    template <typename ...Args>
+    static int loadMaterial(const std::string& name, Args... args) {
+        return m_materials.load(name, args...);
+    }
 };

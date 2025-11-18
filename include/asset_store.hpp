@@ -31,7 +31,7 @@ public:
     }
 
     T* get(int id) {
-        return &m_assets[id];
+        return &m_assets.at(id);
     }
 
     T* get(const std::string& name) {
@@ -45,9 +45,10 @@ public:
         m_availableIds.pop();
 
         auto fullPath = m_path + "/" + name;
+        auto object = T(fullPath, args...);
 
         m_nameToId[name] = id;
-        m_assets[id] = T(fullPath, args...);
+        m_assets.emplace(id, object);
 
         return id;
     }
