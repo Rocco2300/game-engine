@@ -5,7 +5,9 @@ in vec3 fragNormal;
 
 out vec4 FragColor;
 
-const vec3 sunDirection = vec3(-0.25, -1.0, -0.125);
+uniform int lightType;
+uniform vec3 lightPosition;
+uniform vec3 lightDirection;
 
 uniform vec3 ambient;
 uniform vec3 diffuse;
@@ -25,6 +27,10 @@ void main()
 {
     vec4 color = texture(diffuseTexture, uv);
     //vec4 color = vec4(diffuse, 1);
-    float diffuse = max(dot(normalize(sunDirection), normalize(fragNormal)), 0.0);
+    vec3 directionToLight = lightDirection;
+    directionToLight.x *= -1;
+    directionToLight.y *= -1;
+
+    float diffuse = max(dot(normalize(fragNormal), normalize(directionToLight)), 0.0);
     FragColor = color * diffuse;
 }

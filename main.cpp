@@ -5,11 +5,9 @@
 
 #include "fps_camera.hpp"
 #include "input.hpp"
-#include "model.hpp"
+#include "light.hpp"
 #include "program.hpp"
-#include "texture.hpp"
 #include "renderer.hpp"
-#include "asset_store.hpp"
 #include "asset_manager.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -55,19 +53,12 @@ int main() {
     auto id = AssetManager::loadModel("second_monkey.obj");
     auto model = AssetManager::getModel(id);
 
-    //Model model("C:/Users/grigo/Repos/game-engine/monkey.obj");
-    //Texture texture(Texture::Type::Diffuse, "C:\\Users\\grigo\\Repos\\game-engine\\pumpkin.jpg");
-    //Material material;
-    //material.setDiffuse({1, 0, 0});
-    //material.loadNormalTexture("");
-    //material.loadSpecularTexture("");
-    //material.loadDiffuseTexture("C:/Users/grigo/Repos/game-engine/pumpkin.jpg");
-    //Model model1("C:/Users/grigo/Downloads/jeff_o_lantern/scene.gltf");
-    //Model model2("C:/Users/grigo/Repos/game-engine/second_monkey.obj");
-
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
-    Renderer renderer(program, camera);
+    auto direction = glm::vec3(-1);
+    Light light(Light::Type::Directional, glm::normalize(direction), glm::normalize(direction));
+
+    Renderer renderer(program, camera, light);
 
     float deltaTime{};
     float previousFrame{};

@@ -37,6 +37,11 @@ void Program::use() const {
     glUseProgram(m_id);
 }
 
+void Program::setUniformInt(const std::string& name, int value) const {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform1i(m_id, location, value);
+}
+
 void Program::setUniformBool(const std::string& name, bool value) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniform1i(m_id, location, value);
@@ -49,12 +54,18 @@ void Program::setUniformFloat(const std::string& name, float value) const {
 
 void Program::setUniformVec3(const std::string& name, const glm::vec3& value) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
-    glProgramUniform4fv(m_id, location, 1, glm::value_ptr(value));
+    glProgramUniform3fv(m_id, location, 1, glm::value_ptr(value));
 }
 
 void Program::setUniformMat4(const std::string& name, const glm::mat4& value) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Program::setUniformLight(const Light& light) const {
+    setUniformInt("lightType", static_cast<int>(light.m_type));
+    setUniformVec3("lightPosition", light.m_position);
+    setUniformVec3("lightDirection", light.m_direction);
 }
 
 void Program::setUniformTexture(const std::string& name, const Texture& texture) const {
