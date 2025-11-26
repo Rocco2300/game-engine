@@ -15,5 +15,9 @@ public:
 
     void update(float dt);
 
+    glm::vec3 position() const;
+
+    glm::mat4 view() const;
+    glm::mat4 projection() const;
     glm::mat4 transform() const;
 };

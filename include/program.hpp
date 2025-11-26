@@ -2,6 +2,7 @@
 
 #include "light.hpp"
 #include "shader.hpp"
+#include "fps_camera.hpp"
 
 #include <glm/mat4x4.hpp>
 
@@ -28,6 +29,7 @@ public:
     void setUniformMat4(const std::string& name, const glm::mat4& value) const;
 
     void setUniformLight(const Light& light) const;
+    void setUniformCamera(const FPSCamera& camera) const;
     void setUniformTexture(const std::string& name, const Texture& texture) const;
     void setUniformMaterial(const Material& material) const;
 };

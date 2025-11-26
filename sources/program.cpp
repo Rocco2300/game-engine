@@ -68,6 +68,12 @@ void Program::setUniformLight(const Light& light) const {
     setUniformVec3("lightDirection", light.m_direction);
 }
 
+void Program::setUniformCamera(const FPSCamera& camera) const {
+    setUniformVec3("viewPosition", camera.position());
+    setUniformMat4("view", camera.view());
+    setUniformMat4("projection", camera.projection());
+}
+
 void Program::setUniformTexture(const std::string& name, const Texture& texture) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniform1i(m_id, location, texture.getBindUnit());

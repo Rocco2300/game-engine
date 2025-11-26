@@ -12,7 +12,7 @@ Renderer::Renderer(const Program& program, const FPSCamera& camera, const Light&
 void Renderer::draw(const Mesh& mesh) {
     m_program->use();
     m_program->setUniformLight(*m_light);
-    m_program->setUniformMat4("mvp", m_camera->transform());
+    m_program->setUniformCamera(*m_camera);
 
     drawMeshImpl(mesh);
 }
@@ -20,7 +20,7 @@ void Renderer::draw(const Mesh& mesh) {
 void Renderer::draw(const Model& model) {
     m_program->use();
     m_program->setUniformLight(*m_light);
-    m_program->setUniformMat4("mvp", m_camera->transform());
+    m_program->setUniformCamera(*m_camera);
 
     for (int i = 0; i < model.m_meshes.size(); i++) {
         auto materialId   = model.m_materials[i];

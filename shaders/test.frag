@@ -2,8 +2,11 @@
 
 in vec2 uv;
 in vec3 fragNormal;
+in vec3 fragPosition;
 
 out vec4 FragColor;
+
+uniform vec3 viewPosition;
 
 uniform int lightType;
 uniform vec3 lightPosition;
@@ -23,14 +26,47 @@ uniform sampler2D normalTexture;
 uniform sampler2D diffuseTexture;
 uniform sampler2D specularTexture;
 
+vec4 getAmbientColor() {
+    return vec4(ambient, 1.0);
+}
+
+vec4 getDiffuseColor() {
+    if (hasDiffuseTexture) {
+        return texture(diffuseTexture, uv);
+    }
+
+    return vec4(diffuse, 1.0);
+}
+
+vec4 getSpecularColor() {
+    if (hasSpecularTexture) {
+        return texture(specularTexture, uv);
+    }
+
+    return vec4(specular, 1.0);
+}
+
 void main()
 {
-    vec4 color = texture(diffuseTexture, uv);
-    //vec4 color = vec4(diffuse, 1);
-    vec3 directionToLight = lightDirection;
-    directionToLight.x *= -1;
-    directionToLight.y *= -1;
+    const float ambientStrength = 0.1;
+    vec4 ambient = ambientStrength * getAmbientColor();
 
-    float diffuse = max(dot(normalize(fragNormal), normalize(directionToLight)), 0.0);
-    FragColor = color * diffuse;
+    vec4 color = getDiffuseColor();
+
+    vec3 norm = fragNormal;
+    vec3 lightDir = normalize(-lightDirection);
+    float diff = max(dot(norm, lightDir), 0.0);
+
+    const vec4 lightColor = vec4(1, 1, 0.1, 1.0);
+    vec4 diffuse = diff * lightColor;
+
+    vec3 viewDir = normalize(viewPosition - fragPosition);
+    vec3 reflectDir = reflect(-lightDir, norm);
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec4 specular = 0.5 * spec * lightColor;
+
+    vec4 finalColor = (ambient + diffuse + specular) * color;
+
+    FragColor = finalColor;
 }

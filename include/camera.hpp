@@ -16,6 +16,10 @@ private:
 public:
     Camera(glm::vec3 position, float fov, float aspect);
 
+    glm::vec3 position() const;
+
+    glm::mat4 view() const;
+    glm::mat4 projection() const;
     glm::mat4 transform() const;
 
     void move(glm::vec3 delta);
