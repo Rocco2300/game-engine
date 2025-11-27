@@ -40,6 +40,11 @@ public:
     }
 
     template <typename ...Args>
+    static int emplaceTexture(const std::string& name, Args... args) {
+        return m_textures.emplace(name, args...);
+    }
+
+    template <typename ...Args>
     static int loadMaterial(const std::string& name, Args... args) {
         return m_materials.emplace(name, args...);
     }

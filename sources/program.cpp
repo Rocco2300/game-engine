@@ -80,10 +80,6 @@ void Program::setUniformTexture(const std::string& name, const Texture& texture)
 }
 
 void Program::setUniformMaterial(const Material& material) const {
-    setUniformBool("hasNormalTexture", material.m_hasNormalTexture);
-    setUniformBool("hasDiffuseTexture", material.m_hasDiffuseTexture);
-    setUniformBool("hasSpecularTexture", material.m_hasSpecularTexture);
-
     auto normalTexture = AssetManager::getTexture(material.m_normalTexture);
     auto diffuseTexture = AssetManager::getTexture(material.m_diffuseTexture);
     auto specularTexture = AssetManager::getTexture(material.m_specularTexture);
@@ -91,9 +87,5 @@ void Program::setUniformMaterial(const Material& material) const {
     setUniformTexture("normalTexture", *normalTexture);
     setUniformTexture("diffuseTexture", *diffuseTexture);
     setUniformTexture("specularTexture", *specularTexture);
-
-    setUniformVec3("ambient", material.m_ambient);
-    setUniformVec3("diffuse", material.m_diffuse);
-    setUniformVec3("specular", material.m_specular);
     setUniformFloat("specularStrength", material.m_specularStrength);
 }

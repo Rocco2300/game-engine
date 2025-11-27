@@ -13,13 +13,6 @@ private:
     int m_diffuseTexture;
     int m_specularTexture;
 
-    bool m_hasNormalTexture{};
-    bool m_hasDiffuseTexture{};
-    bool m_hasSpecularTexture{};
-
-    glm::vec3 m_ambient{};
-    glm::vec3 m_diffuse{};
-    glm::vec3 m_specular{};
     float m_specularStrength{};
 
 private:
@@ -29,13 +22,16 @@ private:
 public:
     void bind() const;
 
-    void setAmbient(const glm::vec3& color);
-    void setDiffuse(const glm::vec3& color);
-    void setSpecular(const glm::vec3& color, float strength);
+    void setSpecularStrength(float strength);
 
     void loadNormalTexture(const std::string& path = "");
+    void loadNormalTexture(const uint8_t* data, int width, int height, int channelNumber);
+
     void loadDiffuseTexture(const std::string& path = "");
+    void loadDiffuseTexture(const uint8_t* data, int width, int height, int channelNumber);
+
     void loadSpecularTexture(const std::string& path = "");
+    void loadSpecularTexture(const uint8_t* data, int width, int height, int channelNumber);
 
 private:
     friend class Program;
