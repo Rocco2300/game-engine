@@ -7,6 +7,8 @@
 
 #include <glm/vec3.hpp>
 
+#include <filesystem>
+
 class Material {
 public:
     void bind() const;

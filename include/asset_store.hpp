@@ -3,6 +3,7 @@
 #include <queue>
 #include <string>
 #include <memory>
+#include <filesystem>
 #include <unordered_map>
 
 template <typename T>
@@ -10,7 +11,7 @@ class AssetStore {
 public:
     AssetStore() = default;
 
-    AssetStore(const std::string& path) {
+    AssetStore(const std::filesystem::path& path) {
         for (int i = 0; i <= 256; i++) {
             m_availableIds.push(i);
         }
@@ -18,7 +19,7 @@ public:
         m_path = path;
     }
 
-    void setPath(const std::string& path) {
+    void setPath(const std::filesystem::path& path) {
         m_path = path;
     }
 
@@ -36,8 +37,8 @@ public:
         auto id = m_availableIds.front();
         m_availableIds.pop();
 
-        auto fullPath = m_path + "/" + name;
-        auto object = T(fullPath, args...);
+        auto fullPath = m_path / name;
+        auto object = T(fullPath.string(), args...);
 
         m_nameToId[name] = id;
         m_assets.emplace(id, object);
@@ -59,7 +60,7 @@ public:
     }
 
 private:
-    std::string m_path;
+    std::filesystem::path m_path;
 
     std::unordered_map<int, T> m_assets;
     std::unordered_map<std::string, int> m_nameToId;

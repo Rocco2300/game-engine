@@ -7,12 +7,12 @@
 
 #include <iostream>
 
-Texture::Texture(const std::string& path, Type type) {
+Texture::Texture(const std::filesystem::path& path, Type type) {
     m_type = type;
 
     int width, height, channelNumber;
     uint8_t* data;
-    data = stbi_load(path.c_str(), &width, &height, &channelNumber, 0);
+    data = stbi_load(path.string().c_str(), &width, &height, &channelNumber, 0);
 
     if (!data) {
         std::cerr << "Failed to load texture " << path << "\nLoading default texture\n";

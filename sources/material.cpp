@@ -78,8 +78,8 @@ void Material::setSpecularStrength(float strength) {
     m_specularStrength = strength;
 }
 
-void Material::loadNormalTexture(const std::string& path) {
-    m_normalTexture = AssetManager::loadTexture(path, Texture::Type::Normal);
+void Material::loadNormalTexture(const std::string& name) {
+    m_normalTexture = AssetManager::loadTexture(name, Texture::Type::Normal);
 }
 
 void Material::loadNormalTexture(const uint8_t* data, int width, int height, int channelNumber) {
@@ -94,8 +94,8 @@ void Material::loadNormalTexture(const uint8_t* data, int width, int height, int
     );
 }
 
-void Material::loadDiffuseTexture(const std::string& path) {
-    m_diffuseTexture = AssetManager::loadTexture(path, Texture::Type::Diffuse);
+void Material::loadDiffuseTexture(const std::string& name) {
+    m_diffuseTexture = AssetManager::loadTexture(name, Texture::Type::Diffuse);
 }
 
 void Material::loadDiffuseTexture(const uint8_t* data, int width, int height, int channelNumber) {
@@ -109,8 +109,8 @@ void Material::loadDiffuseTexture(const uint8_t* data, int width, int height, in
     );
 }
 
-void Material::loadSpecularTexture(const std::string& path) {
-    m_specularTexture    = AssetManager::loadTexture(path, Texture::Type::Specular);
+void Material::loadSpecularTexture(const std::string& name) {
+    m_specularTexture    = AssetManager::loadTexture(name, Texture::Type::Specular);
 }
 
 void Material::loadSpecularTexture(const uint8_t* data, int width, int height, int channelNumber) {

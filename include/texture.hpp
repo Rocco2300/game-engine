@@ -5,6 +5,7 @@
 #include <span>
 #include <string>
 #include <cstdint>
+#include <filesystem>
 
 class Texture {
 public:
@@ -24,7 +25,7 @@ private:
     uint32_t m_id;
 
     Texture() = default;
-    Texture(const std::string& path, Type type);
+    Texture(const std::filesystem::path& path, Type type);
     Texture(const uint8_t* data, int width, int height, int channelNumber, Type type);
 
     int getBindUnit() const;
