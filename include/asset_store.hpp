@@ -7,14 +7,6 @@
 
 template <typename T>
 class AssetStore {
-private:
-    std::string m_path;
-
-    std::unordered_map<int, T> m_assets;
-    std::unordered_map<std::string, int> m_nameToId;
-
-    std::queue<int> m_availableIds;
-
 public:
     AssetStore() = default;
 
@@ -65,4 +57,12 @@ public:
 
         return id;
     }
+
+private:
+    std::string m_path;
+
+    std::unordered_map<int, T> m_assets;
+    std::unordered_map<std::string, int> m_nameToId;
+
+    std::queue<int> m_availableIds;
 };

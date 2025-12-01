@@ -17,23 +17,19 @@ struct Vertex {
 
 class Mesh {
 private:
-    uint32_t m_vao{};
-    uint32_t m_vbo{};
-    uint32_t m_ebo{};
+    friend class Renderer;
+    friend class AssetStore<Mesh>;
 
-    std::vector<Vertex> m_vertices{};
-    std::vector<uint32_t> m_indices{};
-
-public:
-    void draw();
-
-private:
     Mesh() = default;
     Mesh(const aiMesh* mesh);
     Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 
     void setupMesh();
 
-    friend class Renderer;
-    friend class AssetStore<Mesh>;
+    uint32_t m_vao{};
+    uint32_t m_vbo{};
+    uint32_t m_ebo{};
+
+    std::vector<Vertex> m_vertices{};
+    std::vector<uint32_t> m_indices{};
 };

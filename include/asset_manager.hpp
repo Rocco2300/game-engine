@@ -8,14 +8,6 @@
 #include "material.hpp"
 
 class AssetManager {
-private:
-    static std::string m_path;
-
-    static AssetStore<Mesh> m_meshes;
-    static AssetStore<Model> m_models;
-    static AssetStore<Texture> m_textures;
-    static AssetStore<Material> m_materials;
-
 public:
     static void setPath(const std::string& path);
 
@@ -48,4 +40,12 @@ public:
     static int loadMaterial(const std::string& name, Args... args) {
         return m_materials.emplace(name, args...);
     }
+
+private:
+    static std::string m_path;
+
+    static AssetStore<Mesh> m_meshes;
+    static AssetStore<Model> m_models;
+    static AssetStore<Texture> m_textures;
+    static AssetStore<Material> m_materials;
 };

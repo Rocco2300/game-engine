@@ -8,17 +8,6 @@
 #include <glm/vec3.hpp>
 
 class Material {
-private:
-    int m_normalTexture;
-    int m_diffuseTexture;
-    int m_specularTexture;
-
-    float m_specularStrength{};
-
-private:
-    Material() = default;
-    Material(const aiMaterial* material);
-
 public:
     void bind() const;
 
@@ -36,4 +25,13 @@ public:
 private:
     friend class Program;
     friend class AssetStore<Material>;
+
+    Material() = default;
+    Material(const aiMaterial* material);
+
+    int m_normalTexture;
+    int m_diffuseTexture;
+    int m_specularTexture;
+
+    float m_specularStrength{};
 };

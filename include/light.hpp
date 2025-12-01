@@ -14,9 +14,9 @@ public:
     Light(Type type, const glm::vec3& position, const glm::vec3& direction);
 
 private:
+    friend class Program;
+
     Type m_type;
     glm::vec3 m_position;
     glm::vec3 m_direction;
-
-    friend class Program;
 };

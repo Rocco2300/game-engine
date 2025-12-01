@@ -16,7 +16,6 @@ private:
     std::vector<int> m_meshes;
     std::vector<int> m_materials;
 
-private:
     Model() = default;
     Model(const std::string& path);
 

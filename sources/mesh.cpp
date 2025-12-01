@@ -68,9 +68,3 @@ void Mesh::setupMesh() {
     glVertexArrayAttribBinding(m_vao, 1, 0);
     glVertexArrayAttribBinding(m_vao, 2, 0);
 }
-
-void Mesh::draw() {
-    glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
-    glBindVertexArray(0);
-}

@@ -4,15 +4,6 @@
 #include <glm/mat4x4.hpp>
 
 class Camera {
-private:
-    float m_fov{};
-    float m_aspect{};
-
-    glm::vec3 m_position{};
-
-    glm::vec3 m_up{};
-    glm::vec3 m_direction{};
-
 public:
     Camera(glm::vec3 position, float fov, float aspect);
 
@@ -27,4 +18,12 @@ public:
 
 private:
     friend class FPSCamera;
+
+    float m_fov{};
+    float m_aspect{};
+
+    glm::vec3 m_position{};
+
+    glm::vec3 m_up{};
+    glm::vec3 m_direction{};
 };

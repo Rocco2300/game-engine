@@ -10,9 +10,6 @@ class Texture;
 class Material;
 
 class Program {
-private:
-    uint32_t m_id{};
-
 public:
     Program();
     ~Program();
@@ -32,4 +29,7 @@ public:
     void setUniformCamera(const FPSCamera& camera) const;
     void setUniformTexture(const std::string& name, const Texture& texture) const;
     void setUniformMaterial(const Material& material) const;
+
+private:
+    uint32_t m_id{};
 };
