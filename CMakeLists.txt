@@ -25,11 +25,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glm)
 
 FetchContent_Declare(
-        fast_obj
-        GIT_REPOSITORY https://github.com/thisistherk/fast_obj.git
-        GIT_TAG v1.3
+        json
+        URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
 )
-FetchContent_MakeAvailable(fast_obj)
+FetchContent_MakeAvailable(json)
 
 FetchContent_Declare(
         assimp
@@ -54,6 +53,8 @@ add_executable(
         sources/renderer.cpp
         sources/asset_manager.cpp
         sources/light.cpp
+        sources/entity.cpp
+        sources/scene.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)
