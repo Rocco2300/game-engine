@@ -7,9 +7,11 @@
 #include "texture.hpp"
 #include "material.hpp"
 
+#include <filesystem>
+
 class AssetManager {
 public:
-    static void setPath(const std::string& path);
+    static void setPath(const std::filesystem::path& path);
 
     static Mesh* getMesh(int id);
     static Model* getModel(int id);
@@ -42,7 +44,7 @@ public:
     }
 
 private:
-    static std::string m_path;
+    static std::filesystem::path m_path;
 
     static AssetStore<Mesh> m_meshes;
     static AssetStore<Model> m_models;

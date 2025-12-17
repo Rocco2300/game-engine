@@ -1,13 +1,13 @@
 #include "asset_manager.hpp"
 
-std::string AssetManager::m_path{};
+std::filesystem::path AssetManager::m_path{};
 
 AssetStore<Mesh> AssetManager::m_meshes{};
 AssetStore<Model> AssetManager::m_models{};
 AssetStore<Texture> AssetManager::m_textures{};
 AssetStore<Material> AssetManager::m_materials{};
 
-void AssetManager::setPath(const std::string& path) {
+void AssetManager::setPath(const std::filesystem::path& path) {
     m_path = path;
 
     m_meshes    = AssetStore<Mesh>(path);

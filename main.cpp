@@ -5,6 +5,7 @@
 
 #include "fps_camera.hpp"
 #include "input.hpp"
+#include "scene.hpp"
 #include "light.hpp"
 #include "program.hpp"
 #include "renderer.hpp"
@@ -50,8 +51,18 @@ int main() {
 
     AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
 
+    Scene scene;
+
     auto id = AssetManager::loadModel("second_monkey.obj");
     auto model = AssetManager::getModel(id);
+
+    auto rootEntityId = scene.addEntity();
+    auto* rootEntity  = scene.getEntity(rootEntityId);
+    rootEntity->position = glm::vec3(2.f, 0.f, 1.f);
+
+    auto entityId = scene.addEntity(rootEntityId);
+    auto* entity = scene.getEntity(entityId);
+    entity->modelId = id;
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
@@ -78,7 +89,7 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        renderer.draw(*model);
+        renderer.draw(scene);
 
         glfwSwapBuffers(window);
     }

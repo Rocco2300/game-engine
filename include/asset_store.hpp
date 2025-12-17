@@ -24,6 +24,10 @@ public:
     }
 
     T* get(int id) {
+        if (m_assets.find(id) == m_assets.end()) {
+            return nullptr;
+        }
+
         return &m_assets.at(id);
     }
 
