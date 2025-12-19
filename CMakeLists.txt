@@ -55,8 +55,9 @@ add_executable(
         sources/light.cpp
         sources/entity.cpp
         sources/scene.cpp
+        sources/serializer.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)
 
-target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp)
+target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp nlohmann_json::nlohmann_json)

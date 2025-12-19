@@ -45,6 +45,18 @@ void Scene::setParent(int entity, int parent) {
     m_parent.emplace(entity, parent);
 }
 
-std::vector<Entity>* Scene::entities() {
-    return &m_entities;
+void Scene::setEntities(const std::vector<Entity>& entities) {
+    m_entities = entities;
+}
+
+void Scene::setParents(const std::unordered_map<int, int>& parents) {
+    m_parent = parents;
+}
+
+const std::vector<Entity>& Scene::entities() const {
+    return m_entities;
+}
+
+const std::unordered_map<int, int>& Scene::parents() const {
+    return m_parent;
 }

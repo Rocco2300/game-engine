@@ -1,6 +1,7 @@
 #include <GL/gl3w.h>
 #include <glfw/glfw3.h>
 
+#include <fstream>
 #include <iostream>
 
 #include "fps_camera.hpp"
@@ -9,6 +10,7 @@
 #include "light.hpp"
 #include "program.hpp"
 #include "renderer.hpp"
+#include "serializer.hpp"
 #include "asset_manager.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -16,7 +18,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 const unsigned int ScreenWidth = 800;
 const unsigned int ScreenHeight = 600;
 
-int main() {
+int main(int argc, char** argv) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,19 +52,33 @@ int main() {
     program.link();
 
     AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
+    Serializer::setPath("C:/Users/grigo/Repos/game-engine");
+
+    std::string mode{};
+    if (argc > 1) {
+        mode = argv[1];
+    }
 
     Scene scene;
+    if (mode == "--load") {
+        Serializer::loadSceneFile("scene.json");
+        Serializer::deserializeAssets();
+        Serializer::deserializeScene(scene);
+    } else {
+        auto id = AssetManager::loadModel("second_monkey.obj");
+        auto model = AssetManager::getModel(id);
 
-    auto id = AssetManager::loadModel("second_monkey.obj");
-    auto model = AssetManager::getModel(id);
+        auto rootEntityId = scene.addEntity();
+        auto* rootEntity  = scene.getEntity(rootEntityId);
+        rootEntity->position = glm::vec3(2.f, 0.f, 1.f);
 
-    auto rootEntityId = scene.addEntity();
-    auto* rootEntity  = scene.getEntity(rootEntityId);
-    rootEntity->position = glm::vec3(2.f, 0.f, 1.f);
+        auto entityId = scene.addEntity(rootEntityId);
+        auto* entity = scene.getEntity(entityId);
+        entity->modelId = id;
 
-    auto entityId = scene.addEntity(rootEntityId);
-    auto* entity = scene.getEntity(entityId);
-    entity->modelId = id;
+        AssetManager::loadTexture("pumpkin.jpg", Texture::Type::Diffuse);
+        Serializer::serializeScene(scene);
+    }
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 

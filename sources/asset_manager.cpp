@@ -23,4 +23,3 @@ Model* AssetManager::getModel(int id) { return m_models.get(id); }
 Texture* AssetManager::getTexture(int id) { return m_textures.get(id); }
 
 Material* AssetManager::getMaterial(int id) { return m_materials.get(id); }
-

@@ -31,8 +31,7 @@ static glm::mat4 getTransform(Scene& scene, int id) {
 }
 
 void Renderer::draw(Scene& scene) {
-    auto& entities = *scene.entities();
-    for (const auto& entity : entities) {
+    for (const auto& entity : scene.entities()) {
         auto transform = getTransform(scene, entity.id);
 
         auto* model = AssetManager::getModel(entity.modelId);

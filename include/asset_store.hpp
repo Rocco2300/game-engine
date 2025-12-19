@@ -9,9 +9,15 @@
 template <typename T>
 class AssetStore {
 public:
-    AssetStore() = default;
+    AssetStore() {
+        m_availableIds = std::queue<int>();
+        for (int i = 0; i <= 256; i++) {
+            m_availableIds.push(i);
+        }
+    }
 
     AssetStore(const std::filesystem::path& path) {
+        m_availableIds = std::queue<int>();
         for (int i = 0; i <= 256; i++) {
             m_availableIds.push(i);
         }
@@ -32,12 +38,20 @@ public:
     }
 
     T* get(const std::string& name) {
+        if (!m_nameToId.count(name)) {
+            return nullptr;
+        }
+
         auto id = m_nameToId[name];
-        return &m_assets[id];
+        return &m_assets.at(id);
     }
 
     template <typename ...Args>
     int load(const std::string& name, Args... args) {
+        if (m_nameToId.count(name)) {
+            return m_nameToId.at(name);
+        }
+
         auto id = m_availableIds.front();
         m_availableIds.pop();
 

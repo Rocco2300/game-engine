@@ -1,0 +1,65 @@
+{
+    "assets": [
+        [
+            "model",
+            "second_monkey.obj"
+        ],
+        [
+            "texture",
+            "pumpkin.jpg",
+            "diffuse"
+        ]
+    ],
+    "scene": {
+        "entities": [
+            {
+                "id": 0,
+                "modelId": -1,
+                "position": {
+                    "x": 2.0,
+                    "y": 0.0,
+                    "z": 1.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            {
+                "id": 1,
+                "modelId": 0,
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        ],
+        "parent": [
+            [
+                1,
+                0
+            ],
+            [
+                0,
+                -1
+            ]
+        ]
+    }
+}

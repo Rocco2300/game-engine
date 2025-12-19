@@ -6,7 +6,12 @@
 #include "model.hpp"
 #include "texture.hpp"
 #include "material.hpp"
+#include "serializer.hpp"
 
+#include <tuple>
+#include <utility>
+#include <cstddef>
+#include <iostream>
 #include <filesystem>
 
 class AssetManager {
@@ -25,12 +30,40 @@ public:
 
     template <typename ...Args>
     static int loadModel(const std::string& name, Args... args) {
+        if (!m_models.get(name)) {
+            Serializer::serializeAssetName("model", name);
+        }
+
         return m_models.load(name, args...);
     }
 
     template <typename ...Args>
     static int loadTexture(const std::string& name, Args... args) {
-        return m_textures.load(name, args...);
+        if (!m_textures.get(name)) {
+            constexpr int argsNo = sizeof...(args);
+            auto argsTuple = std::tie(args...);
+
+            std::string textureTypeStr = "diffuse";
+            if (argsNo > 0) {
+                auto textureType = std::get<0>(argsTuple);
+                switch (textureType) {
+                case Texture::Type::Diffuse:
+                    textureTypeStr = "diffuse";
+                    break;
+                case Texture::Type::Normal:
+                    textureTypeStr = "normal";
+                    break;
+                case Texture::Type::Specular:
+                    textureTypeStr = "specular";
+                    break;
+                }
+            }
+
+            Serializer::serializeAssetName("texture", name, textureTypeStr);
+        }
+
+        auto id = m_textures.load(name, args...);
+        return id;
     }
 
     template <typename ...Args>
