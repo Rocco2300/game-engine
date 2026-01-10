@@ -4,6 +4,8 @@ class Renderer;
 
 class ILayer {
 public:
+    virtual ~ILayer() = 0;
+
     virtual void onAttach() = 0;
     virtual void onDetach() = 0;
 
