@@ -11,6 +11,7 @@
 #include "program.hpp"
 #include "renderer.hpp"
 #include "serializer.hpp"
+#include "layer_stack.hpp"
 #include "asset_manager.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -80,6 +81,9 @@ int main(int argc, char** argv) {
         Serializer::serializeScene(scene);
     }
 
+    LayerStack layerStack;
+    layerStack.push(scene);
+
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
     auto direction = glm::vec3(-1);
@@ -101,11 +105,13 @@ int main(int argc, char** argv) {
         previousFrame      = currentFrame;
 
         camera.update(deltaTime);
+        layerStack.onUpdate(deltaTime);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        renderer.draw(scene);
+        //renderer.draw(scene);
+        layerStack.onDraw(renderer);
 
         glfwSwapBuffers(window);
     }

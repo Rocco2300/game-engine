@@ -1,5 +1,7 @@
 #include "scene.hpp"
 
+#include "renderer.hpp"
+
 Scene::Scene() {
     for (int i = 0; i <= 256; i++) {
         m_availableIds.push(i);
@@ -59,4 +61,24 @@ const std::vector<Entity>& Scene::entities() const {
 
 const std::unordered_map<int, int>& Scene::parents() const {
     return m_parent;
+}
+
+void Scene::onAttach() {
+
+}
+
+void Scene::onDetach() {
+
+}
+
+void Scene::onDraw(Renderer& renderer) {
+    renderer.draw(*this);
+}
+
+void Scene::onUpdate(float deltaTime) {
+
+}
+
+void Scene::onEvent(int event) {
+
 }

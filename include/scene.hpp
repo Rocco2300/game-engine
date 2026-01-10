@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entity.hpp"
+#include "layer.hpp"
 
 #include <queue>
 #include <iostream>
@@ -8,7 +9,7 @@
 #include <filesystem>
 #include <unordered_map>
 
-class Scene {
+class Scene : public ILayer {
 public:
     Scene();
 
@@ -24,6 +25,14 @@ public:
 
     const std::vector<Entity>& entities() const;
     const std::unordered_map<int, int>& parents() const;
+
+    void onAttach() override;
+    void onDetach() override;
+
+    void onDraw(Renderer& renderer) override;
+    void onUpdate(float deltaTime) override;
+
+    void onEvent(int event) override;
 
 private:
     friend class Serializer;
