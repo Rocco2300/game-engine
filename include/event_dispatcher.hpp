@@ -2,7 +2,7 @@
 
 class IEventDispatcher {
 public:
-    virtual ~IEventDispatcher() = 0;
+    virtual ~IEventDispatcher() = default;
 
     virtual void dispatchEvent(int event) = 0;
 };
