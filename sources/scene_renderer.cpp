@@ -5,10 +5,10 @@
 #include <GL/gl3w.h>
 
 SceneRenderer::SceneRenderer()
-    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "test") {}
+    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "scene") {}
 
 SceneRenderer::SceneRenderer(const FPSCamera& camera, const Light& light)
-    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "test")
+    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "scene")
     , m_camera{&camera}
     , m_light{&light} {}
 
