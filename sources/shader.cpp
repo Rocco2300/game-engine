@@ -8,9 +8,9 @@
 
 static constexpr char ShaderSourceDirectory[] = "C:\\Users\\grigo\\Repos\\game-engine\\shaders";
 
-Shader::Shader(Shader::Type type, const std::string& fileName) {
+Shader::Shader(Shader::Type type, const std::filesystem::path& path) {
     auto intType = getShaderType(type);
-    auto source  = loadShaderSource(fileName);
+    auto source  = loadShaderSource(path);
 
     compileShader(intType, source);
 }
@@ -19,10 +19,7 @@ Shader::~Shader() {
     glDeleteShader(m_id);
 }
 
-std::string Shader::loadShaderSource(const std::string& fileName) {
-    auto path = std::string(ShaderSourceDirectory);
-    path += "\\" + fileName;
-
+std::string Shader::loadShaderSource(const std::filesystem::path& path) {
     std::ifstream in(path);
     if (!in.is_open()) {
         std::cerr << "Cannot open file " << path << '\n';
@@ -35,9 +32,9 @@ std::string Shader::loadShaderSource(const std::string& fileName) {
     return fileData.str();
 }
 
-void Shader::compileShader(int32_t type, const std::string& source) {
+void Shader::compileShader(int32_t type, std::string_view source) {
     m_id                   = glCreateShader(type);
-    const char* sourceCStr = source.c_str();
+    const char* sourceCStr = source.data();
     glShaderSource(m_id, 1, &sourceCStr, nullptr);
     glCompileShader(m_id);
 

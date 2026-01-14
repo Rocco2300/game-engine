@@ -45,8 +45,8 @@ int main(int argc, char** argv) {
 
     Input::init(window);
 
-    Shader vertexShader(Shader::Type::Vertex, "test.vert");
-    Shader fragmentShader(Shader::Type::Fragment, "test.frag");
+    Shader vertexShader(Shader::Type::Vertex, "C:/Users/grigo/repos/game-engine/shaders/test.vert");
+    Shader fragmentShader(Shader::Type::Fragment, "C:/Users/grigo/repos/game-engine/shaders/test.frag");
     Program program;
     program.attachShader(vertexShader);
     program.attachShader(fragmentShader);

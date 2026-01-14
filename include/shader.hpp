@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
-
-
+#include <cstdint>
+#include <filesystem>
 
 class Shader {
 public:
@@ -15,14 +14,14 @@ public:
     };
 
     Shader() = default;
-    Shader(Type type, const std::string& fileName);
+    Shader(Type type, const std::filesystem::path& path);
     ~Shader();
 
 private:
     friend class Program;
 
-    std::string loadShaderSource(const std::string& fileName);
-    void compileShader(int32_t type, const std::string& source);
+    std::string loadShaderSource(const std::filesystem::path& path);
+    void compileShader(int32_t type, std::string_view source);
 
     int32_t getShaderType(Type type);
 
