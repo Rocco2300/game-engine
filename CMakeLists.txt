@@ -50,7 +50,7 @@ add_executable(
         sources/fps_camera.cpp
         sources/texture.cpp
         sources/material.cpp
-        sources/renderer.cpp
+        sources/scene_renderer.cpp
         sources/asset_manager.cpp
         sources/light.cpp
         sources/entity.cpp

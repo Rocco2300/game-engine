@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-#include "renderer.hpp"
+#include "scene_renderer.hpp"
 
 Scene::Scene() {
     for (int i = 0; i <= 256; i++) {
@@ -18,7 +18,17 @@ Entity* Scene::getEntity(int id) {
     return nullptr;
 }
 
-int Scene::getParent(int id){
+const Entity* Scene::getEntity(int id) const {
+    for (auto& entity : m_entities) {
+        if (entity.id == id) {
+            return &entity;
+        }
+    }
+
+    return nullptr;
+}
+
+int Scene::getParent(int id) const {
     if (!m_parent.count(id) || m_parent.at(id) == -1) {
         return -1;
     }
@@ -71,7 +81,7 @@ void Scene::onDetach() {
 
 }
 
-void Scene::onDraw(Renderer& renderer) {
+void Scene::onDraw(SceneRenderer& renderer) {
     renderer.draw(*this);
 }
 

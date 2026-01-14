@@ -1,27 +1,30 @@
 #pragma once
 
-#include "model.hpp"
-#include "light.hpp"
-#include "scene.hpp"
-#include "entity.hpp"
 #include "program.hpp"
-#include "fps_camera.hpp"
 
-class Renderer {
+template <typename T>
+class IRenderer {
 public:
-    Renderer() = default;
-    Renderer(const Program& program, const FPSCamera& camera, const Light& light);
+    IRenderer() = delete;
+    IRenderer(const std::filesystem::path& path, const std::string& name) {
+        auto vertexName = name + ".vert";
+        auto vertexPath = path / vertexName;
 
-    void draw(const Mesh& mesh);
-    void draw(const Model& model);
-    void draw(Scene& scene);
-    void draw(const Entity& entity);
+        auto fragmentName = name + ".frag";
+        auto fragmentPath = path / fragmentName;
 
-private:
-    void drawMeshImpl(const Mesh& mesh);
-    void drawModelImpl(const Model& model, glm::mat4 transform);
+        Shader vertexShader(Shader::Type::Vertex, vertexPath);
+        Shader fragmentShader(Shader::Type::Fragment, fragmentPath);
 
-    Light const* m_light;
-    Program const* m_program;
-    FPSCamera const* m_camera;
+        m_program.attachShader(vertexShader);
+        m_program.attachShader(fragmentShader);
+        m_program.link();
+    }
+
+    virtual ~IRenderer() = default;
+
+    virtual void draw(const T& drawable) = 0;
+
+protected:
+    Program m_program;
 };

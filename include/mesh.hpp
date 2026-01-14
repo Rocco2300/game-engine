@@ -17,7 +17,7 @@ struct Vertex {
 
 class Mesh {
 private:
-    friend class Renderer;
+    friend class SceneRenderer;
     friend class AssetStore<Mesh>;
 
     Mesh() = default;

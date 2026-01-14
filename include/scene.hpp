@@ -13,12 +13,12 @@ class Scene : public ILayer {
 public:
     Scene();
 
-    int getParent(int id);
-    int addEntity(int parentId = -1);
-
-    void setParent(int entity, int parent);
-
+    int getParent(int id) const;
     Entity* getEntity(int id);
+    const Entity* getEntity(int id) const;
+
+    int addEntity(int parentId = -1);
+    void setParent(int entity, int parent);
 
     void setEntities(const std::vector<Entity>& entities);
     void setParents(const std::unordered_map<int, int>& parents);
@@ -29,7 +29,7 @@ public:
     void onAttach() override;
     void onDetach() override;
 
-    void onDraw(Renderer& renderer) override;
+    void onDraw(SceneRenderer& renderer) override;
     void onUpdate(float deltaTime) override;
 
     void onEvent(int event) override;

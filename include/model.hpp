@@ -24,6 +24,6 @@ private:
     int processMesh(const aiMesh* mesh, const aiScene* scene);
     void processNode(const aiNode* node, const aiScene* scene);
 
-    friend class Renderer;
+    friend class SceneRenderer;
     friend class AssetStore<Model>;
 };

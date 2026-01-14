@@ -9,10 +9,10 @@
 #include "scene.hpp"
 #include "light.hpp"
 #include "program.hpp"
-#include "renderer.hpp"
 #include "serializer.hpp"
 #include "layer_stack.hpp"
 #include "asset_manager.hpp"
+#include "scene_renderer.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -44,13 +44,6 @@ int main(int argc, char** argv) {
     glCullFace(GL_BACK);
 
     Input::init(window);
-
-    Shader vertexShader(Shader::Type::Vertex, "C:/Users/grigo/repos/game-engine/shaders/test.vert");
-    Shader fragmentShader(Shader::Type::Fragment, "C:/Users/grigo/repos/game-engine/shaders/test.frag");
-    Program program;
-    program.attachShader(vertexShader);
-    program.attachShader(fragmentShader);
-    program.link();
 
     AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
     Serializer::setPath("C:/Users/grigo/Repos/game-engine");
@@ -89,7 +82,7 @@ int main(int argc, char** argv) {
     auto direction = glm::vec3(-1);
     Light light(Light::Type::Directional, glm::normalize(direction), glm::normalize(direction));
 
-    Renderer renderer(program, camera, light);
+    SceneRenderer renderer(camera, light);
 
     float deltaTime{};
     float previousFrame{};
