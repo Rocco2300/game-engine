@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         auto* entity = scene.getEntity(entityId);
         entity->modelId = id;
 
-        AssetManager::loadTexture("pumpkin.jpg", Texture::Type::Diffuse);
+        AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);
     }
 

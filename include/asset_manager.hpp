@@ -2,10 +2,10 @@
 
 #include "asset_store.hpp"
 
+#include "material.hpp"
+#include "material_texture.hpp"
 #include "mesh.hpp"
 #include "model.hpp"
-#include "texture.hpp"
-#include "material.hpp"
 #include "serializer.hpp"
 
 #include <tuple>
@@ -20,7 +20,7 @@ public:
 
     static Mesh* getMesh(int id);
     static Model* getModel(int id);
-    static Texture* getTexture(int id);
+    static MaterialTexture* getTexture(int id);
     static Material* getMaterial(int id);
 
     template <typename ...Args>
@@ -38,8 +38,8 @@ public:
     }
 
     template <typename ...Args>
-    static int loadTexture(const std::string& name, Args... args) {
-        if (!m_textures.get(name)) {
+    static int loadMaterialTexture(const std::string& name, Args... args) {
+        if (!m_materialTextures.get(name)) {
             constexpr int argsNo = sizeof...(args);
             auto argsTuple = std::tie(args...);
 
@@ -47,13 +47,13 @@ public:
             if (argsNo > 0) {
                 auto textureType = std::get<0>(argsTuple);
                 switch (textureType) {
-                case Texture::Type::Diffuse:
+                case MaterialTexture::Type::Diffuse:
                     textureTypeStr = "diffuse";
                     break;
-                case Texture::Type::Normal:
+                case MaterialTexture::Type::Normal:
                     textureTypeStr = "normal";
                     break;
-                case Texture::Type::Specular:
+                case MaterialTexture::Type::Specular:
                     textureTypeStr = "specular";
                     break;
                 }
@@ -62,13 +62,13 @@ public:
             Serializer::serializeAssetName("texture", name, textureTypeStr);
         }
 
-        auto id = m_textures.load(name, args...);
+        auto id = m_materialTextures.load(name, args...);
         return id;
     }
 
     template <typename ...Args>
-    static int emplaceTexture(const std::string& name, Args... args) {
-        return m_textures.emplace(name, args...);
+    static int emplaceMaterialTexture(const std::string& name, Args... args) {
+        return m_materialTextures.emplace(name, args...);
     }
 
     template <typename ...Args>
@@ -81,6 +81,6 @@ private:
 
     static AssetStore<Mesh> m_meshes;
     static AssetStore<Model> m_models;
-    static AssetStore<Texture> m_textures;
+    static AssetStore<MaterialTexture> m_materialTextures;
     static AssetStore<Material> m_materials;
 };

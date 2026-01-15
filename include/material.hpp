@@ -1,7 +1,7 @@
 #pragma once
 
-#include "texture.hpp"
 #include "asset_store.hpp"
+#include "material_texture.hpp"
 
 #include <assimp/material.h>
 
@@ -16,13 +16,13 @@ public:
     void setSpecularStrength(float strength);
 
     void loadNormalTexture(const std::string& path = "");
-    void loadNormalTexture(const uint8_t* data, int width, int height, int channelNumber);
+    void loadNormalTexture(uint8_t* data, int width, int height, int channelNumber);
 
     void loadDiffuseTexture(const std::string& path = "");
-    void loadDiffuseTexture(const uint8_t* data, int width, int height, int channelNumber);
+    void loadDiffuseTexture(uint8_t* data, int width, int height, int channelNumber);
 
     void loadSpecularTexture(const std::string& path = "");
-    void loadSpecularTexture(const uint8_t* data, int width, int height, int channelNumber);
+    void loadSpecularTexture(uint8_t* data, int width, int height, int channelNumber);
 
 private:
     friend class Program;

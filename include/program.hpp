@@ -6,7 +6,7 @@
 
 #include <glm/mat4x4.hpp>
 
-class Texture;
+class MaterialTexture;
 class Material;
 
 class Program {
@@ -27,7 +27,7 @@ public:
 
     void setUniformLight(const Light& light) const;
     void setUniformCamera(const FPSCamera& camera) const;
-    void setUniformTexture(const std::string& name, const Texture& texture) const;
+    void setUniformTexture(const std::string& name, const MaterialTexture& texture) const;
     void setUniformMaterial(const Material& material) const;
 
 private:

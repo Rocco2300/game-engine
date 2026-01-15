@@ -97,17 +97,17 @@ void Serializer::deserializeAssets() {
             std::cout << "Loading serialized model " << name << '\n';
         } else if (type == "texture") {
             auto textureTypeStr = assetPair[2].get<std::string>();
-            Texture::Type textureType;
+            MaterialTexture::Type textureType;
             if (textureTypeStr == "normal") {
-                textureType = Texture::Type::Normal;
+                textureType = MaterialTexture::Type::Normal;
             } else if (textureTypeStr == "specular") {
-                textureType = Texture::Type::Specular;
+                textureType = MaterialTexture::Type::Specular;
             } else {
-                textureType = Texture::Type::Diffuse;
+                textureType = MaterialTexture::Type::Diffuse;
             }
 
             std::cout << "Loading serialized " << textureTypeStr << " texture " << name << "\n";
-            AssetManager::loadTexture(name, textureType);
+            AssetManager::loadMaterialTexture(name, textureType);
         }
     }
 }

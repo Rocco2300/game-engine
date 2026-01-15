@@ -31,6 +31,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(json)
 
 FetchContent_Declare(
+        freetype
+        GIT_REPOSITORY https://github.com/freetype/freetype.git
+        GIT_TAG VER-2-14-1
+)
+FetchContent_MakeAvailable(freetype)
+
+FetchContent_Declare(
         assimp
         GIT_REPOSITORY https://github.com/assimp/assimp.git
         GIT_TAG v6.0.2
@@ -49,6 +56,7 @@ add_executable(
         sources/input.cpp
         sources/fps_camera.cpp
         sources/texture.cpp
+        sources/material_texture.cpp
         sources/material.cpp
         sources/scene_renderer.cpp
         sources/asset_manager.cpp
@@ -61,4 +69,4 @@ add_executable(
 
 target_include_directories(game_engine PUBLIC include)
 
-target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp nlohmann_json::nlohmann_json)
+target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp nlohmann_json::nlohmann_json freetype)

@@ -1,8 +1,8 @@
 #include "program.hpp"
 
-#include "texture.hpp"
-#include "material.hpp"
 #include "asset_manager.hpp"
+#include "material.hpp"
+#include "material_texture.hpp"
 
 #include <GL/gl3w.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -74,7 +74,7 @@ void Program::setUniformCamera(const FPSCamera& camera) const {
     setUniformMat4("projection", camera.projection());
 }
 
-void Program::setUniformTexture(const std::string& name, const Texture& texture) const {
+void Program::setUniformTexture(const std::string& name, const MaterialTexture& texture) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniform1i(m_id, location, texture.getBindUnit());
 }
