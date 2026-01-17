@@ -57,6 +57,11 @@ void Program::setUniformVec3(const std::string& name, const glm::vec3& value) co
     glProgramUniform3fv(m_id, location, 1, glm::value_ptr(value));
 }
 
+void Program::setUniformVec4(const std::string& name, const glm::vec4& value) const {
+    auto location = glGetUniformLocation(m_id, name.c_str());
+    glProgramUniform4fv(m_id, location, 1, glm::value_ptr(value));
+}
+
 void Program::setUniformMat4(const std::string& name, const glm::mat4& value) const {
     auto location = glGetUniformLocation(m_id, name.c_str());
     glProgramUniformMatrix4fv(m_id, location, 1, GL_FALSE, glm::value_ptr(value));

@@ -4,11 +4,13 @@
 #include <fstream>
 #include <iostream>
 
-#include "fps_camera.hpp"
+#include "text.hpp"
 #include "input.hpp"
 #include "scene.hpp"
 #include "light.hpp"
+#include "canvas.hpp"
 #include "program.hpp"
+#include "fps_camera.hpp"
 #include "serializer.hpp"
 #include "layer_stack.hpp"
 #include "gui_renderer.hpp"
@@ -75,16 +77,26 @@ int main(int argc, char** argv) {
         Serializer::serializeScene(scene);
     }
 
-    LayerStack layerStack;
-    layerStack.push(scene);
+    Canvas canvas;
+    auto* root = canvas.root();
+
+    Text* text = new Text();
+    text->position = {10, 20};
+    text->color = {1, 1, 1, 1};
+    text->text = "This is text";
+    root->children.push_back(text);
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
     auto direction = glm::vec3(-1);
     Light light(Light::Type::Directional, glm::normalize(direction), glm::normalize(direction));
 
+    GUIRenderer guiRenderer;
     SceneRenderer renderer(camera, light);
-    //GUIRenderer guiRenderer;
+
+    LayerStack layerStack;
+    layerStack.push(scene, renderer);
+    layerStack.push(canvas, guiRenderer);
 
     float deltaTime{};
     float previousFrame{};
@@ -106,7 +118,7 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //renderer.draw(scene);
-        layerStack.onDraw(renderer);
+        layerStack.onDraw();
 
         //guiRenderer.draw("this is a test");
 

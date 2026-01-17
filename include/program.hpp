@@ -23,6 +23,7 @@ public:
     void setUniformFloat(const std::string& name, float value) const;
 
     void setUniformVec3(const std::string& name, const glm::vec3& value) const;
+    void setUniformVec4(const std::string& name, const glm::vec4& value) const;
     void setUniformMat4(const std::string& name, const glm::mat4& value) const;
 
     void setUniformLight(const Light& light) const;

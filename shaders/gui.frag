@@ -2,12 +2,17 @@
 
 in vec2 TexCoords;
 
-out vec4 color;
+out vec4 FragColor;
 
-uniform sampler2D text;
-uniform vec3 textColor;
+uniform vec4 color;
+uniform sampler2D glyph;
+uniform bool isCharacter;
 
 void main() {
-    vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, TexCoords).r);
-    color = vec4(textColor, 1.0) * sampled;
+    if (isCharacter) {
+        vec4 sampled = vec4(1.0, 1.0, 1.0, texture(glyph, TexCoords).r);
+        FragColor = color * sampled;
+    } else {
+        FragColor = color;
+    }
 }

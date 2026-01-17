@@ -5,6 +5,10 @@
 #include "texture.hpp"
 #include "renderer.hpp"
 
+class Text;
+class Frame;
+class Widget;
+
 class GUIRenderer : public IRenderer {
 public:
     GUIRenderer();
@@ -24,4 +28,8 @@ private:
 
     glm::mat4 m_projection{};
     std::unordered_map<char, Character> m_characters;
+
+    void drawImpl(const Text& text) const;
+    void drawImpl(const Frame& frame) const;
+    void drawImpl(const Widget& widget) const;
 };

@@ -1,5 +1,9 @@
 #include "gui_renderer.hpp"
 
+#include "text.hpp"
+#include "frame.hpp"
+#include "widget.hpp"
+#include "canvas.hpp"
 #include "texture.hpp"
 
 #include <GL/gl3w.h>
@@ -72,19 +76,31 @@ GUIRenderer::GUIRenderer()
 }
 
 void GUIRenderer::draw(const IDrawable& drawable) const {
+    const auto& canvas = dynamic_cast<const Canvas&>(drawable);
+
     //glEnable(GL_CULL_FACE);
-    /*
     glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    float x = 10;
-    float y = 20;
     m_program.use();
 
-    m_program.setUniformVec3("textColor", {1.0, 1.0, 1.0});
     glBindVertexArray(m_vao);
 
-    for (char c : drawable) {
+    drawImpl(*canvas.m_root);
+
+    glBindVertexArray(0);
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+}
+
+void GUIRenderer::drawImpl(const Text& text) const {
+    m_program.setUniformVec4("color", text.color);
+    m_program.setUniformBool("isCharacter", true);
+
+    float x = text.position.x;
+    float y = text.position.y;
+    for (char c : text.text) {
         auto ch = m_characters.at(c);
 
         float xpos = x + ch.bearing.x;
@@ -113,8 +129,52 @@ void GUIRenderer::draw(const IDrawable& drawable) const {
 
         x += (ch.advance >> 6);
     }
+}
 
-    glBindVertexArray(0);
-    glDisable(GL_BLEND);
-     */
+void GUIRenderer::drawImpl(const Frame& frame) const {
+    m_program.setUniformVec4("color", frame.color);
+    m_program.setUniformBool("isCharacter", false);
+
+    float xpos = frame.position.x;
+    float ypos = frame.position.y;
+
+    float w = frame.size.x;
+    float h = frame.size.y;
+
+    float vertices[6][4] = {
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos, ypos, 0.0f, 1.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+            {xpos + w, ypos + h, 1.0f, 0.0f}
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void GUIRenderer::drawImpl(const Widget& widget) const {
+    auto type = widget.type();
+    switch (type) {
+        using enum WidgetType;
+    case Frame:
+        drawImpl(dynamic_cast<const class Frame&>(widget));
+        break;
+    case Text:
+        drawImpl(dynamic_cast<const class Text&>(widget));
+        break;
+    case Label:
+        break;
+    case Button:
+        break;
+    }
+
+    for (const auto& child : widget.children) {
+        drawImpl(*child);
+    }
 }
