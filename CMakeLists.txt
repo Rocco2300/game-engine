@@ -58,6 +58,7 @@ add_executable(
         sources/texture.cpp
         sources/material_texture.cpp
         sources/material.cpp
+        sources/gui_renderer.cpp
         sources/scene_renderer.cpp
         sources/asset_manager.cpp
         sources/light.cpp

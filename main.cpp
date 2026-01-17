@@ -11,6 +11,7 @@
 #include "program.hpp"
 #include "serializer.hpp"
 #include "layer_stack.hpp"
+#include "gui_renderer.hpp"
 #include "asset_manager.hpp"
 #include "scene_renderer.hpp"
 
@@ -83,6 +84,7 @@ int main(int argc, char** argv) {
     Light light(Light::Type::Directional, glm::normalize(direction), glm::normalize(direction));
 
     SceneRenderer renderer(camera, light);
+    GUIRenderer guiRenderer;
 
     float deltaTime{};
     float previousFrame{};
@@ -105,6 +107,8 @@ int main(int argc, char** argv) {
 
         //renderer.draw(scene);
         layerStack.onDraw(renderer);
+
+        guiRenderer.draw("this is a test");
 
         glfwSwapBuffers(window);
     }
