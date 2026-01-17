@@ -5,10 +5,10 @@
 #include <GL/gl3w.h>
 
 SceneRenderer::SceneRenderer()
-    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "scene") {}
+    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "scene") {}
 
 SceneRenderer::SceneRenderer(const FPSCamera& camera, const Light& light)
-    : IRenderer<Scene>("C:/Users/grigo/Repos/game-engine/shaders", "scene")
+    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "scene")
     , m_camera{&camera}
     , m_light{&light} {}
 
@@ -22,7 +22,10 @@ static glm::mat4 getTransform(const Scene& scene, int id) {
     return transform * scene.getEntity(id)->transform();
 }
 
-void SceneRenderer::draw(const Scene& scene) {
+void SceneRenderer::draw(const IDrawable& drawable) const {
+    // TODO: this might throw, in general shouldn't if everything is correctly set up
+    const auto& scene = dynamic_cast<const Scene&>(drawable);
+
     m_program.use();
 
     m_program.setUniformLight(*m_light);
@@ -40,13 +43,13 @@ void SceneRenderer::draw(const Scene& scene) {
     }
 }
 
-void SceneRenderer::drawMeshImpl(const Mesh& mesh) {
+void SceneRenderer::drawMeshImpl(const Mesh& mesh) const {
     glBindVertexArray(mesh.m_vao);
     glDrawElements(GL_TRIANGLES, mesh.m_indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
 
-void SceneRenderer::drawModelImpl(const Model& model) {
+void SceneRenderer::drawModelImpl(const Model& model) const {
     for (int i = 0; i < model.m_meshes.size(); i++) {
         auto materialId   = model.m_materials[i];
         auto materialData = AssetManager::getMaterial(materialId);

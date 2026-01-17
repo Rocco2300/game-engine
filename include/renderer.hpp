@@ -1,8 +1,8 @@
 #pragma once
 
 #include "program.hpp"
+#include "drawable.hpp"
 
-template <typename T>
 class IRenderer {
 public:
     IRenderer() = delete;
@@ -23,7 +23,7 @@ public:
 
     virtual ~IRenderer() = default;
 
-    virtual void draw(const T& drawable) = 0;
+    virtual void draw(const IDrawable& drawable) const = 0;
 
 protected:
     Program m_program;

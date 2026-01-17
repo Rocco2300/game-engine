@@ -12,7 +12,7 @@ void LayerStack::pop() {
     m_layers.pop_back();
 }
 
-void LayerStack::onDraw(SceneRenderer& renderer) {
+void LayerStack::onDraw(const IRenderer& renderer) const {
     for (auto it = m_layers.begin(); it != m_layers.end(); it++) {
         auto& layer = *it;
         layer->onDraw(renderer);

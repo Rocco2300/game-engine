@@ -12,7 +12,7 @@ public:
     void push(ILayer& layer);
     void pop();
 
-    void onDraw(SceneRenderer& renderer);
+    void onDraw(const IRenderer& renderer) const;
     void onUpdate(float deltaTime);
 
     void dispatchEvent(int event) override;

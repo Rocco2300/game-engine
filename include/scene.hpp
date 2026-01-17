@@ -29,7 +29,7 @@ public:
     void onAttach() override;
     void onDetach() override;
 
-    void onDraw(SceneRenderer& renderer) override;
+    void onDraw(const IRenderer& renderer) const override;
     void onUpdate(float deltaTime) override;
 
     void onEvent(int event) override;

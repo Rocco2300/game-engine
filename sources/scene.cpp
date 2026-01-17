@@ -81,7 +81,7 @@ void Scene::onDetach() {
 
 }
 
-void Scene::onDraw(SceneRenderer& renderer) {
+void Scene::onDraw(const IRenderer& renderer) const {
     renderer.draw(*this);
 }
 

@@ -10,7 +10,7 @@
 #include <iostream>
 
 GUIRenderer::GUIRenderer()
-    : IRenderer<std::string>("C:/Users/grigo/Repos/game-engine/shaders", "gui") {
+    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "gui") {
 
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {
@@ -71,8 +71,9 @@ GUIRenderer::GUIRenderer()
     m_program.setUniformMat4("projection", m_projection);
 }
 
-void GUIRenderer::draw(const std::string& drawable) {
+void GUIRenderer::draw(const IDrawable& drawable) const {
     //glEnable(GL_CULL_FACE);
+    /*
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -83,7 +84,7 @@ void GUIRenderer::draw(const std::string& drawable) {
     m_program.setUniformVec3("textColor", {1.0, 1.0, 1.0});
     glBindVertexArray(m_vao);
 
-    for (char c: drawable) {
+    for (char c : drawable) {
         auto ch = m_characters.at(c);
 
         float xpos = x + ch.bearing.x;
@@ -115,4 +116,5 @@ void GUIRenderer::draw(const std::string& drawable) {
 
     glBindVertexArray(0);
     glDisable(GL_BLEND);
+     */
 }

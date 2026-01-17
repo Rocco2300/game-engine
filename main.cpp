@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
     Light light(Light::Type::Directional, glm::normalize(direction), glm::normalize(direction));
 
     SceneRenderer renderer(camera, light);
-    GUIRenderer guiRenderer;
+    //GUIRenderer guiRenderer;
 
     float deltaTime{};
     float previousFrame{};
@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
         //renderer.draw(scene);
         layerStack.onDraw(renderer);
 
-        guiRenderer.draw("this is a test");
+        //guiRenderer.draw("this is a test");
 
         glfwSwapBuffers(window);
     }

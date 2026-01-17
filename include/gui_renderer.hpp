@@ -5,11 +5,11 @@
 #include "texture.hpp"
 #include "renderer.hpp"
 
-class GUIRenderer : public IRenderer<std::string> {
+class GUIRenderer : public IRenderer {
 public:
     GUIRenderer();
 
-    void draw(const std::string& drawable) override;
+    void draw(const IDrawable& drawable) const override;
 
 private:
     struct Character {
