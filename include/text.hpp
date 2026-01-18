@@ -8,5 +8,5 @@ struct Text : public Widget {
     }
 
     glm::vec4 color;
-    std::string text;
+    std::string content;
 };

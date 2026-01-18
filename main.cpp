@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "text.hpp"
+#include "label.hpp"
 #include "input.hpp"
 #include "scene.hpp"
 #include "light.hpp"
@@ -80,11 +81,21 @@ int main(int argc, char** argv) {
     Canvas canvas;
     auto* root = canvas.root();
 
+    Label* label = new Label();
+    label->color = {0.2f, 0.05f, 0.6f, 1.0f};
+    label->size = {300, 100};
+    label->position = {10, 20};
+    label->text.color = {1, 1, 1, 1,};
+    label->text.content = "This is a label";
+    label->text.position = {10, 10};
+
     Text* text = new Text();
-    text->position = {10, 20};
+    text->position = {10, 500};
     text->color = {1, 1, 1, 1};
-    text->text = "This is text";
+    text->content = "This is text";
+
     root->children.push_back(text);
+    root->children.push_back(label);
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 

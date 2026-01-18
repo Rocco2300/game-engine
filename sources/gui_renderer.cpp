@@ -2,6 +2,7 @@
 
 #include "text.hpp"
 #include "frame.hpp"
+#include "label.hpp"
 #include "widget.hpp"
 #include "canvas.hpp"
 #include "texture.hpp"
@@ -94,13 +95,13 @@ void GUIRenderer::draw(const IDrawable& drawable) const {
     glEnable(GL_DEPTH_TEST);
 }
 
-void GUIRenderer::drawImpl(const Text& text) const {
+void GUIRenderer::drawImpl(const Text& text, glm::vec2 parentPosition) const {
     m_program.setUniformVec4("color", text.color);
     m_program.setUniformBool("isCharacter", true);
 
-    float x = text.position.x;
-    float y = text.position.y;
-    for (char c : text.text) {
+    float x = parentPosition.x + text.position.x;
+    float y = parentPosition.y + text.position.y;
+    for (char c : text.content) {
         auto ch = m_characters.at(c);
 
         float xpos = x + ch.bearing.x;
@@ -131,12 +132,12 @@ void GUIRenderer::drawImpl(const Text& text) const {
     }
 }
 
-void GUIRenderer::drawImpl(const Frame& frame) const {
+void GUIRenderer::drawImpl(const Frame& frame, glm::vec2 parentPosition) const {
     m_program.setUniformVec4("color", frame.color);
     m_program.setUniformBool("isCharacter", false);
 
-    float xpos = frame.position.x;
-    float ypos = frame.position.y;
+    float xpos = parentPosition.x + frame.position.x;
+    float ypos = parentPosition.y + frame.position.y;
 
     float w = frame.size.x;
     float h = frame.size.y;
@@ -158,23 +159,53 @@ void GUIRenderer::drawImpl(const Frame& frame) const {
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void GUIRenderer::drawImpl(const Widget& widget) const {
+void GUIRenderer::drawImpl(const Label& label, glm::vec2 parentPosition) const {
+    m_program.setUniformVec4("color", label.color);
+    m_program.setUniformBool("isCharacter", false);
+
+    float xpos = parentPosition.x + label.position.x;
+    float ypos = parentPosition.y + label.position.y;
+
+    float w = label.size.x;
+    float h = label.size.y;
+
+    float vertices[6][4] = {
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos, ypos, 0.0f, 1.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+            {xpos + w, ypos + h, 1.0f, 0.0f}
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    drawImpl(label.text, label.position);
+}
+
+void GUIRenderer::drawImpl(const Widget& widget, glm::vec2 parentPosition) const {
     auto type = widget.type();
     switch (type) {
         using enum WidgetType;
     case Frame:
-        drawImpl(dynamic_cast<const class Frame&>(widget));
+        drawImpl(dynamic_cast<const struct Frame&>(widget), parentPosition);
         break;
     case Text:
-        drawImpl(dynamic_cast<const class Text&>(widget));
+        drawImpl(dynamic_cast<const struct Text&>(widget), parentPosition);
         break;
     case Label:
+        drawImpl(dynamic_cast<const struct Label&>(widget), parentPosition);
         break;
     case Button:
         break;
     }
 
     for (const auto& child : widget.children) {
-        drawImpl(*child);
+        drawImpl(*child, widget.position);
     }
 }

@@ -5,9 +5,10 @@
 #include "texture.hpp"
 #include "renderer.hpp"
 
-class Text;
-class Frame;
-class Widget;
+struct Text;
+struct Frame;
+struct Label;
+struct Widget;
 
 class GUIRenderer : public IRenderer {
 public:
@@ -29,7 +30,8 @@ private:
     glm::mat4 m_projection{};
     std::unordered_map<char, Character> m_characters;
 
-    void drawImpl(const Text& text) const;
-    void drawImpl(const Frame& frame) const;
-    void drawImpl(const Widget& widget) const;
+    void drawImpl(const Text& text, glm::vec2 parentPosition = {0, 0}) const;
+    void drawImpl(const Frame& frame, glm::vec2 parentPosition = {0, 0}) const;
+    void drawImpl(const Label& label, glm::vec2 parentPosition = {0, 0}) const;
+    void drawImpl(const Widget& widget, glm::vec2 parentPosition = {0, 0}) const;
 };
