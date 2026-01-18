@@ -19,6 +19,12 @@ public:
 
     virtual WidgetType type() const = 0;
 
+    virtual void onEvent(int event) {
+        for (const auto& child : children) {
+            child->onEvent(event);
+        }
+    }
+
     glm::vec2 size{};
     glm::vec2 position{};
 

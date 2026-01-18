@@ -44,6 +44,6 @@ void Canvas::onUpdate(float deltaTime) {
 }
 
 void Canvas::onEvent(int event) {
-
+    m_root->onEvent(event);
 }
 

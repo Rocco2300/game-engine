@@ -19,6 +19,13 @@ void LayerStack::onDraw() const {
     }
 }
 
+void LayerStack::onEvent(int event) {
+    for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
+        auto& [layer, _] = *it;
+        layer->onEvent(event);
+    }
+}
+
 void LayerStack::onUpdate(float deltaTime) {
     for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
         auto& [layer, _] = *it;

@@ -15,6 +15,7 @@ public:
     void pop();
 
     void onDraw() const;
+    void onEvent(int event);
     void onUpdate(float deltaTime);
 
     void dispatchEvent(int event) override;

@@ -9,6 +9,7 @@
 #include "input.hpp"
 #include "scene.hpp"
 #include "light.hpp"
+#include "button.hpp"
 #include "canvas.hpp"
 #include "program.hpp"
 #include "fps_camera.hpp"
@@ -83,7 +84,7 @@ int main(int argc, char** argv) {
 
     Label* label = new Label();
     label->color = {0.2f, 0.05f, 0.6f, 1.0f};
-    label->size = {300, 100};
+    label->size = {320, 100};
     label->position = {10, 20};
     label->text.color = {1, 1, 1, 1,};
     label->text.content = "This is a label";
@@ -94,8 +95,19 @@ int main(int argc, char** argv) {
     text->color = {1, 1, 1, 1};
     text->content = "This is text";
 
+    Button* button = new Button();
+    button->size = {360, 100};
+    button->position = {10, 120};
+    button->color = {0.5f, 0.08f, 0.15f, 1};
+    button->text.content = "This is a button";
+    button->text.color = {1, 1, 1, 1};
+    button->text.position = {10, 10};
+    button->callback = []() {
+        std::cout << "Pressed the button\n";
+    };
     root->children.push_back(text);
     root->children.push_back(label);
+    root->children.push_back(button);
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 
@@ -116,6 +128,10 @@ int main(int argc, char** argv) {
         glfwPollEvents();
         if (Input::keyPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(window, true);
+        }
+
+        if (Input::keyPressed(GLFW_KEY_M)) {
+            layerStack.onEvent(2);
         }
 
         float currentFrame = glfwGetTime();

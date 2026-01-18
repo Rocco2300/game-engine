@@ -3,6 +3,7 @@
 #include "text.hpp"
 #include "frame.hpp"
 #include "label.hpp"
+#include "button.hpp"
 #include "widget.hpp"
 #include "canvas.hpp"
 #include "texture.hpp"
@@ -188,6 +189,35 @@ void GUIRenderer::drawImpl(const Label& label, glm::vec2 parentPosition) const {
     drawImpl(label.text, label.position);
 }
 
+void GUIRenderer::drawImpl(const Button& button, glm::vec2 parentPosition) const {
+    m_program.setUniformVec4("color", button.color);
+    m_program.setUniformBool("isCharacter", false);
+
+    float xpos = parentPosition.x + button.position.x;
+    float ypos = parentPosition.y + button.position.y;
+
+    float w = button.size.x;
+    float h = button.size.y;
+
+    float vertices[6][4] = {
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos, ypos, 0.0f, 1.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+
+            {xpos, ypos + h, 0.0f, 0.0f},
+            {xpos + w, ypos, 1.0f, 1.0f},
+            {xpos + w, ypos + h, 1.0f, 0.0f}
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    drawImpl(button.text, button.position);
+}
+
 void GUIRenderer::drawImpl(const Widget& widget, glm::vec2 parentPosition) const {
     auto type = widget.type();
     switch (type) {
@@ -202,6 +232,7 @@ void GUIRenderer::drawImpl(const Widget& widget, glm::vec2 parentPosition) const
         drawImpl(dynamic_cast<const struct Label&>(widget), parentPosition);
         break;
     case Button:
+        drawImpl(dynamic_cast<const struct Button&>(widget), parentPosition);
         break;
     }
 

@@ -8,6 +8,7 @@
 struct Text;
 struct Frame;
 struct Label;
+struct Button;
 struct Widget;
 
 class GUIRenderer : public IRenderer {
@@ -33,5 +34,6 @@ private:
     void drawImpl(const Text& text, glm::vec2 parentPosition = {0, 0}) const;
     void drawImpl(const Frame& frame, glm::vec2 parentPosition = {0, 0}) const;
     void drawImpl(const Label& label, glm::vec2 parentPosition = {0, 0}) const;
+    void drawImpl(const Button& button, glm::vec2 parentPosition = {0, 0}) const;
     void drawImpl(const Widget& widget, glm::vec2 parentPosition = {0, 0}) const;
 };
