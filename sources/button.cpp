@@ -15,10 +15,7 @@ void Button::onEvent(const Event& event) {
     if (event.is<Event::MouseMove>()) {
         auto data = event.get<Event::MouseMove>();
 
-        // TODO: this is a patch, the rendering uses the bottom left as origin
-        // while glfw returns the coordinates of the mouse in the inverted coordinates
-        // I should use a global variable for the window height instead of a magic number
-        auto mousePos = glm::vec2{data.xpos, 600.0f - data.ypos};
+        auto mousePos = glm::vec2{data.xpos, data.ypos};
         isHovered     = inBounds(mousePos, position, size);
         color         = (isHovered) ? defaultColor : hoverColor;
     }

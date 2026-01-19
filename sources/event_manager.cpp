@@ -50,6 +50,12 @@ void EventManager::mouseButtonCallback(GLFWwindow* window, int button, int actio
 }
 
 void EventManager::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
+    int width;
+    int height;
+    glfwGetWindowSize(window, &width, &height);
+
+    ypos = height - ypos;
+
     Input::cursorPositionCallback(window, xpos, ypos);
 
     m_events.emplace(Event::MouseMove{static_cast<float>(xpos), static_cast<float>(ypos)});
