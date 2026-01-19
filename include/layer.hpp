@@ -2,6 +2,8 @@
 
 #include "drawable.hpp"
 
+class Event;
+
 class ILayer : public IDrawable {
 public:
     virtual ~ILayer() = default;
@@ -12,5 +14,5 @@ public:
     //virtual void onDraw(const & renderer) = 0;
     virtual void onUpdate(float deltaTime) = 0;
 
-    virtual void onEvent(int event) = 0;
+    virtual void onEvent(const Event& event) = 0;
 };

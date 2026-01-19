@@ -68,6 +68,7 @@ add_executable(
         sources/layer_stack.cpp
         sources/canvas.cpp
         sources/event_manager.cpp
+        sources/button.cpp
 )
 
 set_property(TARGET game_engine PROPERTY COMPILE_WARNING_AS_ERROR ON)

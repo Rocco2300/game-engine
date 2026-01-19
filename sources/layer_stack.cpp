@@ -1,5 +1,6 @@
 #include "layer_stack.hpp"
 
+#include "event.hpp"
 #include "renderer.hpp"
 
 void LayerStack::push(ILayer& layer, IRenderer& renderer) {
@@ -19,7 +20,7 @@ void LayerStack::onDraw() const {
     }
 }
 
-void LayerStack::onEvent(int event) {
+void LayerStack::onEvent(const Event& event) {
     for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
         auto& [layer, _] = *it;
         layer->onEvent(event);
@@ -33,7 +34,7 @@ void LayerStack::onUpdate(float deltaTime) {
     }
 }
 
-void LayerStack::dispatchEvent(int event) {
+void LayerStack::dispatchEvent(const Event& event) {
     for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
         auto& [layer, _] = *it;
         layer->onEvent(event);

@@ -43,7 +43,7 @@ void Canvas::onUpdate(float deltaTime) {
 
 }
 
-void Canvas::onEvent(int event) {
+void Canvas::onEvent(const Event& event) {
     m_root->onEvent(event);
 }
 

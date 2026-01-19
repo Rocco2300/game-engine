@@ -1,5 +1,7 @@
 #pragma once
 
+#include "event.hpp"
+
 #include <glm/glm.hpp>
 
 #include <memory>
@@ -19,7 +21,7 @@ public:
 
     virtual WidgetType type() const = 0;
 
-    virtual void onEvent(int event) {
+    virtual void onEvent(const Event& event) {
         for (const auto& child : children) {
             child->onEvent(event);
         }

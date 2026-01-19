@@ -15,10 +15,10 @@ public:
     void pop();
 
     void onDraw() const;
-    void onEvent(int event);
+    void onEvent(const Event& event);
     void onUpdate(float deltaTime);
 
-    void dispatchEvent(int event) override;
+    void dispatchEvent(const Event& event) override;
 
 private:
     std::vector<std::pair<ILayer*, IRenderer*>> m_layers;

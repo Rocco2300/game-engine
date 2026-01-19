@@ -100,6 +100,8 @@ int main(int argc, char** argv) {
     button->size = {360, 100};
     button->position = {10, 120};
     button->color = {0.5f, 0.08f, 0.15f, 1};
+    button->defaultColor = {0.5f, 0.08f, 0.15f, 1};
+    button->hoverColor = {0.6f, 0.1f, 0.1f, 1};
     button->text.content = "This is a button";
     button->text.color = {1, 1, 1, 1};
     button->text.position = {10, 10};
@@ -128,6 +130,8 @@ int main(int argc, char** argv) {
         Input::update();
 
         while (const auto event = EventManager::pollEvent()) {
+            layerStack.onEvent(event.value());
+
             if (event->is<Event::KeyPress>()) {
                 auto eventData = event->get<Event::KeyPress>();
 
@@ -139,10 +143,6 @@ int main(int argc, char** argv) {
 
         if (Input::keyPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(window, true);
-        }
-
-        if (Input::keyPressed(GLFW_KEY_M)) {
-            layerStack.onEvent(2);
         }
 
         float currentFrame = glfwGetTime();

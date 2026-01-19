@@ -1,5 +1,6 @@
 #include "scene.hpp"
 
+#include "event.hpp"
 #include "scene_renderer.hpp"
 
 Scene::Scene() {
@@ -89,6 +90,6 @@ void Scene::onUpdate(float deltaTime) {
 
 }
 
-void Scene::onEvent(int event) {
+void Scene::onEvent(const Event& event) {
 
 }

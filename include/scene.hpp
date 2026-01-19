@@ -32,7 +32,7 @@ public:
     void onDraw(const IRenderer& renderer) const override;
     void onUpdate(float deltaTime) override;
 
-    void onEvent(int event) override;
+    void onEvent(const Event& event) override;
 
 private:
     friend class Serializer;

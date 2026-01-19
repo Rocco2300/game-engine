@@ -9,17 +9,13 @@ struct Button : public Widget {
         return WidgetType::Button;
     }
 
-    void onEvent(int event) override {
-        if (event == 2) {
-            callback();
-        }
-
-        Widget::onEvent(event);
-    }
+    void onEvent(const Event& event) override;
 
     Text text;
     glm::vec4 color;
     glm::vec4 defaultColor;
     glm::vec4 hoverColor;
     std::function<void()> callback;
+
+    bool isHovered;
 };
