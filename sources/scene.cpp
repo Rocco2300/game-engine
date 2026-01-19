@@ -3,6 +3,8 @@
 #include "event.hpp"
 #include "scene_renderer.hpp"
 
+#include <algorithm>
+
 Scene::Scene() {
     for (int i = 0; i <= 256; i++) {
         m_availableIds.push(i);
@@ -66,6 +68,15 @@ void Scene::setParents(const std::unordered_map<int, int>& parents) {
     m_parent = parents;
 }
 
+void Scene::removeEntity(int id) {
+    m_parent.erase(id);
+    m_availableIds.push(id);
+
+    std::erase_if(m_entities, [&](Entity entity) {
+        return entity.id == id;
+    });
+}
+
 const std::vector<Entity>& Scene::entities() const {
     return m_entities;
 }
@@ -91,5 +102,12 @@ void Scene::onUpdate(float deltaTime) {
 }
 
 void Scene::onEvent(const Event& event) {
+    if (event.is<Event::ButtonPress>()) {
+        auto data = event.get<Event::ButtonPress>();
 
+        if (data.name == "button") {
+            // Remove the monkey, hardcoded
+            removeEntity(1);
+        }
+    }
 }

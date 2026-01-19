@@ -1,10 +1,10 @@
 #pragma once
 
 #include "layer.hpp"
+#include "widget.hpp"
 
 #include <memory>
 
-class Widget;
 class GUIRenderer;
 
 class Canvas : public ILayer {

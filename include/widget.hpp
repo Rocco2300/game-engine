@@ -13,6 +13,7 @@ enum class WidgetType {
     Text,
     Label,
     Button,
+    Canvas
 };
 
 struct Widget {
@@ -25,6 +26,10 @@ public:
         for (const auto& child : children) {
             child->onEvent(event);
         }
+    }
+
+    virtual void insertChild(Widget* widget) {
+        children.push_back(widget);
     }
 
     glm::vec2 size{};

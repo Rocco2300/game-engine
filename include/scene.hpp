@@ -23,6 +23,8 @@ public:
     void setEntities(const std::vector<Entity>& entities);
     void setParents(const std::unordered_map<int, int>& parents);
 
+    void removeEntity(int id);
+
     const std::vector<Entity>& entities() const;
     const std::unordered_map<int, int>& parents() const;
 

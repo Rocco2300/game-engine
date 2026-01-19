@@ -29,6 +29,10 @@ std::optional<Event> EventManager::pollEvent() {
     return event;
 }
 
+void EventManager::postEvent(const Event& event) {
+    m_events.emplace(event);
+}
+
 void EventManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     Input::keyCallback(window, key, scancode, action, mods);
 

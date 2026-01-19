@@ -15,6 +15,8 @@ public:
 
     static std::optional<Event> pollEvent();
 
+    static void postEvent(const Event& event);
+
 private:
     static GLFWwindow* m_window;
     static std::queue<Event> m_events;

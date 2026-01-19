@@ -11,10 +11,14 @@ struct Button : public Widget {
 
     void onEvent(const Event& event) override;
 
+    std::string name;
+
     Text text;
+
     glm::vec4 color;
     glm::vec4 defaultColor;
     glm::vec4 hoverColor;
+
     std::function<void()> callback;
 
     bool isHovered;

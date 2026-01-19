@@ -97,6 +97,7 @@ int main(int argc, char** argv) {
     text->content = "This is text";
 
     Button* button = new Button();
+    button->name = "button";
     button->size = {360, 100};
     button->position = {10, 120};
     button->color = {0.5f, 0.08f, 0.15f, 1};
@@ -108,9 +109,9 @@ int main(int argc, char** argv) {
     button->callback = []() {
         std::cout << "Pressed the button\n";
     };
-    root->children.push_back(text);
-    root->children.push_back(label);
-    root->children.push_back(button);
+    root->insertChild(text);
+    root->insertChild(label);
+    root->insertChild(button);
 
     FPSCamera camera({0, 0, 3}, 60, 4.f / 3.f);
 

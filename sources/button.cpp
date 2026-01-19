@@ -1,5 +1,7 @@
 #include "button.hpp"
 
+#include "event_manager.hpp"
+
 #include <glfw/glfw3.h>
 
 static bool inBounds(glm::vec2 pos, glm::vec2 corner, glm::vec2 size) {
@@ -25,6 +27,7 @@ void Button::onEvent(const Event& event) {
 
         if (data.mouseButton == GLFW_MOUSE_BUTTON_LEFT && isHovered) {
             callback();
+            EventManager::postEvent(Event::ButtonPress{name});
         }
     }
 
