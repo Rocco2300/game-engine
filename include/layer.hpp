@@ -3,12 +3,13 @@
 #include "drawable.hpp"
 
 class Event;
+class IEventDispatcher;
 
 class ILayer : public IDrawable {
 public:
     virtual ~ILayer() = default;
 
-    virtual void onAttach() = 0;
+    virtual void onAttach(const IEventDispatcher& dispatcher) = 0;
     virtual void onDetach() = 0;
 
     //virtual void onDraw(const & renderer) = 0;

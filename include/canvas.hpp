@@ -13,7 +13,7 @@ public:
 
     Widget* root() const;
 
-    void onAttach() override;
+    void onAttach(const IEventDispatcher& dispatcher) override;
     void onDetach() override;
 
     void onDraw(const IRenderer& renderer) const override;
@@ -25,4 +25,5 @@ private:
     friend class GUIRenderer;
 
     Widget* m_root;
+    IEventDispatcher const* m_dispatcher;
 };

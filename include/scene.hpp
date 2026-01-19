@@ -26,7 +26,7 @@ public:
     const std::vector<Entity>& entities() const;
     const std::unordered_map<int, int>& parents() const;
 
-    void onAttach() override;
+    void onAttach(const IEventDispatcher& dispatcher) override;
     void onDetach() override;
 
     void onDraw(const IRenderer& renderer) const override;
@@ -40,6 +40,8 @@ private:
     std::queue<int> m_availableIds;
     std::vector<Entity> m_entities;
     std::unordered_map<int, int> m_parent;
+
+    IEventDispatcher const* m_dispatcher;
 };
 
 namespace nlohmann {

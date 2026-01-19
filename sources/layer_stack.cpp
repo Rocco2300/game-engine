@@ -4,7 +4,7 @@
 #include "renderer.hpp"
 
 void LayerStack::push(ILayer& layer, IRenderer& renderer) {
-    layer.onAttach();
+    layer.onAttach(*this);
     m_layers.push_back({&layer, &renderer});
 }
 

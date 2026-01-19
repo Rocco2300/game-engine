@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <variant>
 
 class Event {
@@ -22,6 +23,10 @@ public:
 
     struct MouseButtonRelease {
         int mouseButton;
+    };
+
+    struct ButtonPress {
+        std::string name;
     };
 
     template <typename T>
@@ -51,5 +56,5 @@ public:
     }
 
 private:
-    std::variant<KeyPress, KeyRelease, MouseMove, MouseButtonPress, MouseButtonRelease> m_data;
+    std::variant<KeyPress, KeyRelease, MouseMove, MouseButtonPress, MouseButtonRelease, ButtonPress> m_data;
 };
