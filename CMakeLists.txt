@@ -47,7 +47,7 @@ FetchContent_MakeAvailable(assimp)
 
 add_executable(
         game_engine
-        main.cpp
+        sources/main.cpp
         sources/shader.cpp
         sources/program.cpp
         sources/mesh.cpp
@@ -69,6 +69,8 @@ add_executable(
         sources/canvas.cpp
         sources/event_manager.cpp
 )
+
+set_property(TARGET game_engine PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
 target_include_directories(game_engine PUBLIC include)
 

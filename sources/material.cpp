@@ -80,7 +80,7 @@ void Material::loadNormalTexture(const std::string& name) {
     m_normalTexture = AssetManager::loadMaterialTexture(name, MaterialTexture::Type::Normal);
 }
 
-void Material::loadNormalTexture(uint8_t* data, int width, int height, int channelNumber) {
+void Material::loadNormalTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber) {
     // TODO: change name
     TextureData textureData {
             .width  = width,
@@ -100,7 +100,7 @@ void Material::loadDiffuseTexture(const std::string& name) {
     m_diffuseTexture = AssetManager::loadMaterialTexture(name, MaterialTexture::Type::Diffuse);
 }
 
-void Material::loadDiffuseTexture(uint8_t* data, int width, int height, int channelNumber) {
+void Material::loadDiffuseTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber) {
     TextureData textureData {
             .width  = width,
             .height = height,
@@ -119,7 +119,7 @@ void Material::loadSpecularTexture(const std::string& name) {
     m_specularTexture = AssetManager::loadMaterialTexture(name, MaterialTexture::Type::Specular);
 }
 
-void Material::loadSpecularTexture(uint8_t* data, int width, int height, int channelNumber) {
+void Material::loadSpecularTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber) {
     TextureData textureData {
             .width  = width,
             .height = height,

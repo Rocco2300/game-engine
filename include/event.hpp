@@ -32,6 +32,7 @@ public:
     template <typename T>
     Event& operator=(const T& eventSubType) {
         m_data = eventSubType;
+        return *this;
     }
 
     template <typename T>

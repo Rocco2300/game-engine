@@ -5,10 +5,10 @@
 #include <unordered_map>
 
 class GLFWwindow;
-
 class Input {
 public:
     Input() = delete;
+    static void init(GLFWwindow* window);
     static void update();
 
     static bool keyHeld(int key);

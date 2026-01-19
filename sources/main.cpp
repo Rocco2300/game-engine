@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
+    Input::init(window);
     EventManager::init(window);
 
     AssetManager::setPath("C:/Users/grigo/Repos/game-engine");

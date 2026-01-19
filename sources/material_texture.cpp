@@ -3,8 +3,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include <GL/gl3w.h>
-
 #include <iostream>
 
 MaterialTexture::MaterialTexture(const std::filesystem::path& path, Type type) {
@@ -22,12 +20,12 @@ MaterialTexture::MaterialTexture(const std::filesystem::path& path, Type type) {
     }
 
     m_type   = type;
-    m_width  = width;
-    m_height = height;
+    m_width  = static_cast<uint32_t>(width);
+    m_height = static_cast<uint32_t>(height);
 
     TextureData textureData{
-            .width  = width,
-            .height = height,
+            .width  = m_width,
+            .height = m_height,
             .data   = data,
             .format = toTextureFormat(channelNumber)
     };

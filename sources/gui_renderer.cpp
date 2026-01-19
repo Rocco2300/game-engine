@@ -1,12 +1,12 @@
 #include "gui_renderer.hpp"
 
-#include "text.hpp"
+#include "button.hpp"
+#include "canvas.hpp"
 #include "frame.hpp"
 #include "label.hpp"
-#include "button.hpp"
-#include "widget.hpp"
-#include "canvas.hpp"
+#include "text.hpp"
 #include "texture.hpp"
+#include "widget.hpp"
 
 #include <GL/gl3w.h>
 #include <ft2build.h>
@@ -52,7 +52,7 @@ GUIRenderer::GUIRenderer()
                 texture,
                 {face->glyph->bitmap.width, face->glyph->bitmap.rows},
                 {face->glyph->bitmap_left, face->glyph->bitmap_top},
-                face->glyph->advance.x
+                static_cast<uint32_t>(face->glyph->advance.x),
         };
 
         m_characters.emplace(c, character);
@@ -102,7 +102,7 @@ void GUIRenderer::drawImpl(const Text& text, glm::vec2 parentPosition) const {
 
     float x = parentPosition.x + text.position.x;
     float y = parentPosition.y + text.position.y;
-    for (char c : text.content) {
+    for (char c: text.content) {
         auto ch = m_characters.at(c);
 
         float xpos = x + ch.bearing.x;
@@ -236,7 +236,7 @@ void GUIRenderer::drawImpl(const Widget& widget, glm::vec2 parentPosition) const
         break;
     }
 
-    for (const auto& child : widget.children) {
+    for (const auto& child: widget.children) {
         drawImpl(*child, widget.position);
     }
 }

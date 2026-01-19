@@ -16,13 +16,13 @@ public:
     void setSpecularStrength(float strength);
 
     void loadNormalTexture(const std::string& path = "");
-    void loadNormalTexture(uint8_t* data, int width, int height, int channelNumber);
+    void loadNormalTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber);
 
     void loadDiffuseTexture(const std::string& path = "");
-    void loadDiffuseTexture(uint8_t* data, int width, int height, int channelNumber);
+    void loadDiffuseTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber);
 
     void loadSpecularTexture(const std::string& path = "");
-    void loadSpecularTexture(uint8_t* data, int width, int height, int channelNumber);
+    void loadSpecularTexture(uint8_t* data, uint32_t width, uint32_t height, int channelNumber);
 
 private:
     friend class Program;
