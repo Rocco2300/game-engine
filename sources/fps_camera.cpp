@@ -63,7 +63,7 @@ void FPSCamera::update(float dt) {
         auto right       = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
         auto cursorDelta = Input::cursorDelta();
 
-        m_camera.rotate(right, -20.f * cursorDelta.y * dt);
+        m_camera.rotate(right, 20.f * cursorDelta.y * dt);
         m_camera.rotate(glm::vec3(0, 1, 0), -20.f * cursorDelta.x * dt);
     }
 }
