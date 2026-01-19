@@ -11,12 +11,12 @@
 #include "light.hpp"
 #include "button.hpp"
 #include "canvas.hpp"
-#include "program.hpp"
 #include "fps_camera.hpp"
 #include "serializer.hpp"
 #include "layer_stack.hpp"
 #include "gui_renderer.hpp"
 #include "asset_manager.hpp"
+#include "event_manager.hpp"
 #include "scene_renderer.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    Input::init(window);
+    EventManager::init(window);
 
     AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
     Serializer::setPath("C:/Users/grigo/Repos/game-engine");
@@ -125,7 +125,17 @@ int main(int argc, char** argv) {
     float previousFrame{};
     while (!glfwWindowShouldClose(window)) {
         Input::update();
-        glfwPollEvents();
+
+        while (const auto event = EventManager::pollEvent()) {
+            if (event->is<Event::KeyPress>()) {
+                auto eventData = event->get<Event::KeyPress>();
+
+                if (eventData.keycode == GLFW_KEY_L) {
+                    std::cout << "We made it mom!\n";
+                }
+            }
+        }
+
         if (Input::keyPressed(GLFW_KEY_ESCAPE)) {
             glfwSetWindowShouldClose(window, true);
         }

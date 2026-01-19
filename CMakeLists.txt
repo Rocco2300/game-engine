@@ -67,6 +67,7 @@ add_executable(
         sources/serializer.cpp
         sources/layer_stack.cpp
         sources/canvas.cpp
+        sources/event_manager.cpp
 )
 
 target_include_directories(game_engine PUBLIC include)

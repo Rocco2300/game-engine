@@ -5,10 +5,10 @@
 #include <unordered_map>
 
 class GLFWwindow;
+
 class Input {
 public:
     Input() = delete;
-    static void init(GLFWwindow* window);
     static void update();
 
     static bool keyHeld(int key);
@@ -25,6 +25,8 @@ public:
     static void bindCursor(bool value);
 
 private:
+    friend class EventManager;
+
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);

@@ -14,14 +14,6 @@ std::unordered_map<int, bool> Input::m_previousKeys;
 std::unordered_map<int, bool> Input::m_currentButtons;
 std::unordered_map<int, bool> Input::m_previousButtons;
 
-void Input::init(GLFWwindow* window) {
-    m_window = window;
-
-    glfwSetKeyCallback(window, keyCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwSetCursorPosCallback(window, cursorPositionCallback);
-}
-
 void Input::update() {
     m_previousKeys    = m_currentKeys;
     m_previousButtons = m_currentButtons;
