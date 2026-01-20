@@ -85,8 +85,7 @@ const std::unordered_map<int, int>& Scene::parents() const {
     return m_parent;
 }
 
-void Scene::onAttach(const IEventDispatcher& dispatcher) {
-    m_dispatcher = &dispatcher;
+void Scene::onAttach() {
 }
 
 void Scene::onDetach() {

@@ -27,8 +27,7 @@ Widget* Canvas::root() const {
     return m_root;
 }
 
-void Canvas::onAttach(const IEventDispatcher& dispatcher) {
-    m_dispatcher = &dispatcher;
+void Canvas::onAttach() {
 }
 
 void Canvas::onDetach() {

@@ -4,7 +4,7 @@
 #include "renderer.hpp"
 
 void LayerStack::push(ILayer& layer, IRenderer& renderer) {
-    layer.onAttach(*this);
+    layer.onAttach();
     m_layers.push_back({&layer, &renderer});
 }
 
@@ -31,12 +31,5 @@ void LayerStack::onUpdate(float deltaTime) {
     for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
         auto& [layer, _] = *it;
         layer->onUpdate(deltaTime);
-    }
-}
-
-void LayerStack::dispatchEvent(const Event& event) {
-    for (auto it = m_layers.rbegin(); it != m_layers.rend(); it++) {
-        auto& [layer, _] = *it;
-        layer->onEvent(event);
     }
 }
