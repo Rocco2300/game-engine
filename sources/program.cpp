@@ -92,5 +92,7 @@ void Program::setUniformMaterial(const Material& material) const {
     setUniformTexture("normalTexture", *normalTexture);
     setUniformTexture("diffuseTexture", *diffuseTexture);
     setUniformTexture("specularTexture", *specularTexture);
+
+    setUniformBool("hasNormalTexture", material.m_hasNormalTexture);
     setUniformFloat("specularStrength", material.m_specularStrength);
 }

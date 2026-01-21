@@ -35,5 +35,6 @@ private:
     int m_diffuseTexture;
     int m_specularTexture;
 
+    bool m_hasNormalTexture{};
     float m_specularStrength{};
 };

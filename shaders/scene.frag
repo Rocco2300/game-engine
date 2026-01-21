@@ -1,6 +1,7 @@
 #version 440 core
 
 in vec2 uv;
+in mat3 TBN;
 in vec3 fragNormal;
 in vec3 fragPosition;
 
@@ -14,6 +15,7 @@ uniform vec3 lightDirection;
 
 uniform float specularStrength;
 
+uniform bool hasNormalTexture;
 uniform sampler2D normalTexture;
 uniform sampler2D diffuseTexture;
 uniform sampler2D specularTexture;
@@ -26,6 +28,17 @@ vec4 getSpecularColor() {
     return texture(specularTexture, uv);
 }
 
+vec3 getNormal() {
+    if (!hasNormalTexture) {
+        return normalize(fragNormal);
+    }
+
+    vec3 normal = texture(normalTexture, uv).rgb;
+    normal = normal * 2.0 - 1.0;
+    normal = normalize(TBN * normal);
+    return normal;
+}
+
 void main()
 {
     const float ambientStrength = 0.1;
@@ -33,11 +46,11 @@ void main()
 
     vec4 color = getDiffuseColor();
 
-    vec3 norm = fragNormal;
+    vec3 norm = getNormal();
     vec3 lightDir = normalize(-lightDirection);
     float diff = max(dot(norm, lightDir), 0.0);
 
-    const vec4 lightColor = vec4(1, 1, 0.1, 1.0);
+    const vec4 lightColor = vec4(1, 1, 0.9, 1.0);
     vec4 diffuse = diff * lightColor;
 
     vec3 viewDir = normalize(viewPosition - fragPosition);

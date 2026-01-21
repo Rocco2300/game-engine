@@ -18,6 +18,8 @@ Material::Material(const aiMaterial* material) {
     aiColor3D color;
     aiString relativePath{};
     if (material->GetTextureCount(aiTextureType_NORMALS)) {
+        m_hasNormalTexture = true;
+
         material->GetTexture(aiTextureType_NORMALS, 0, &relativePath);
         loadNormalTexture(relativePath.C_Str());
     } else {

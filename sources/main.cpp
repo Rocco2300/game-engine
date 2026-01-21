@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     Input::init(window);
     EventManager::init(window);
 
-    AssetManager::setPath("C:/Users/grigo/Repos/game-engine");
+    AssetManager::setPath("C:/Users/grigo/Repos/game-engine/assets");
     Serializer::setPath("C:/Users/grigo/Repos/game-engine");
 
     std::string mode{};
@@ -65,16 +65,22 @@ int main(int argc, char** argv) {
         Serializer::deserializeAssets();
         Serializer::deserializeScene(scene);
     } else {
-        auto id = AssetManager::loadModel("second_monkey.obj");
-        auto model = AssetManager::getModel(id);
-
         auto rootEntityId = scene.addEntity();
         auto* rootEntity  = scene.getEntity(rootEntityId);
         rootEntity->position = glm::vec3(2.f, 0.f, 1.f);
 
         auto entityId = scene.addEntity(rootEntityId);
         auto* entity = scene.getEntity(entityId);
+
+        auto id = AssetManager::loadModel("second_monkey.obj");
         entity->modelId = id;
+
+        auto planeEntityId = scene.addEntity(rootEntityId);
+        entity = scene.getEntity(planeEntityId);
+        id = AssetManager::loadModel("brick_plane.gltf");
+        entity->modelId = id;
+        entity->scale = {5, 5, 5};
+        entity->position = {0, -1, 0};
 
         AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);
