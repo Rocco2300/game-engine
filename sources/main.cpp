@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
     global.projectPath = currentPath / "..";
     global.assetsPath = global.projectPath / "assets";
     global.shadersPath = global.projectPath / "shaders";
-    std::cout << global.assetsPath << std::endl;
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
