@@ -1,5 +1,6 @@
 #include "gui_renderer.hpp"
 
+#include "global.hpp"
 #include "button.hpp"
 #include "canvas.hpp"
 #include "frame.hpp"
@@ -16,7 +17,7 @@
 #include <iostream>
 
 GUIRenderer::GUIRenderer()
-    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "gui") {
+    : IRenderer(global.shadersPath, "gui") {
 
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {

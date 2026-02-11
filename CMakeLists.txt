@@ -47,6 +47,7 @@ FetchContent_MakeAvailable(assimp)
 
 add_executable(
         game_engine
+        sources/global.cpp
         sources/main.cpp
         sources/shader.cpp
         sources/program.cpp

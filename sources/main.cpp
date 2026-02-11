@@ -9,6 +9,7 @@
 #include "input.hpp"
 #include "scene.hpp"
 #include "light.hpp"
+#include "global.hpp"
 #include "button.hpp"
 #include "canvas.hpp"
 #include "fps_camera.hpp"
@@ -25,6 +26,12 @@ const unsigned int ScreenWidth = 800;
 const unsigned int ScreenHeight = 600;
 
 int main(int argc, char** argv) {
+    auto currentPath = std::filesystem::current_path();
+    global.projectPath = currentPath / "..";
+    global.assetsPath = global.projectPath / "assets";
+    global.shadersPath = global.projectPath / "shaders";
+    std::cout << global.assetsPath << std::endl;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -51,8 +58,8 @@ int main(int argc, char** argv) {
     Input::init(window);
     EventManager::init(window);
 
-    AssetManager::setPath("C:/Users/grigo/Repos/game-engine/assets");
-    Serializer::setPath("C:/Users/grigo/Repos/game-engine");
+    AssetManager::setPath(global.assetsPath);
+    Serializer::setPath(global.projectPath);
 
     std::string mode{};
     if (argc > 1) {

@@ -1,14 +1,15 @@
 #include "scene_renderer.hpp"
 
+#include "global.hpp"
 #include "asset_manager.hpp"
 
 #include <GL/gl3w.h>
 
 SceneRenderer::SceneRenderer()
-    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "scene") {}
+    : IRenderer(global.shadersPath, "scene") {}
 
 SceneRenderer::SceneRenderer(const FPSCamera& camera, const Light& light)
-    : IRenderer("C:/Users/grigo/Repos/game-engine/shaders", "scene")
+    : IRenderer(global.shadersPath, "scene")
     , m_camera{&camera}
     , m_light{&light} {}
 

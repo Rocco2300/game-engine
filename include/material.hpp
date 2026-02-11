@@ -5,8 +5,6 @@
 
 #include <assimp/material.h>
 
-#include <glm/vec3.hpp>
-
 #include <filesystem>
 
 class Material {
