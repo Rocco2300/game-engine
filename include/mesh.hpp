@@ -1,8 +1,7 @@
 #pragma once
 
+#include "aabb.hpp"
 #include "asset_store.hpp"
-
-#include <cstdint>
 
 #include <assimp/mesh.h>
 
@@ -18,6 +17,9 @@ struct Vertex {
 };
 
 class Mesh {
+public:
+    AABB aabb() const;
+
 private:
     friend class SceneRenderer;
     friend class AssetStore<Mesh>;
@@ -34,4 +36,6 @@ private:
 
     std::vector<Vertex> m_vertices{};
     std::vector<uint32_t> m_indices{};
+
+    AABB m_aabb{};
 };

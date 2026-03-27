@@ -4,9 +4,7 @@
 #include "layer.hpp"
 
 #include <queue>
-#include <iostream>
 #include <vector>
-#include <filesystem>
 #include <unordered_map>
 
 class Scene : public ILayer {

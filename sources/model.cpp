@@ -7,13 +7,22 @@
 
 #include <iostream>
 
-Model::Model(const std::string& path) {
-    loadModel(path);
+int Model::meshes() const {
+    return m_meshes.size();
 }
+
+int Model::mesh(int index) const {
+    return m_meshes[index];
+}
+
+Model::Model(const std::string& path) { loadModel(path); }
 
 void Model::loadModel(const std::string& path) {
     Assimp::Importer importer;
-    const auto* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+    const auto* scene = importer.ReadFile(
+            path,
+            aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenBoundingBoxes
+    );
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
         std::cerr << "Error loading model file " << path << '\n';
@@ -21,7 +30,7 @@ void Model::loadModel(const std::string& path) {
     }
 
     auto index = path.rfind("/");
-    m_path = path.substr(0, index + 1);
+    m_path     = path.substr(0, index + 1);
 
     processNode(scene->mRootNode, scene);
 }

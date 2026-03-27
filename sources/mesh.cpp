@@ -19,6 +19,10 @@ static glm::vec3 toVec3(aiVector3t<ai_real> aiVec) {
     return ret;
 }
 
+AABB Mesh::aabb() const {
+    return m_aabb;
+}
+
 Mesh::Mesh(const aiMesh* mesh) {
     for (int i = 0; i < mesh->mNumVertices; i++) {
         Vertex vertex;
@@ -44,6 +48,14 @@ Mesh::Mesh(const aiMesh* mesh) {
             m_indices.push_back(face.mIndices[j]);
         }
     }
+
+    auto aabb = mesh->mAABB;
+    auto minBound = aabb.mMin;
+    auto maxBound = aabb.mMax;
+
+    m_aabb.x = maxBound.x - minBound.x;
+    m_aabb.y = maxBound.y - minBound.y;
+    m_aabb.z = maxBound.z - minBound.z;
 
     setupMesh();
 }

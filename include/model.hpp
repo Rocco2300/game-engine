@@ -10,9 +10,13 @@
 #include "asset_store.hpp"
 
 class Model {
+public:
+    int meshes() const;
+    int mesh(int index) const;
+
 private:
     std::string m_path;
-    // TODO: bypass lack of default constructor
+
     std::vector<int> m_meshes;
     std::vector<int> m_materials;
 
