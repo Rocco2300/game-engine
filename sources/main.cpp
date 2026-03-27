@@ -80,8 +80,6 @@ int main(int argc, char** argv) {
 
         auto id = AssetManager::loadModel("second_monkey.obj");
         entity->modelId = id;
-        entity->aabb = generateAABBFromMesh(entity);
-        printAABB(entity);
 
         auto planeEntityId = scene.addEntity(rootEntityId);
         entity = scene.getEntity(planeEntityId);
@@ -89,8 +87,6 @@ int main(int argc, char** argv) {
         entity->modelId = id;
         entity->scale = {5, 5, 5};
         entity->position = {0, -1, 0};
-        entity->aabb = generateAABBFromMesh(entity);
-        printAABB(entity);
 
         AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);

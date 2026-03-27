@@ -11,29 +11,3 @@ glm::mat4 Entity::transform() const {
 
     return translateTransform * rotationTransform * scaleTransform;
 }
-
-AABB generateAABBFromMesh(const Entity* entity) {
-    auto* model = AssetManager::getModel(entity->modelId);
-
-    if (model->meshes() == 0 || model->meshes() > 1) {
-        return {};
-    }
-
-    int meshId = model->mesh(0);
-    auto* mesh = AssetManager::getMesh(meshId);
-
-    return mesh->aabb();
-}
-
-void printAABB(const Entity* entity) {
-    auto* model = AssetManager::getModel(entity->modelId);
-
-    if (model->meshes() == 0 || model->meshes() > 1) {
-        std::cout << "Model doesn't have just one mesh!\n";
-        return;
-    }
-
-    auto* mesh = AssetManager::getMesh(model->mesh(0));
-    auto aabb  = mesh->aabb();
-    std::cout << aabb.x << ' ' << aabb.y << ' ' << aabb.z << '\n';
-}

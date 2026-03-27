@@ -7,14 +7,6 @@
 
 #include <iostream>
 
-int Model::meshes() const {
-    return m_meshes.size();
-}
-
-int Model::mesh(int index) const {
-    return m_meshes[index];
-}
-
 Model::Model(const std::string& path) { loadModel(path); }
 
 void Model::loadModel(const std::string& path) {
@@ -40,6 +32,12 @@ void Model::processNode(const aiNode* node, const aiScene* scene) {
         std::cout << "Loading mesh " << scene->mMeshes[node->mMeshes[i]]->mName.C_Str() << '\n';
         auto* mesh = scene->mMeshes[node->mMeshes[i]];
         m_meshes.push_back(processMesh(mesh, scene));
+    }
+
+    if (m_meshes.size() == 1) {
+        auto id    = m_meshes[0];
+        auto* mesh = AssetManager::getMesh(id);
+        m_aabb = mesh->aabb();
     }
 
     for (int i = 0; i < node->mNumChildren; i++) {
