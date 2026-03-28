@@ -18,10 +18,10 @@ static Frustum buildFrustum(const FPSCamera& camera) {
     // clang-format off
     frustum.nearPlane = { camera.position() + zNear * camera.front(), camera.front() };
     frustum.farPlane = { camera.position() + frontMultFar, -camera.front() };
-    frustum.topPlane = { camera.position(), glm::normalize(glm::cross(frontMultFar - camera.up() * halfVSide, camera.right())) };
-    frustum.bottomPlane = { camera.position(), glm::normalize(glm::cross(camera.right(), frontMultFar + camera.up() * halfVSide)) };
-    frustum.rightPlane = { camera.position(), glm::normalize(glm::cross(frontMultFar + camera.right() * halfHSide, camera.up())) };
-    frustum.leftPlane = { camera.position(), glm::normalize(glm::cross(camera.up(), frontMultFar - camera.right() * halfHSide)) };
+    frustum.topPlane = { camera.position(), glm::cross(frontMultFar - camera.up() * halfVSide, camera.right()) };
+    frustum.bottomPlane = { camera.position(), glm::cross(camera.right(), frontMultFar + camera.up() * halfVSide) };
+    frustum.rightPlane = { camera.position(), glm::cross(frontMultFar + camera.right() * halfHSide, camera.up()) };
+    frustum.leftPlane = { camera.position(), glm::cross(camera.up(), frontMultFar - camera.right() * halfHSide) };
     // clang-format on
 
     return frustum;
