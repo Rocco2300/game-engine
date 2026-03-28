@@ -10,6 +10,9 @@ public:
     float fov() const;
     float aspect() const;
 
+    glm::vec3 up() const;
+    glm::vec3 front() const;
+    glm::vec3 right() const;
     glm::vec3 position() const;
 
     glm::mat4 view() const;

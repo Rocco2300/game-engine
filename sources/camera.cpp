@@ -17,6 +17,12 @@ float Camera::fov() const { return m_fov; }
 
 float Camera::aspect() const { return m_aspect; }
 
+glm::vec3 Camera::up() const { return m_up; }
+
+glm::vec3 Camera::front() const { return m_direction; }
+
+glm::vec3 Camera::right() const { return glm::cross(m_direction, m_up); }
+
 glm::vec3 Camera::position() const { return m_position; }
 
 glm::mat4 Camera::view() const {
