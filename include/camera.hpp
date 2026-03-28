@@ -7,6 +7,9 @@ class Camera {
 public:
     Camera(glm::vec3 position, float fov, float aspect);
 
+    float fov() const;
+    float aspect() const;
+
     glm::vec3 position() const;
 
     glm::mat4 view() const;

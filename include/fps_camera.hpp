@@ -8,6 +8,9 @@ public:
 
     void update(float dt);
 
+    float fov() const;
+    float aspect() const;
+
     glm::vec3 position() const;
 
     glm::mat4 view() const;

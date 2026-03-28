@@ -13,6 +13,10 @@ Camera::Camera(glm::vec3 position, float fov, float aspect) {
     m_direction = glm::vec3(0, 0, -1);
 }
 
+float Camera::fov() const { return m_fov; }
+
+float Camera::aspect() const { return m_aspect; }
+
 glm::vec3 Camera::position() const { return m_position; }
 
 glm::mat4 Camera::view() const {

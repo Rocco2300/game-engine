@@ -68,6 +68,10 @@ void FPSCamera::update(float dt) {
     }
 }
 
+float FPSCamera::fov() const { return m_camera.fov(); }
+
+float FPSCamera::aspect() const { return m_camera.aspect(); }
+
 glm::vec3 FPSCamera::position() const { return m_camera.position(); }
 
 glm::mat4 FPSCamera::view() const { return m_camera.view(); }
