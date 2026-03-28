@@ -11,6 +11,9 @@
 #include "asset_store.hpp"
 
 class Model {
+public:
+    AABB aabb() const;
+
 private:
     std::string m_path;
 

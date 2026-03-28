@@ -16,6 +16,8 @@ struct Entity {
     glm::vec3 position{0.f};
     glm::vec3 rotation{0.f};
 
+    AABB aabb{};
+
     glm::mat4 transform() const;
 };
 
@@ -29,6 +31,7 @@ namespace nlohmann {
                     {"scale", value.scale},
                     {"position", value.position},
                     {"rotation", value.rotation},
+                    {"aabb", value.aabb},
             });
         }
 
@@ -38,6 +41,7 @@ namespace nlohmann {
             j.at("scale").get_to(value.scale);
             j.at("position").get_to(value.position);
             j.at("rotation").get_to(value.rotation);
+            j.at("aabb").get_to(value.aabb);
         }
     };
 }

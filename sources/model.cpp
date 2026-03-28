@@ -7,6 +7,10 @@
 
 #include <iostream>
 
+AABB Model::aabb() const {
+    return m_aabb;
+}
+
 Model::Model(const std::string& path) { loadModel(path); }
 
 void Model::loadModel(const std::string& path) {

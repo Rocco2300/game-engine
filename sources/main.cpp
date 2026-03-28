@@ -79,14 +79,18 @@ int main(int argc, char** argv) {
         auto* entity = scene.getEntity(entityId);
 
         auto id = AssetManager::loadModel("second_monkey.obj");
+        auto* model = AssetManager::getModel(id);
         entity->modelId = id;
+        entity->aabb = model->aabb();
 
         auto planeEntityId = scene.addEntity(rootEntityId);
         entity = scene.getEntity(planeEntityId);
         id = AssetManager::loadModel("brick_plane.gltf");
+        model = AssetManager::getModel(id);
         entity->modelId = id;
         entity->scale = {5, 5, 5};
         entity->position = {0, -1, 0};
+        entity->aabb = model->aabb();
 
         AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);
