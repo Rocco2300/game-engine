@@ -27,5 +27,5 @@ void main()
     TBN = mat3(T, B, N);
 
     fragNormal = normalMatrix * aNorm;
-    fragPosition = aPos;
+    fragPosition = vec3(gl_Position);
 }
