@@ -12,7 +12,7 @@
 
 class Model {
 public:
-    AABB aabb() const;
+    CullingAABB aabb() const;
 
 private:
     std::string m_path;
@@ -20,7 +20,7 @@ private:
     std::vector<int> m_meshes;
     std::vector<int> m_materials;
 
-    AABB m_aabb{};
+    CullingAABB m_aabb{};
 
     Model() = default;
     Model(const std::string& path);

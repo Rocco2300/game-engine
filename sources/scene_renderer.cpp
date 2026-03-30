@@ -31,26 +31,29 @@ static float getSignedDistance(const glm::vec3& point, const Plane& plane) {
     return glm::dot(plane.normal, point - plane.position);
 }
 
-static bool isInFront(const glm::vec3& position, const AABB& aabb, const Plane& plane) {
-    glm::vec3 extents{};
-    extents.x = aabb.x / 2.f;
-    extents.y = aabb.y / 2.f;
-    extents.z = aabb.z / 2.f;
+static bool isInFront(const glm::mat4& transform, const CullingAABB& aabb, const Plane& plane) {
+    auto position = transform * glm::vec4(aabb.center, 1);
 
-    const float r = extents.x * std::abs(plane.normal.x) + extents.y * std::abs(plane.normal.y) +
-                    extents.z * std::abs(plane.normal.z);
+    const float r = aabb.extents.x * std::abs(plane.normal.x) +
+                    aabb.extents.y * std::abs(plane.normal.y) +
+                    aabb.extents.z * std::abs(plane.normal.z);
+
     const float signedDistance = getSignedDistance(position, plane);
 
     return -r <= signedDistance;
 }
 
-static bool isInFrustum(const glm::vec3& position, const AABB& aabb, const Frustum& frustum) {
-    return isInFront(position, aabb, frustum.topPlane) &&
-           isInFront(position, aabb, frustum.bottomPlane) &&
-           isInFront(position, aabb, frustum.leftPlane) &&
-           isInFront(position, aabb, frustum.rightPlane) &&
-           isInFront(position, aabb, frustum.farPlane) &&
-           isInFront(position, aabb, frustum.nearPlane);
+static bool isInFrustum(
+        const glm::mat4& transform,
+        const CullingAABB& aabb,
+        const Frustum& frustum
+) {
+    return isInFront(transform, aabb, frustum.nearPlane) &&
+           isInFront(transform, aabb, frustum.farPlane) &&
+           isInFront(transform, aabb, frustum.topPlane) &&
+           isInFront(transform, aabb, frustum.bottomPlane) &&
+           isInFront(transform, aabb, frustum.leftPlane) &&
+           isInFront(transform, aabb, frustum.rightPlane);
 }
 
 SceneRenderer::SceneRenderer()
@@ -91,12 +94,8 @@ void SceneRenderer::draw(const IDrawable& drawable) const {
         m_program.setUniformMat4("model", transform);
 
         auto* model = AssetManager::getModel(entity.modelId);
-        if (model) {
-            if (isInFrustum(entity.position, model->aabb(), frustum)) {
-                drawModelImpl(*model);
-            } else {
-                std::cout << "Out of frustum!\n";
-            }
+        if (model && isInFrustum(transform, model->aabb(), frustum)) {
+            drawModelImpl(*model);
         }
     }
 }

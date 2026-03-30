@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-AABB Model::aabb() const {
+CullingAABB Model::aabb() const {
     return m_aabb;
 }
 

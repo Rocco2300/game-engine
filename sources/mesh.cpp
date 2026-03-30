@@ -19,7 +19,7 @@ static glm::vec3 toVec3(aiVector3t<ai_real> aiVec) {
     return ret;
 }
 
-AABB Mesh::aabb() const {
+CullingAABB Mesh::aabb() const {
     return m_aabb;
 }
 
@@ -53,9 +53,19 @@ Mesh::Mesh(const aiMesh* mesh) {
     auto minBound = aabb.mMin;
     auto maxBound = aabb.mMax;
 
-    m_aabb.x = maxBound.x - minBound.x;
-    m_aabb.y = maxBound.y - minBound.y;
-    m_aabb.z = maxBound.z - minBound.z;
+    glm::vec3 minBoundVec;
+    glm::vec3 maxBoundVec;
+
+    minBoundVec.x = minBound.x;
+    minBoundVec.y = minBound.y;
+    minBoundVec.z = minBound.z;
+
+    maxBoundVec.x = maxBound.x;
+    maxBoundVec.y = maxBound.y;
+    maxBoundVec.z = maxBound.z;
+
+    m_aabb.center = (minBoundVec + maxBoundVec) * 0.5f;
+    m_aabb.extents = maxBoundVec - m_aabb.center;
 
     setupMesh();
 }

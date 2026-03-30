@@ -16,9 +16,14 @@ struct Vertex {
     glm::vec2 texCoords{};
 };
 
+struct CullingAABB {
+    glm::vec3 center{};
+    glm::vec3 extents{};
+};
+
 class Mesh {
 public:
-    AABB aabb() const;
+    CullingAABB aabb() const;
 
 private:
     friend class SceneRenderer;
@@ -37,5 +42,5 @@ private:
     std::vector<Vertex> m_vertices{};
     std::vector<uint32_t> m_indices{};
 
-    AABB m_aabb{};
+    CullingAABB m_aabb{};
 };
