@@ -97,6 +97,14 @@ void SceneRenderer::draw(const IDrawable& drawable) const {
         if (model && isInFrustum(transform, model->aabb(), frustum)) {
             drawModelImpl(*model);
         }
+
+        //if (model) {
+        //    if (isInFrustum(transform, model->aabb(), frustum)) {
+        //        drawModelImpl(*model);
+        //    } else {
+        //        std::cout << "Entity " << entity.id << " out of frustum\n";
+        //    }
+        //}
     }
 }
 
