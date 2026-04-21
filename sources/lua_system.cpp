@@ -34,6 +34,7 @@ void LuaSystem::onUpdate(float deltaTime) {
             continue;
         }
 
+        entity.luaScript.set("transform", entity.position);
         entity.luaScript.run("onUpdate", deltaTime);
     }
 }

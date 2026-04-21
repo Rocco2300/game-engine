@@ -1,6 +1,7 @@
 #pragma once
 
 #include "adapter.hpp"
+#include "lua_functions.hpp"
 
 #include <concepts>
 #include <iostream>
@@ -49,13 +50,22 @@ public:
         int err = luaL_loadfile(m_state, path.string().c_str());
         if (err) {
             std::cerr << "Error opening script " << path << '\n';
+
             lua_close(m_state);
+            return;
         }
 
         err = !err && lua_pcall(m_state, 0, 0, 0);
         if (err) {
             std::cerr << "Error compiling script " << path << '\n';
+
             lua_close(m_state);
+            return;
+        }
+
+        for (const auto& [name, function] : luaLib) {
+            lua_pushcfunction(m_state, function);
+            lua_setglobal(m_state, name.c_str());
         }
     }
 
@@ -83,13 +93,22 @@ public:
         int err = luaL_loadfile(m_state, path.string().c_str());
         if (err) {
             std::cerr << "Error opening script " << path << '\n';
+
             lua_close(m_state);
+            return;
         }
 
         err = !err && lua_pcall(m_state, 0, 0, 0);
         if (err) {
             std::cerr << "Error compiling script " << path << '\n';
+
             lua_close(m_state);
+            return;
+        }
+
+        for (const auto& [name, function] : luaLib) {
+            lua_pushcfunction(m_state, function);
+            lua_setglobal(m_state, name.c_str());
         }
     }
 
@@ -120,7 +139,7 @@ public:
 
     template <typename T>
     void set(std::string_view name, T& value) {
-        Adapter<T>::expose(m_state, value);
+        Adapter<T>::expose(m_state, name, value);
     }
 
     void set(std::string_view name, lua_CFunction function) {
