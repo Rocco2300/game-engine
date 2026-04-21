@@ -1,6 +1,7 @@
 #include "scene.hpp"
 
 #include "event.hpp"
+#include "system.hpp"
 #include "scene_renderer.hpp"
 
 #include <algorithm>
@@ -85,11 +86,21 @@ const std::unordered_map<int, int>& Scene::parents() const {
     return m_parent;
 }
 
+void Scene::registerSystem(ISystem& system) {
+    system.onRegister(m_entities);
+    m_systems.push_back(&system);
+}
+
 void Scene::onAttach() {
+    for (auto& system : m_systems) {
+        system->onAttach();
+    }
 }
 
 void Scene::onDetach() {
-
+    for (auto& system : m_systems) {
+        system->onDetach();
+    }
 }
 
 void Scene::onDraw(const IRenderer& renderer) const {
@@ -97,7 +108,9 @@ void Scene::onDraw(const IRenderer& renderer) const {
 }
 
 void Scene::onUpdate(float deltaTime) {
-
+    for (auto& system : m_systems) {
+        system->onUpdate(deltaTime);
+    }
 }
 
 void Scene::onEvent(const Event& event) {

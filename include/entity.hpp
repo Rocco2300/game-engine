@@ -3,6 +3,7 @@
 #include "aabb.hpp"
 #include "json.hpp"
 #include "model.hpp"
+#include "lua_script.hpp"
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -17,6 +18,7 @@ struct Entity {
     glm::vec3 rotation{0.f};
 
     AABB aabb{};
+    LuaScript luaScript{};
 
     glm::mat4 transform() const;
 };
@@ -32,6 +34,7 @@ namespace nlohmann {
                     {"position", value.position},
                     {"rotation", value.rotation},
                     {"aabb", value.aabb},
+                    {"scriptPath", value.luaScript.path().string()},
             });
         }
 
@@ -42,6 +45,11 @@ namespace nlohmann {
             j.at("position").get_to(value.position);
             j.at("rotation").get_to(value.rotation);
             j.at("aabb").get_to(value.aabb);
+
+            std::filesystem::path path;
+            j.at("scriptPath").get_to(path);
+
+            value.luaScript.load(path);
         }
     };
 }

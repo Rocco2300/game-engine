@@ -12,6 +12,8 @@
 #include "global.hpp"
 #include "button.hpp"
 #include "canvas.hpp"
+#include "lua_script.hpp"
+#include "lua_system.hpp"
 #include "fps_camera.hpp"
 #include "serializer.hpp"
 #include "layer_stack.hpp"
@@ -77,10 +79,10 @@ int main(int argc, char** argv) {
 
         auto entityId = scene.addEntity(rootEntityId);
         auto* entity = scene.getEntity(entityId);
-
         auto id = AssetManager::loadModel("second_monkey.obj");
         auto* model = AssetManager::getModel(id);
-        entity->modelId = id;
+        entity->modelId   = id;
+        entity->luaScript = LuaScript(global.assetsPath / "script.lua");
         //entity->aabb = model->aabb();
 
         auto planeEntityId = scene.addEntity(rootEntityId);
@@ -95,6 +97,9 @@ int main(int argc, char** argv) {
         AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);
     }
+
+    LuaSystem luaSystem;
+    scene.registerSystem(luaSystem);
 
     Canvas canvas;
     auto* root = canvas.root();

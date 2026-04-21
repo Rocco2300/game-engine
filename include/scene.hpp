@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 
+class ISystem;
+
 class Scene : public ILayer {
 public:
     Scene();
@@ -26,6 +28,8 @@ public:
     const std::vector<Entity>& entities() const;
     const std::unordered_map<int, int>& parents() const;
 
+    void registerSystem(ISystem& system);
+
     void onAttach() override;
     void onDetach() override;
 
@@ -39,6 +43,7 @@ private:
 
     std::queue<int> m_availableIds;
     std::vector<Entity> m_entities;
+    std::vector<ISystem*> m_systems;
     std::unordered_map<int, int> m_parent;
 };
 

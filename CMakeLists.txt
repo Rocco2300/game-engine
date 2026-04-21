@@ -38,6 +38,23 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(freetype)
 
 FetchContent_Declare(
+        lua
+        GIT_REPOSITORY https://github.com/lua/lua.git
+        GIT_TAB v5.5.0
+)
+FetchContent_MakeAvailable(lua)
+
+file(GLOB LUA_SOURCES "${lua_SOURCE_DIR}/*.c")
+list(REMOVE_ITEM LUA_SOURCES
+        "${lua_SOURCE_DIR}/lua.c"
+        "${lua_SOURCE_DIR}/luac.c"
+        "${lua_SOURCE_DIR}/onelua.c"
+)
+
+add_library(lua_lib STATIC ${LUA_SOURCES})
+target_include_directories(lua_lib PUBLIC ${lua_SOURCE_DIR})
+
+FetchContent_Declare(
         assimp
         GIT_REPOSITORY https://github.com/assimp/assimp.git
         GIT_TAG v6.0.2
@@ -70,10 +87,11 @@ add_executable(
         sources/canvas.cpp
         sources/event_manager.cpp
         sources/button.cpp
+        sources/lua_system.cpp
 )
 
 set_property(TARGET game_engine PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
-target_include_directories(game_engine PUBLIC include)
+target_include_directories(game_engine PRIVATE include ${lua_SOURCE_DIR})
 
-target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp nlohmann_json::nlohmann_json freetype)
+target_link_libraries(game_engine PRIVATE glfw gl3w glm assimp nlohmann_json::nlohmann_json freetype lua_lib)
