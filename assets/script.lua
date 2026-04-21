@@ -4,9 +4,23 @@ function onAttach()
 end
 
 function onUpdate(dt)
-    if getKey("a") then
-		transform.x = transform.x + 10.0 * dt
+	local shouldMove = not isRightMouseHeld()
+	
+    if getKey("a") and shouldMove then
+		transform.x = transform.x - 10.0 * dt
     end
+	
+	if getKey("d") and shouldMove then
+		transform.x = transform.x + 10.0 * dt
+	end
+	
+	if getKey("w") and shouldMove then
+		transform.y = transform.y + 10.0 * dt
+	end
+	
+	if getKey("s") and shouldMove then
+		transform.y = transform.y - 10.0 * dt
+	end
 end
 
 function onDetach()

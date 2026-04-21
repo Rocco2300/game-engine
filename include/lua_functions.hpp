@@ -167,11 +167,20 @@ static int getKey(lua_State* L) {
     return 1;
 }
 
+static int isLeftMouseHeld(lua_State* L) {
+    bool ret = Input::mouseButtonHeld(1);
+
+    lua_pushboolean(L, ret);
+
+    return 1;
+}
+
 struct LuaFunction {
     std::string name;
     lua_CFunction func;
 };
 
 static constexpr LuaFunction luaLib[] = {
-    {"getKey", getKey}
+    {"getKey", getKey},
+    {"isLeftMouseHeld", isLeftMouseHeld}
 };
