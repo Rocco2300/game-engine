@@ -47,16 +47,14 @@ struct Adapter<glm::vec3> {
         float value = static_cast<float>(luaL_checknumber(L, 3));
 
         if (key == "x") {
-            lua_pushnumber(L, value);
+            vec->x = value;
         } else if (key == "y") {
-            lua_pushnumber(L, value);
+            vec->y = value;
         } else if (key == "z") {
-            lua_pushnumber(L, value);
-        } else {
-            lua_pushnil(L);
+            vec->z = value;
         }
 
-        return 1;
+        return 0;
     }
 
     static void expose(lua_State* L, std::string_view name, glm::vec3& t) {
