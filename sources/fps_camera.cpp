@@ -19,34 +19,35 @@ void FPSCamera::update(float dt) {
         m_speed = m_slowSpeed;
     }
 
-    if (Input::keyHeld(GLFW_KEY_W)) {
+    auto mouseHeld = Input::mouseButtonHeld(GLFW_MOUSE_BUTTON_RIGHT);
+    if (Input::keyHeld(GLFW_KEY_W) && mouseHeld) {
         auto velocity = m_camera.m_direction * m_speed * dt;
         m_camera.move(velocity);
     }
 
-    if (Input::keyHeld(GLFW_KEY_S)) {
+    if (Input::keyHeld(GLFW_KEY_S) && mouseHeld) {
         auto velocity = m_camera.m_direction * -m_speed * dt;
         m_camera.move(velocity);
     }
 
-    if (Input::keyHeld(GLFW_KEY_A)) {
+    if (Input::keyHeld(GLFW_KEY_A) && mouseHeld) {
         auto right    = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
         auto velocity = right * -m_speed * dt;
         m_camera.move(velocity);
     }
 
-    if (Input::keyHeld(GLFW_KEY_D)) {
+    if (Input::keyHeld(GLFW_KEY_D) && mouseHeld) {
         auto right    = glm::cross(m_camera.m_direction, glm::vec3(0, 1, 0));
         auto velocity = right * m_speed * dt;
         m_camera.move(velocity);
     }
 
-    if (Input::keyHeld(GLFW_KEY_Q)) {
+    if (Input::keyHeld(GLFW_KEY_Q) && mouseHeld) {
         auto velocity = glm::vec3(0, 1, 0) * m_speed * dt;
         m_camera.move(velocity);
     }
 
-    if (Input::keyHeld(GLFW_KEY_E)) {
+    if (Input::keyHeld(GLFW_KEY_E) && mouseHeld) {
         auto velocity = glm::vec3(0, 1, 0) * -m_speed * dt;
         m_camera.move(velocity);
     }
