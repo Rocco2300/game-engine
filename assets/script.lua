@@ -4,7 +4,7 @@ function onAttach()
 end
 
 function onUpdate(dt)
-	local shouldMove = not isRightMouseHeld()
+	local shouldMove = not isLeftMouseHeld()
 	
     if getKey("a") and shouldMove then
 		transform.x = transform.x - 10.0 * dt

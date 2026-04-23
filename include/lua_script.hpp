@@ -134,6 +134,7 @@ public:
 
         if (lua_pcall(m_state, sizeof...(args), 0, 0)) {
             std::cerr << "Error running function " << function << '\n';
+            std::cerr << lua_tostring(m_state, -1) << '\n';
         }
     }
 
