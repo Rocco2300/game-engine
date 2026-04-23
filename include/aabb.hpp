@@ -2,10 +2,16 @@
 
 #include "json.hpp"
 
+#include <glm/glm.hpp>
+
 struct AABB {
     float x{};
     float y{};
     float z{};
+
+    operator glm::vec3() const {
+        return glm::vec3(x, y, z);
+    }
 };
 
 namespace nlohmann {

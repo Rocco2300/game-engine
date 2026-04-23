@@ -88,6 +88,7 @@ add_executable(
         sources/event_manager.cpp
         sources/button.cpp
         sources/lua_system.cpp
+        sources/physics_system.cpp
 )
 
 set_property(TARGET game_engine PROPERTY COMPILE_WARNING_AS_ERROR ON)

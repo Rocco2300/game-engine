@@ -21,6 +21,7 @@
 #include "asset_manager.hpp"
 #include "event_manager.hpp"
 #include "scene_renderer.hpp"
+#include "physics_system.hpp"
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -76,6 +77,7 @@ int main(int argc, char** argv) {
         auto rootEntityId = scene.addEntity();
         auto* rootEntity  = scene.getEntity(rootEntityId);
         rootEntity->position = glm::vec3(2.f, 0.f, 1.f);
+        rootEntity->aabb = {0, 0, 0};
 
         auto entityId = scene.addEntity(rootEntityId);
         auto* entity = scene.getEntity(entityId);
@@ -83,7 +85,7 @@ int main(int argc, char** argv) {
         auto* model = AssetManager::getModel(id);
         entity->modelId   = id;
         entity->luaScript = LuaScript(global.assetsPath / "script.lua");
-        //entity->aabb = model->aabb();
+        entity->aabb = {1, 1, 1};
 
         auto planeEntityId = scene.addEntity(rootEntityId);
         entity = scene.getEntity(planeEntityId);
@@ -92,7 +94,7 @@ int main(int argc, char** argv) {
         entity->modelId = id;
         entity->scale = {5, 5, 5};
         entity->position = {0, -1, 0};
-        //entity->aabb = model->aabb();
+        entity->aabb = {2, 0, 2};
 
         AssetManager::loadMaterialTexture("pumpkin.jpg", MaterialTexture::Type::Diffuse);
         Serializer::serializeScene(scene);
@@ -100,6 +102,9 @@ int main(int argc, char** argv) {
 
     LuaSystem luaSystem;
     scene.registerSystem(luaSystem);
+
+    PhysicsSystem physicsSystem;
+    scene.registerSystem(physicsSystem);
 
     Canvas canvas;
     auto* root = canvas.root();

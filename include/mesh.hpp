@@ -19,6 +19,14 @@ struct Vertex {
 struct CullingAABB {
     glm::vec3 center{};
     glm::vec3 extents{};
+
+    operator AABB() const {
+        return {
+            .x = extents.x,
+            .y = extents.y,
+            .z = extents.z,
+        };
+    }
 };
 
 class Mesh {
